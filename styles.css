@@ -43,8 +43,8 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 50% 22%, rgba(7, 10, 18, 0.28), rgba(7, 10, 18, 0.66) 68%),
-    linear-gradient(180deg, rgba(50, 52, 74, 0.72), rgba(7, 10, 18, 0.68));
+    radial-gradient(circle at 50% 22%, rgba(7, 10, 18, 0.18), rgba(7, 10, 18, 0.52) 68%),
+    linear-gradient(180deg, rgba(50, 52, 74, 0.50), rgba(7, 10, 18, 0.58));
 }
 
 body::after {
@@ -54,9 +54,9 @@ body::after {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 15% 8%, rgba(245, 185, 66, 0.11), transparent 24rem),
-    radial-gradient(circle at 84% 18%, rgba(88, 101, 242, 0.12), transparent 26rem),
-    linear-gradient(90deg, rgba(7, 10, 18, 0.18), transparent 28%, transparent 72%, rgba(7, 10, 18, 0.22));
+    radial-gradient(circle at 15% 8%, rgba(245, 185, 66, 0.10), transparent 24rem),
+    radial-gradient(circle at 84% 18%, rgba(88, 101, 242, 0.10), transparent 26rem),
+    linear-gradient(90deg, rgba(7, 10, 18, 0.10), transparent 28%, transparent 72%, rgba(7, 10, 18, 0.14));
 }
 
 body > * {
@@ -178,8 +178,8 @@ pre {
 .logo--image img {
   display: block;
   width: auto;
-  height: 46px;
-  max-width: 230px;
+  height: 52px;
+  max-width: 250px;
   object-fit: contain;
   background: transparent;
   border: 0;
@@ -190,8 +190,8 @@ pre {
 .logo--footer-image img {
   display: block;
   width: auto;
-  height: 42px;
-  max-width: 210px;
+  height: 46px;
+  max-width: 220px;
   object-fit: contain;
   background: transparent;
   border: 0;
@@ -242,7 +242,7 @@ pre {
 .btn--gold {
   color: #201304;
   background: linear-gradient(135deg, var(--gold-hover), var(--gold) 52%, #b87917);
-  box-shadow: 0 0 36px rgba(245, 185, 66, 0.18);
+  box-shadow: 0 0 32px rgba(245, 185, 66, 0.22);
 }
 
 .btn--gold:hover {
@@ -260,8 +260,9 @@ pre {
 }
 
 .btn--discord {
-  background: var(--discord);
-  color: white;
+  color: #201304;
+  background: linear-gradient(135deg, var(--gold-hover), var(--gold) 52%, #b87917);
+  box-shadow: 0 0 32px rgba(245, 185, 66, 0.18);
 }
 
 .btn--small {
@@ -270,18 +271,19 @@ pre {
 }
 
 .section {
-  padding: 80px 0;
+  padding: 76px 0;
 }
 
 .section--alt {
-  background: rgba(11, 16, 32, 0.56);
+  background: rgba(11, 16, 32, 0.46);
   backdrop-filter: blur(2px);
 }
 
 .hero {
   position: relative;
   overflow: hidden;
-  padding-top: 88px;
+  padding-top: 72px;
+  padding-bottom: 68px;
   background:
     radial-gradient(circle at top, rgba(245, 185, 66, 0.18), transparent 34rem),
     linear-gradient(180deg, rgba(7, 10, 18, 0.28), rgba(7, 10, 18, 0.08));
@@ -368,8 +370,8 @@ h3 {
   border: 1px solid var(--border);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
-    rgba(16, 22, 36, 0.84);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0)),
+    rgba(16, 22, 36, 0.78);
   backdrop-filter: blur(10px);
 }
 
@@ -814,8 +816,8 @@ h3 {
   }
 
   .logo--image img {
-    height: 42px;
-    max-width: 210px;
+    height: 46px;
+    max-width: 220px;
   }
 
   .nav {
