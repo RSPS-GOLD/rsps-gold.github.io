@@ -1,7 +1,7 @@
 (function () {
   var discordUsername = "a6d9";
   var exampleMessage =
-    "Hi, I want to buy RSPS gold.\nServer:\nAmount:\nWhat is the current rate?";
+    "Hi, I want to buy RSPS gold.\nServer: Roat PKZ\nAmount: 100M\nWhat is the current rate?";
   var toast = document.getElementById("copy-toast");
   var toastTimer;
 

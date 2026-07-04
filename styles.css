@@ -501,21 +501,6 @@ h3 {
   filter: drop-shadow(0 0 14px rgba(245, 185, 66, 0.16));
 }
 
-.server-logo--placeholder span {
-  display: grid;
-  width: 76px;
-  height: 76px;
-  place-items: center;
-  border: 1px solid rgba(245, 185, 66, 0.42);
-  border-radius: 8px;
-  background: linear-gradient(135deg, rgba(245, 185, 66, 0.18), rgba(88, 101, 242, 0.12));
-  color: var(--gold);
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  box-shadow: 0 0 24px rgba(245, 185, 66, 0.12);
-}
-
 .server-card:hover {
   transform: translateY(-4px);
   border-color: rgba(245, 185, 66, 0.45);
@@ -547,6 +532,32 @@ h3 {
 .server-card ul {
   margin: 16px 0 0;
   padding-left: 18px;
+}
+
+.server-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin: 14px 0 0;
+  border: 1px solid rgba(245, 185, 66, 0.22);
+  border-radius: 999px;
+  padding: 7px 10px;
+  background: rgba(245, 185, 66, 0.075);
+  color: #d8e0ee !important;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.server-price span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.server-price strong {
+  color: var(--gold-hover);
+  font-weight: 900;
 }
 
 .server-card a {
@@ -837,6 +848,11 @@ h3 {
 }
 
 @media (max-width: 700px) {
+  .server-price {
+    font-size: 12.5px;
+    padding: 7px 9px;
+  }
+
   .logo--image img {
     height: 38px;
     max-width: 185px;
