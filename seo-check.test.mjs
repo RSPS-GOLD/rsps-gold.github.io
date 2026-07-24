@@ -23,6 +23,12 @@ function mutate(file, transform) {
   fs.writeFileSync(file, transform(source), "utf8");
 }
 
+function replaceExactly(source, search, replacement, expectedCount = 1) {
+  const count = source.split(search).length - 1;
+  assert.equal(count, expectedCount, `expected ${expectedCount} occurrence(s) of mutation target, found ${count}`);
+  return source.replace(search, replacement);
+}
+
 function expectFailure(name, change, expectedText) {
   const target = fixture();
   try {
@@ -138,12 +144,52 @@ expectFailure(
   "unqualified SpawnPK price",
   (target) =>
     mutate(path.join(target, "spawnpk-gold.html"), (source) =>
-      source.replace(
-        "Rates begin from $9 per 1T, with the final quote",
-        "Rates are $9 per 1T, with the final quote",
+      replaceExactly(
+        source,
+        '<p class="spawnpk-price">From <strong>$9</strong> per 1T</p>',
+        '<p class="spawnpk-price">At <strong>$9</strong> per 1T</p>',
       ),
     ),
   /\$9 per 1T must always be qualified/,
+);
+
+expectFailure(
+  "wrong restored SpawnPK metadata title",
+  (target) =>
+    mutate(path.join(target, "spawnpk-gold.html"), (source) =>
+      replaceExactly(
+        source,
+        "<title>Buy SpawnPK Gold | Starting at $9 per Trill</title>",
+        "<title>Buy SpawnPK Gold – Trill &amp; Cash Bag Rates | RSPS Gold Hub</title>",
+      ),
+    ),
+  /title does not match the approved concise metadata/,
+);
+
+expectFailure(
+  "duplicate modern meta description",
+  (target) =>
+    mutate(path.join(target, "impact-gold.html"), (source) =>
+      replaceExactly(
+        source,
+        "</head>",
+        '  <meta name="description" content="Duplicate description." />\n  </head>',
+      ),
+    ),
+  /expected one meta description, found 2/,
+);
+
+expectFailure(
+  "newline in modern title",
+  (target) =>
+    mutate(path.join(target, "roat-pkz-gold.html"), (source) =>
+      replaceExactly(
+        source,
+        "<title>Buy Roat PKZ Gold | Starting at $3.5 per Mill</title>",
+        "<title>Buy Roat PKZ Gold |\nStarting at $3.5 per Mill</title>",
+      ),
+    ),
+  /title must not contain a newline/,
 );
 
 expectFailure(
@@ -221,7 +267,7 @@ expectFailure(
     mutate(path.join(target, "spawnpk-gold.html"), (source) =>
       source.replace(
         "</main>",
-        "<p>SpawnPK gold rates start from $9 per 1T. Your final quote depends on the amount you want to buy, current player supply and market demand.</p></main>",
+        "<p>Better gear can make bossing smoother and help players take on harder PvM content. Some buyers use SpawnPK gold for weapons, armour and supplies instead of spending as much time rebuilding their cash stack.</p></main>",
       ),
     ),
   /text block is too similar to Impact after neutralizing server, currency, and rate terms/,
@@ -240,9 +286,10 @@ expectFailure(
   "unqualified Impact price",
   (target) =>
     mutate(path.join(target, "impact-gold.html"), (source) =>
-      source.replace(
-        '<p class="hero__lead impact-hero-copy">Buy Impact RSPS gold from $1 per 1B',
-        '<p class="hero__lead impact-hero-copy">Buy Impact RSPS gold for $1 per 1B',
+      replaceExactly(
+        source,
+        '<p class="impact-price">From <strong>$1</strong> per 1B</p>',
+        '<p class="impact-price">At <strong>$1</strong> per 1B</p>',
       ),
     ),
   /\$1 per 1B must always be qualified/,
@@ -297,9 +344,10 @@ expectFailure(
   "unqualified Roat PKZ price",
   (target) =>
     mutate(path.join(target, "roat-pkz-gold.html"), (source) =>
-      source.replace(
-        "Roat PKZ gold rates begin from $3.50 per 1M PKP",
-        "Roat PKZ gold rates are $3.50 per 1M PKP",
+      replaceExactly(
+        source,
+        '<p class="roat-price">From <strong>$3.50</strong> per 1M</p>',
+        '<p class="roat-price">At <strong>$3.50</strong> per 1M</p>',
       ),
     ),
   /\$3\.50 per 1M must always be qualified/,
@@ -368,7 +416,7 @@ expectFailure(
     mutate(path.join(target, "roat-pkz-gold.html"), (source) =>
       source.replace(
         "</main>",
-        "<p>Roat PKZ rates start from $3.50 per 1M. Your final quote depends on the amount you want to buy, current player supply and market demand.</p></main>",
+        "<p>Better gear can make bossing smoother and help players take on harder PvM content. Some buyers use Roat PKZ gold for weapons, armour and supplies instead of spending as much time rebuilding their cash stack.</p></main>",
       ),
     ),
   /text block is too similar to Impact after neutralizing server, currency, and rate terms/,

@@ -25,6 +25,44 @@ const serverFiles = [
   "spawnpk-gold.html",
   ...legacyServerFiles,
 ];
+const modernMetadata = {
+  "impact-gold.html": {
+    title: "Buy Impact RSPS Gold | Starting at $1 per Bill",
+    description:
+      "Buy Impact RSPS gold through RSPS Gold Hub. Starting price from $1 per Bill. Contact a6d9 on Discord for current rate, stock, and delivery.",
+    ogTitle: "Buy Impact RSPS Gold | Starting at $1 per Bill",
+    ogDescription:
+      "Buy Impact RSPS gold through RSPS Gold Hub. Contact a6d9 on Discord for current rate, stock, and delivery.",
+    twitterTitle: "Buy Impact RSPS Gold | RSPS Gold Hub",
+    twitterDescription:
+      "Starting price from $1 per Bill. Confirm current Impact rates and stock on Discord.",
+    removedTitle: "Buy Impact RSPS Gold – Price & Stock | RSPS Gold Hub",
+  },
+  "roat-pkz-gold.html": {
+    title: "Buy Roat PKZ Gold | Starting at $3.5 per Mill",
+    description:
+      "Buy Roat PKZ gold through RSPS Gold Hub. Starting price from $3.5 per Mill. Contact a6d9 on Discord to confirm stock, rate, and delivery method.",
+    ogTitle: "Buy Roat PKZ Gold | Starting at $3.5 per Mill",
+    ogDescription:
+      "Buy Roat PKZ gold through RSPS Gold Hub. Contact a6d9 on Discord to confirm stock, rate, and delivery method.",
+    twitterTitle: "Buy Roat PKZ Gold | RSPS Gold Hub",
+    twitterDescription:
+      "Starting price from $3.5 per Mill. Confirm current Roat PKZ rates and stock on Discord.",
+    removedTitle: "Buy Roat PKZ Gold – PKP Price & Stock | RSPS Gold Hub",
+  },
+  "spawnpk-gold.html": {
+    title: "Buy SpawnPK Gold | Starting at $9 per Trill",
+    description:
+      "Buy SpawnPK gold through RSPS Gold Hub. Starting price from $9 per Trill. Contact a6d9 on Discord to confirm current rate, stock, and delivery.",
+    ogTitle: "Buy SpawnPK Gold | Starting at $9 per Trill",
+    ogDescription:
+      "Buy SpawnPK gold through RSPS Gold Hub. Starting price from $9 per Trill. Contact a6d9 on Discord to confirm current rate, stock, and delivery.",
+    twitterTitle: "Buy SpawnPK Gold | Starting at $9 per Trill",
+    twitterDescription:
+      "Buy SpawnPK gold through RSPS Gold Hub. Starting price from $9 per Trill. Contact a6d9 on Discord to confirm current rate, stock, and delivery.",
+    removedTitle: "Buy SpawnPK Gold – Trill &amp; Cash Bag Rates | RSPS Gold Hub",
+  },
+};
 const expectedIndexable = ["index.html", ...serverFiles];
 const failures = [];
 const warnings = [];
@@ -58,6 +96,19 @@ function stripTags(value) {
 function normalize(value) {
   return stripTags(value).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
 }
+
+const approvedSharedOperationalBlocks = new Set(
+  [
+    "The final price depends on the amount you need, stock and demand.",
+    "Rates start from $1 per 1B. The final price depends on the amount you need, stock and demand.",
+    "Rates start from $3.50 per 1M PKP. The final price depends on the amount you need, stock and demand.",
+    "Rates start from $9 per 1T. The final price depends on the amount you need, stock and demand.",
+    "Impact rates start from $1 per 1B. The final price depends on how much you need, how much gold is in stock and current demand.",
+    "Rates start from $3.50 per 1M PKP. The final price depends on the amount you need, current stock and demand.",
+    "Rates start from $9 per 1T. The final price depends on how many trills you need, stock and demand.",
+    "Once the amount and quote are confirmed, follow the transfer instructions agreed on Discord.",
+  ].map(normalize),
+);
 
 function expectedCanonical(file) {
   return file === "index.html" ? `${siteOrigin}/` : `${siteOrigin}/${file}`;
@@ -111,6 +162,7 @@ function visibleContentBlocks(source) {
   return [...source.matchAll(/<(p|h2|h3|summary)\b[^>]*>([\s\S]*?)<\/\1>/gi)]
     .map((match) => stripTags(match[2]))
     .filter((text) => normalize(text).split(/\s+/).length >= 10)
+    .filter((text) => !approvedSharedOperationalBlocks.has(normalize(text)))
     .filter(
       (text) =>
         !/independent third-party service/i.test(text) &&
@@ -140,7 +192,12 @@ const htmlFiles = fs
 
 for (const file of htmlFiles) {
   const source = fs.readFileSync(path.join(root, file), "utf8");
-  const title = firstMatch(source, /<title>([\s\S]*?)<\/title>/i);
+  const titleMatches = [...source.matchAll(/<title\b[^>]*>([\s\S]*?)<\/title>/gi)];
+  const rawTitle = titleMatches[0]?.[1] || "";
+  const title = rawTitle.trim();
+  const descriptionTags = [...source.matchAll(/<meta\b[^>]*>/gi)].filter(
+    (match) => getAttribute(match[0], "name").toLowerCase() === "description",
+  );
   const description = getMeta(source, "description");
   const robots = getMeta(source, "robots").toLowerCase();
   const canonical = firstMatch(
@@ -163,6 +220,15 @@ for (const file of htmlFiles) {
 
   if (!title) fail(file, "missing title");
   if (!description) fail(file, "missing meta description");
+  if (titleMatches.length !== 1) {
+    fail(file, `expected one title, found ${titleMatches.length}`);
+  }
+  if (descriptionTags.length !== 1) {
+    fail(file, `expected one meta description, found ${descriptionTags.length}`);
+  }
+  if (/[\r\n]/.test(rawTitle)) {
+    fail(file, "title must not contain a newline");
+  }
   if (!robots) fail(file, "missing meta robots");
   if (h1s.length !== 1) fail(file, `expected one H1, found ${h1s.length}`);
   if (!canonical) fail(file, "missing canonical");
@@ -175,6 +241,24 @@ for (const file of htmlFiles) {
   }
   if (ogUrl && ogUrl !== expectedCanonical(file)) {
     fail(file, `og:url is ${ogUrl}; expected ${expectedCanonical(file)}`);
+  }
+  const expectedMetadata = modernMetadata[file];
+  if (expectedMetadata) {
+    for (const [label, actual, expected] of [
+      ["title", title, expectedMetadata.title],
+      ["meta description", description, expectedMetadata.description],
+      ["og:title", ogTitle, expectedMetadata.ogTitle],
+      ["og:description", ogDescription, expectedMetadata.ogDescription],
+      ["twitter:title", twitterTitle, expectedMetadata.twitterTitle],
+      ["twitter:description", twitterDescription, expectedMetadata.twitterDescription],
+    ]) {
+      if (actual !== expected) {
+        fail(file, `${label} does not match the approved concise metadata`);
+      }
+    }
+    if (source.includes(expectedMetadata.removedTitle)) {
+      fail(file, "removed long metadata title is still present");
+    }
   }
 
   for (const match of source.matchAll(
@@ -356,26 +440,6 @@ if (spawnPage) {
   if (/\bblood money\b|\bBM\b/i.test(spawnVisible)) {
     fail("spawnpk-gold.html", "must not market Blood Money or BM");
   }
-  if (spawnPage.title !== "Buy SpawnPK Gold – Trill &amp; Cash Bag Rates | RSPS Gold Hub") {
-    fail("spawnpk-gold.html", "SpawnPK title does not match the approved buyer-focused title");
-  }
-  if (
-    spawnPage.description !==
-    "Buy SpawnPK gold from $9 per 1T. Cash Bags represent 100M coins each and are used for larger values. Check the current rate and available stock on Discord."
-  ) {
-    fail("spawnpk-gold.html", "SpawnPK meta description does not match the approved price-and-stock description");
-  }
-  const expectedSpawnSocialTitle = "Buy SpawnPK Gold – Trill &amp; Cash Bag Rates";
-  const expectedSpawnSocialDescription =
-    "SpawnPK gold rates begin from $9 per 1T. Cash Bags represent the same coin value in a format designed for larger amounts.";
-  if (
-    getMeta(spawnSource, "og:title", true) !== expectedSpawnSocialTitle ||
-    getMeta(spawnSource, "twitter:title") !== expectedSpawnSocialTitle ||
-    getMeta(spawnSource, "og:description", true) !== expectedSpawnSocialDescription ||
-    getMeta(spawnSource, "twitter:description") !== expectedSpawnSocialDescription
-  ) {
-    fail("spawnpk-gold.html", "SpawnPK Open Graph and Twitter metadata must match the approved social copy");
-  }
   if (spawnPage.h1 !== "Buy SpawnPK Gold") {
     fail("spawnpk-gold.html", "SpawnPK H1 must be Buy SpawnPK Gold");
   }
@@ -419,14 +483,14 @@ if (spawnPage) {
   }
 
   for (const required of [
-    "SpawnPK gold is commonly traded in trillions.",
+    "SpawnPK gold is usually traded in trills.",
     "Custom Gear, Competitive PvP End-Game Raids",
     "Why Do Players Buy SpawnPK Gold?",
     "SpawnPK Gold Rates Availability",
     "How SpawnPK Gold and Cash Bags Work",
     "Cash Bags are not a separate SpawnPK currency.",
     "Each Cash Bag represents 100M coins",
-    "A normal coin stack is limited to roughly 2.147B coins.",
+    "A normal coin stack is limited to roughly 2.147B coins, so Cash Bags are useful for the much larger amounts traded on SpawnPK.",
     "How a SpawnPK Gold Order Works",
     "How Does SpawnPK Gold Reach Our Stock?",
     "Have SpawnPK Gold to Sell?",
@@ -559,15 +623,6 @@ if (roatPage) {
     .replace(/\r/g, "")
     .trim();
 
-  if (roatPage.title !== "Buy Roat PKZ Gold – PKP Price & Stock | RSPS Gold Hub") {
-    fail("roat-pkz-gold.html", "Roat PKZ title does not match the approved buyer-focused title");
-  }
-  if (
-    roatPage.description !==
-    "Buy Roat PKZ gold for PvP loadouts, replacement gear and combat supplies. PKP rates begin from $3.50 per 1M; request the current quote on Discord."
-  ) {
-    fail("roat-pkz-gold.html", "Roat PKZ meta description does not match the approved PvP-and-PKP description");
-  }
   if (roatPage.h1 !== "Buy Roat PKZ Gold") {
     fail("roat-pkz-gold.html", "Roat PKZ H1 must be Buy Roat PKZ Gold");
   }
@@ -585,16 +640,16 @@ if (roatPage) {
   if (/\bStarting price\b/i.test(roatVisible)) {
     fail("roat-pkz-gold.html", 'must not use "Starting price"');
   }
-  const roatBrandVisible = roatVisible.replace("Check RoatPKZ Price Stock", "");
+  const roatBrandVisible = roatVisible;
   if (/\b(?:Roat Pkz|RoatPKZ|Roatz)\b/.test(roatBrandVisible)) {
     fail("roat-pkz-gold.html", "visible content must consistently use Roat PKZ");
   }
 
   for (const required of [
-    "Get the PKP you need for PvP gear, replacement sets and combat supplies.",
+    "Buy PKP for PvP gear, replacement sets and supplies.",
     "Why Do Players Buy Roat PKZ Gold?",
     "Roat PKZ PKP Rates and Availability",
-    "PKP Is the Currency Used for Roat PKZ Gold Orders",
+    "What Currency Do Roat PKZ Gold Orders Use?",
     "How Do We Source Roat PKZ Gold?",
     "Looking to Sell Roat PKZ Gold?",
     "Confirm Who You Are Trading With",
@@ -681,15 +736,6 @@ if (impactPage) {
     .replace(/\r/g, "")
     .trim();
 
-  if (impactPage.title !== "Buy Impact RSPS Gold – Price & Stock | RSPS Gold Hub") {
-    fail("impact-gold.html", "Impact title does not match the approved buyer-focused title");
-  }
-  if (
-    impactPage.description !==
-    "Buy Impact RSPS gold from $1 per 1B. Check the current price, available stock and delivery details with a6d9 on Discord."
-  ) {
-    fail("impact-gold.html", "Impact meta description does not match the approved price-and-stock description");
-  }
   if (impactPage.h1 !== "Buy Impact RSPS Gold") {
     fail("impact-gold.html", "Impact H1 must be Buy Impact RSPS Gold");
   }
@@ -730,8 +776,8 @@ if (impactPage) {
     }
   }
   if (
-    !/\bother Impact players\b/i.test(impactVisible) ||
-    !/\bPvMing\b/i.test(impactVisible) ||
+    !/\bThe Impact gold we sell comes from other players\b/i.test(impactVisible) ||
+    !/\bPvM drops\b/i.test(impactVisible) ||
     !/::gamble/i.test(impactVisible)
   ) {
     fail("impact-gold.html", "Impact sourcing section is missing required player-supply context");
