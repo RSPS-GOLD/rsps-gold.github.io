@@ -25,6 +25,52 @@ const serverFiles = [
   "spawnpk-gold.html",
   ...legacyServerFiles,
 ];
+const guideFiles = [
+  "guides.html",
+  "impact-guide.html",
+  "roat-pkz-guide.html",
+  "spawnpk-guide.html",
+];
+const articleGuideFiles = guideFiles.filter((file) => file !== "guides.html");
+const guideRequirements = {
+  "guides.html": {
+    title: "RSPS Gold Guides – Impact, Roat PKZ &amp; SpawnPK",
+    description:
+      "Explore practical Impact, Roat PKZ and SpawnPK guides covering currencies, gear planning, PvM, PvP and realistic account budgets.",
+    h1: "RSPS Gold Guides",
+    schema: ["WebPage", "CollectionPage", "BreadcrumbList"],
+  },
+  "impact-guide.html": {
+    title: "Impact Gear &amp; Gold Guide | RSPS Gold Hub",
+    description:
+      "Plan Impact gear, PvM and PvP budgets with a practical guide to billions, upgrade priorities, supplies, reserves and account goals.",
+    h1: "Impact Gear, Gold and Progression Guide",
+    salesPage: "impact-gold.html",
+    salesAction: "guide-to-impact-gold",
+    copyLabel: "Copy Impact Request",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+  "roat-pkz-guide.html": {
+    title: "Roat PKZ PKP &amp; Gear Guide | RSPS Gold Hub",
+    description:
+      "Understand Roat PKZ PKP and plan practical PvP, PvM, gear and replacement budgets without confusing PK Points with other currencies.",
+    h1: "Roat PKZ PKP, Gear and Progression Guide",
+    salesPage: "roat-pkz-gold.html",
+    salesAction: "guide-to-roat-pkz-gold",
+    copyLabel: "Copy PKP Request",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+  "spawnpk-guide.html": {
+    title: "SpawnPK Trills &amp; Cash Bags Guide | RSPS Gold Hub",
+    description:
+      "Learn how SpawnPK trills and Cash Bags relate, then plan PvP, raid, gear, pet and replacement budgets around clear account goals.",
+    h1: "SpawnPK Trills, Cash Bags and Gear Guide",
+    salesPage: "spawnpk-gold.html",
+    salesAction: "guide-to-spawnpk-gold",
+    copyLabel: "Copy SpawnPK Request",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+};
 const modernMetadata = {
   "impact-gold.html": {
     title: "Buy Impact RSPS Gold | Starting at $1 per Bill",
@@ -63,7 +109,7 @@ const modernMetadata = {
     removedTitle: "Buy SpawnPK Gold – Trill &amp; Cash Bag Rates | RSPS Gold Hub",
   },
 };
-const expectedIndexable = ["index.html", ...serverFiles];
+const expectedIndexable = ["index.html", ...serverFiles, ...guideFiles];
 const failures = [];
 const warnings = [];
 const pages = [];
@@ -260,6 +306,16 @@ for (const file of htmlFiles) {
       fail(file, "removed long metadata title is still present");
     }
   }
+  const expectedGuide = guideRequirements[file];
+  if (expectedGuide) {
+    for (const [label, actual, expected] of [
+      ["title", title, expectedGuide.title],
+      ["meta description", description, expectedGuide.description],
+      ["H1", h1s[0] || "", expectedGuide.h1],
+    ]) {
+      if (actual !== expected) fail(file, `${label} does not match the approved guide metadata or heading`);
+    }
+  }
 
   for (const match of source.matchAll(
     /<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi,
@@ -276,6 +332,16 @@ for (const file of htmlFiles) {
   if (serverFiles.includes(file)) {
     for (const type of ["WebPage", "Service", "BreadcrumbList"]) {
       if (!ldTypes.has(type)) fail(file, `JSON-LD missing ${type}`);
+    }
+  }
+  if (expectedGuide) {
+    for (const type of expectedGuide.schema) {
+      if (!ldTypes.has(type)) fail(file, `guide JSON-LD missing ${type}`);
+    }
+    for (const prohibitedType of ["Product", "Offer", "Review", "AggregateRating"]) {
+      if (ldTypes.has(prohibitedType)) {
+        fail(file, `educational guide must not use ${prohibitedType} schema`);
+      }
     }
   }
 
@@ -419,6 +485,224 @@ for (let index = 0; index < priorityServerCards.length; index += 1) {
       `server-card priority position ${index + 1} is ${homepageCardOrder[index] || "missing"}; expected ${priorityServerCards[index]}`,
     );
   }
+}
+
+const homepageGuideLinks = [
+  ...homepageSource.matchAll(/<a\b[^>]*\bhref=["']guides\.html["'][^>]*>/gi),
+];
+if (!homepageGuideLinks.length) fail("index.html", "homepage is missing its guide-hub link");
+if (
+  homepageGuideLinks.some(
+    (match) => getAttribute(match[0], "data-action") !== "guides-hub",
+  )
+) {
+  fail("index.html", "homepage guide-hub links must use data-action guides-hub");
+}
+
+const guideHubSource = fs.existsSync(path.join(root, "guides.html"))
+  ? fs.readFileSync(path.join(root, "guides.html"), "utf8")
+  : "";
+if (guideHubSource) {
+  for (const [guideFile, action] of [
+    ["impact-guide.html", "open-impact-guide"],
+    ["roat-pkz-guide.html", "open-roat-pkz-guide"],
+    ["spawnpk-guide.html", "open-spawnpk-guide"],
+  ]) {
+    const matches = [
+      ...guideHubSource.matchAll(
+        new RegExp(`<a\\b[^>]*\\bhref=["']${guideFile}["'][^>]*>`, "gi"),
+      ),
+    ];
+    if (!matches.length) fail("guides.html", `missing guide-directory link to ${guideFile}`);
+    if (matches.some((match) => getAttribute(match[0], "data-action") !== action)) {
+      fail("guides.html", `${guideFile} links must use data-action ${action}`);
+    }
+  }
+  for (const [salesFile, action] of [
+    ["impact-gold.html", "guide-to-impact-gold"],
+    ["roat-pkz-gold.html", "guide-to-roat-pkz-gold"],
+    ["spawnpk-gold.html", "guide-to-spawnpk-gold"],
+  ]) {
+    const match = guideHubSource.match(
+      new RegExp(`<a\\b[^>]*\\bhref=["']${salesFile}["'][^>]*>`, "i"),
+    );
+    if (!match) fail("guides.html", `missing educational-card link to ${salesFile}`);
+    else if (getAttribute(match[0], "data-action") !== action) {
+      fail("guides.html", `${salesFile} link must use data-action ${action}`);
+    }
+  }
+}
+
+for (const [salesFile, guideFile, label, action] of [
+  [
+    "impact-gold.html",
+    "impact-guide.html",
+    "Read the Impact Gold & Progression Guide",
+    "open-impact-guide",
+  ],
+  [
+    "roat-pkz-gold.html",
+    "roat-pkz-guide.html",
+    "Read the Roat PKZ PKP & Gear Guide",
+    "open-roat-pkz-guide",
+  ],
+  [
+    "spawnpk-gold.html",
+    "spawnpk-guide.html",
+    "Read the SpawnPK Trills & Cash Bags Guide",
+    "open-spawnpk-guide",
+  ],
+]) {
+  const source = fs.readFileSync(path.join(root, salesFile), "utf8");
+  const link = source.match(
+    new RegExp(`<a\\b[^>]*\\bhref=["']${guideFile}["'][^>]*>([\\s\\S]*?)<\\/a>`, "i"),
+  );
+  if (!link) fail(salesFile, `missing compact guide link to ${guideFile}`);
+  else {
+    if (normalize(link[1]) !== normalize(label)) fail(salesFile, `guide link label must be "${label}"`);
+    if (getAttribute(link[0], "data-action") !== action) {
+      fail(salesFile, `guide link must use data-action ${action}`);
+    }
+  }
+}
+
+for (const file of articleGuideFiles) {
+  const source = fs.readFileSync(path.join(root, file), "utf8");
+  const main = firstMatch(source, /<main\b[^>]*>([\s\S]*?)<\/main>/i);
+  const requirement = guideRequirements[file];
+  if (!/<nav\b[^>]*\bclass=["'][^"']*\bbreadcrumbs\b/i.test(main)) {
+    fail(file, "guide is missing visible breadcrumbs");
+  }
+  if (!/<aside\b[^>]*\bclass=["'][^"']*\bguide-toc\b/i.test(main)) {
+    fail(file, "guide is missing its table of contents");
+  }
+  if (!/<time\b[^>]*\bdatetime=["']2026-07-24["'][^>]*>July 24, 2026<\/time>/i.test(main)) {
+    fail(file, "guide is missing the approved Last reviewed date");
+  }
+  if (!/Sources and Further Reading/i.test(main)) fail(file, "guide is missing sources and further reading");
+  if (!/Server-rules note:/i.test(main)) fail(file, "guide is missing its visible server-rules note");
+  if (/<code\b[^>]*>\s*::gamble\s*<\/code>/i.test(main)) {
+    fail(file, "::gamble must appear as ordinary sentence text");
+  }
+  if (/\b(?:guaranteed profit|profit is guaranteed)\b/i.test(stripTags(main))) {
+    fail(file, "guide must not add a guaranteed profit claim");
+  }
+
+  const salesLinks = [
+    ...main.matchAll(
+      new RegExp(`<a\\b[^>]*\\bhref=["']${requirement.salesPage}["'][^>]*>`, "gi"),
+    ),
+  ];
+  if (salesLinks.length !== 2) {
+    fail(file, `expected exactly two main commercial links to ${requirement.salesPage}, found ${salesLinks.length}`);
+  }
+  if (
+    salesLinks.some(
+      (match) => getAttribute(match[0], "data-action") !== requirement.salesAction,
+    )
+  ) {
+    fail(file, `sales-page links must use data-action ${requirement.salesAction}`);
+  }
+
+  const copyButtons = [
+    ...main.matchAll(
+      /<button\b[^>]*\bclass=["'][^"']*\bcopy-btn\b[^"']*["'][^>]*>([\s\S]*?)<\/button>/gi,
+    ),
+  ];
+  if (
+    copyButtons.length !== 1 ||
+    stripTags(copyButtons[0][1]) !== requirement.copyLabel ||
+    getAttribute(copyButtons[0][0], "data-action") !== "guide-copy-request" ||
+    !getAttribute(copyButtons[0][0], "data-copy-target")
+  ) {
+    fail(file, "guide copy request must use the approved label, target and analytics action");
+  }
+
+  for (const relatedFile of articleGuideFiles.filter((item) => item !== file)) {
+    if (!new RegExp(`href=["']${relatedFile}["']`, "i").test(main)) {
+      fail(file, `guide is missing related link to ${relatedFile}`);
+    }
+  }
+  if (!/href=["']guides\.html["']/i.test(main)) fail(file, "guide is missing its back link to guides.html");
+  if (!/href=["']index\.html["']/i.test(main)) fail(file, "guide is missing its homepage link");
+}
+
+const impactGuideSource = fs.existsSync(path.join(root, "impact-guide.html"))
+  ? fs.readFileSync(path.join(root, "impact-guide.html"), "utf8")
+  : "";
+const impactGuideVisible = stripTags(impactGuideSource);
+if (!/\b1B means one billion coins\b/i.test(impactGuideVisible)) {
+  fail("impact-guide.html", "guide must explain that 1B means one billion coins");
+}
+if (!impactGuideVisible.includes("$1 per 1B")) {
+  fail("impact-guide.html", "guide CTA must retain the approved $1 per 1B rate");
+}
+if (!/lucky win at ::gamble/i.test(impactGuideVisible)) {
+  fail("impact-guide.html", "guide must mention ::gamble as an unreliable possible bank source");
+}
+
+const roatGuideSource = fs.existsSync(path.join(root, "roat-pkz-guide.html"))
+  ? fs.readFileSync(path.join(root, "roat-pkz-guide.html"), "utf8")
+  : "";
+const roatGuideVisible = stripTags(roatGuideSource);
+if (!/\bPKP means PK Points\b/i.test(roatGuideVisible)) {
+  fail("roat-pkz-guide.html", "guide must explain that PKP means PK Points");
+}
+if (!/\b1M PKP means one million PK Points\b/i.test(roatGuideVisible)) {
+  fail("roat-pkz-guide.html", "guide must explain the 1M PKP unit");
+}
+if (!/Donation Credits[\s\S]{0,120}\bseparate from PKP\b/i.test(roatGuideVisible)) {
+  fail("roat-pkz-guide.html", "guide must keep Donation Credits separate from standard PKP orders");
+}
+if (!roatGuideVisible.includes("$3.50 per 1M PKP")) {
+  fail("roat-pkz-guide.html", "guide CTA must retain the approved $3.50 per 1M PKP rate");
+}
+if (!/Gambling can result in losses and should not be treated as a reliable way to build PKP\./i.test(roatGuideVisible)) {
+  fail("roat-pkz-guide.html", "guide is missing the approved gambling-risk statement");
+}
+
+const spawnpkGuideSource = fs.existsSync(path.join(root, "spawnpk-guide.html"))
+  ? fs.readFileSync(path.join(root, "spawnpk-guide.html"), "utf8")
+  : "";
+const spawnpkGuideVisible = stripTags(spawnpkGuideSource);
+for (const [pattern, message] of [
+  [/\b1T means one trillion coins\b/i, "guide must explain that 1T means one trillion coins"],
+  [/\bEach Cash Bag represents 100M coins\b/i, "guide must explain the 100M Cash Bag value"],
+  [/\bCash Bag is not a separate currency\b/i, "guide must not treat Cash Bags as a separate currency"],
+  [/\btransfer can use coins, Cash Bags or a combination\b/i, "guide must explain mixed transfer formats"],
+]) {
+  if (!pattern.test(spawnpkGuideVisible)) fail("spawnpk-guide.html", message);
+}
+if (!spawnpkGuideVisible.includes("$9 per 1T")) {
+  fail("spawnpk-guide.html", "guide CTA must retain the approved $9 per 1T rate");
+}
+const conversionSentence =
+  "Because one Cash Bag represents 100M coins, 1T is equal in value to 10,000 Cash Bags.";
+if (spawnpkGuideVisible.split(conversionSentence).length - 1 !== 1) {
+  fail("spawnpk-guide.html", "Cash Bag conversion example must appear exactly once");
+}
+
+for (let leftIndex = 0; leftIndex < articleGuideFiles.length; leftIndex += 1) {
+  for (let rightIndex = leftIndex + 1; rightIndex < articleGuideFiles.length; rightIndex += 1) {
+    const left = pages.find((page) => page.file === articleGuideFiles[leftIndex]);
+    const right = pages.find((page) => page.file === articleGuideFiles[rightIndex]);
+    if (!left || !right) continue;
+    const score = jaccard(shingles(left.main), shingles(right.main));
+    if (score > 0.55) {
+      fail(
+        `${left.file}, ${right.file}`,
+        `guide main-content similarity ${(score * 100).toFixed(1)}% exceeds 55%`,
+      );
+    }
+  }
+}
+
+const interactionScript = fs.readFileSync(path.join(root, "script.js"), "utf8");
+if (!/new CustomEvent\(["']rspshub:interaction["']/i.test(interactionScript)) {
+  fail("script.js", "missing the rspshub:interaction event");
+}
+if (!/querySelectorAll\(["']\[data-action\]:not\(\.copy-btn\)["']\)/i.test(interactionScript)) {
+  fail("script.js", "non-copy guide analytics hooks are not connected to the interaction event");
 }
 
 const spawnPage = pages.find((page) => page.file === "spawnpk-gold.html");
@@ -973,7 +1257,7 @@ const rawGscFiles = fs
 if (rawGscFiles.length) fail(rawGscFiles.join(", "), "raw Search Console export must not be committed");
 
 console.log(
-  `Checked ${htmlFiles.length} HTML files, ${expectedIndexable.length} expected indexable pages, ${serverFiles.length} commercial server pages, homepage card priority, SpawnPK, Roat PKZ and Impact pricing/content/message requirements, sitemap, manifest, links, schema, claims, and content similarity.`,
+  `Checked ${htmlFiles.length} HTML files, ${expectedIndexable.length} expected indexable pages, ${serverFiles.length} commercial server pages, ${guideFiles.length} guide pages, homepage card priority, pricing/content/message requirements, guide facts and analytics, sitemap, manifest, links, schema, claims, and content similarity.`,
 );
 for (const message of warnings) console.log(`WARN ${message}`);
 if (failures.length) {

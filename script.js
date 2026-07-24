@@ -127,10 +127,10 @@
   });
 
   document
-    .querySelectorAll('[data-action="discord-profile"]')
-    .forEach(function (link) {
-      link.addEventListener("click", function () {
-        reportInteraction("discord-profile", link);
+    .querySelectorAll("[data-action]:not(.copy-btn)")
+    .forEach(function (element) {
+      element.addEventListener("click", function () {
+        reportInteraction(element.getAttribute("data-action"), element);
       });
     });
 

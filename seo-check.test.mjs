@@ -462,4 +462,81 @@ expectFailure(
   /impact-gold\.html, spawnpk-gold\.html: main-content 3-word-shingle similarity 100\.0% exceeds 55%/,
 );
 
+expectFailure(
+  "SpawnPK guide treats Cash Bags as a separate currency",
+  (target) =>
+    mutate(path.join(target, "spawnpk-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        "A Cash Bag is not a separate currency",
+        "Cash Bags are a separate currency",
+      ),
+    ),
+  /guide must not treat Cash Bags as a separate currency/,
+);
+
+expectFailure(
+  "Roat PKZ guide calls Donation Credits standard gold",
+  (target) =>
+    mutate(path.join(target, "roat-pkz-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        "Donation Credits, Donator points and other server currencies are separate from PKP.",
+        "Donation Credits are standard Roat PKZ gold orders.",
+      ),
+    ),
+  /guide must keep Donation Credits separate from standard PKP orders/,
+);
+
+expectFailure(
+  "Impact guide changes its approved rate",
+  (target) =>
+    mutate(path.join(target, "impact-guide.html"), (source) =>
+      replaceExactly(source, "$1 per 1B", "$2 per 1B"),
+    ),
+  /guide CTA must retain the approved \$1 per 1B rate/,
+);
+
+expectFailure(
+  "guide adds guaranteed profit",
+  (target) =>
+    mutate(path.join(target, "spawnpk-guide.html"), (source) =>
+      source.replace("</main>", "<p>Profit is guaranteed with this setup.</p></main>"),
+    ),
+  /guide must not add a guaranteed profit claim/,
+);
+
+expectFailure(
+  "guide pages duplicate the same main content",
+  (target) => {
+    const impactSource = fs.readFileSync(path.join(target, "impact-guide.html"), "utf8");
+    const impactMain = impactSource.match(/<main\b[^>]*>[\s\S]*?<\/main>/i)?.[0];
+    assert.ok(impactMain, "Impact guide fixture is missing its main element");
+    for (const file of ["roat-pkz-guide.html", "spawnpk-guide.html"]) {
+      mutate(path.join(target, file), (source) =>
+        source.replace(/<main\b[^>]*>[\s\S]*?<\/main>/i, impactMain),
+      );
+    }
+  },
+  /guide main-content similarity 100\.0% exceeds 55%/,
+);
+
+expectFailure(
+  "guide omits its related sales-page links",
+  (target) =>
+    mutate(path.join(target, "impact-guide.html"), (source) =>
+      source.replaceAll('href="impact-gold.html"', 'href="guides.html"'),
+    ),
+  /expected exactly two main commercial links to impact-gold\.html, found 0/,
+);
+
+expectFailure(
+  "educational guide adds Product schema",
+  (target) =>
+    mutate(path.join(target, "impact-guide.html"), (source) =>
+      replaceExactly(source, '"@type": "Article"', '"@type": "Product"'),
+    ),
+  /educational guide must not use Product schema/,
+);
+
 console.log("All negative SEO tests passed.");
