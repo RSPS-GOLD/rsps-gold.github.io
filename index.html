@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Buy RSPS Gold | RSPS Gold Hub</title>
+    <title>Buy RSPS Gold | Request Rates by Private Server</title>
     <meta
       name="description"
-      content="Buy RSPS gold for popular RuneScape private servers. Check starting prices, confirm stock, and contact a6d9 on Discord for fast RSPS gold delivery."
+      content="Request current RSPS gold quotes for Impact, Roat Pkz, SpawnPK, Near-Reality and other supported servers. Confirm currency, amount and terms on Discord."
     />
     <meta name="robots" content="index, follow" />
     <meta name="google-site-verification" content="R1_WUzX7GfYl9SxyUrJ1v8RO_Ur5ujNK93sPufMd3G0" />
@@ -20,10 +20,10 @@
     <link rel="manifest" href="site.webmanifest" />
     <meta name="theme-color" content="#070a12" />
     <meta name="msapplication-TileColor" content="#070a12" />
-    <meta property="og:title" content="Buy RSPS Gold | RSPS Gold Hub" />
+    <meta property="og:title" content="Buy RSPS Gold | Request Rates by Private Server" />
     <meta
       property="og:description"
-      content="Contact a6d9 on Discord to check RSPS gold rates, confirm stock, and arrange delivery for popular private servers."
+      content="Request an RSPS gold quote for supported private servers and confirm the rate, stock, and trade details on Discord."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rsps-gold.github.io/" />
@@ -33,10 +33,10 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="RSPS Gold Hub gold bag and Discord icon" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Buy RSPS Gold | RSPS Gold Hub" />
+    <meta name="twitter:title" content="Buy RSPS Gold | Request Rates by Private Server" />
     <meta
       name="twitter:description"
-      content="Check RSPS gold rates and stock through Discord with a6d9."
+      content="Request current RSPS gold rates and confirm stock through Discord with a6d9."
     />
     <meta name="twitter:image" content="https://rsps-gold.github.io/assets/rsps-gold-hub-preview.png" />
     <meta name="twitter:image:alt" content="RSPS Gold Hub gold bag and Discord icon" />
@@ -47,22 +47,35 @@
         "@graph": [
           {
             "@type": "WebSite",
+            "@id": "https://rsps-gold.github.io/#website",
             "name": "RSPS Gold Hub",
             "url": "https://rsps-gold.github.io/",
-            "description": "RSPS Gold Hub helps buyers contact a6d9 on Discord to check RSPS gold rates, stock, and delivery options for popular RuneScape private servers.",
-            "potentialAction": {
-              "@type": "CommunicateAction",
-              "name": "Contact a6d9 on Discord",
-              "target": "https://discord.com/users/640265737050652672"
-            }
+            "description": "RSPS Gold Hub provides quote-request information for supported RuneScape private servers."
           },
           {
-            "@type": "OnlineBusiness",
+            "@type": "Organization",
+            "@id": "https://rsps-gold.github.io/#organization",
             "name": "RSPS Gold Hub",
             "url": "https://rsps-gold.github.io/",
             "logo": "https://rsps-gold.github.io/assets/rsps-gold-hub-logo.png",
             "description": "Discord-based RSPS gold quote requests for popular RuneScape private servers.",
             "sameAs": ["https://discord.com/users/640265737050652672"]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://rsps-gold.github.io/#webpage",
+            "url": "https://rsps-gold.github.io/",
+            "name": "Buy RSPS Gold | Request Rates by Private Server",
+            "isPartOf": {"@id": "https://rsps-gold.github.io/#website"},
+            "about": {"@id": "https://rsps-gold.github.io/#service"}
+          },
+          {
+            "@type": "Service",
+            "@id": "https://rsps-gold.github.io/#service",
+            "name": "RSPS gold quote requests",
+            "provider": {"@id": "https://rsps-gold.github.io/#organization"},
+            "url": "https://rsps-gold.github.io/",
+            "description": "Quote requests for supported private-server currency, with current rate, availability, and trade details confirmed before payment."
           }
         ]
       }
@@ -75,7 +88,7 @@
           All RSPS gold trades are handled through Discord. Add
           <a
             class="badge badge--link"
-            href="https://discord.com/users/640265737050652672"
+            href="https://discord.com/users/640265737050652672" data-action="discord-profile"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -84,7 +97,7 @@
           to ask for rates, confirm stock, and
           complete your order.
         </p>
-        <button class="btn btn--small btn--ghost copy-btn" data-copy="discord">
+        <button class="btn btn--small btn--ghost copy-btn" data-copy="discord" data-action="copy-discord">
           Copy Discord
         </button>
       </div>
@@ -93,7 +106,7 @@
     <header class="site-header">
       <div class="shell header__inner">
         <a class="logo logo--image" href="#buy-gold" aria-label="RSPS Gold Hub home">
-          <img src="assets/rsps-gold-hub-logo.png" alt="RSPS Gold Hub" />
+          <img src="assets/rsps-gold-hub-logo.png" alt="RSPS Gold Hub"  width="1552" height="610" />
         </a>
         <nav class="nav" aria-label="Primary navigation">
           <a href="#buy-gold">Buy Gold</a>
@@ -106,7 +119,7 @@
         </nav>
         <a
           class="btn btn--gold header__cta"
-          href="https://discord.com/users/640265737050652672"
+          href="https://discord.com/users/640265737050652672" data-action="discord-profile"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -130,7 +143,7 @@
             <div class="hero__actions">
               <a
                 class="btn btn--gold"
-                href="https://discord.com/users/640265737050652672"
+                href="https://discord.com/users/640265737050652672" data-action="discord-profile"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -139,8 +152,8 @@
               <a class="btn btn--ghost" href="#servers">View Supported Servers</a>
             </div>
             <p class="trust-line">
-              Fast response during active hours | Starting prices listed |
-              Stock confirmed on Discord
+              Current quote required | Stock confirmed before payment |
+              No account password needed
             </p>
           </div>
 
@@ -180,127 +193,127 @@
           </div>
           <div class="server-grid">
             <article class="server-card">
-              <a class="server-logo" href="roat-pkz-gold.html">
-                <img src="assets/roat-pkz-logo.png" alt="Roat PKZ gold logo" />
+              <a class="server-logo" href="impact-gold.html">
+                <img src="assets/impact-logo.png" alt="Impact RSPS gold logo" width="297" height="200" loading="lazy" decoding="async" />
               </a>
-              <h3><a href="roat-pkz-gold.html">Roat PKZ</a></h3>
-              <p>Ask to buy Roat PKZ gold through Discord.</p>
-              <a class="server-card__learn" href="roat-pkz-gold.html">View Roat PKZ gold details</a>
-              <p class="server-price"><span>Starting price:</span> <strong>$3.5 per Mill</strong></p>
+              <h3><a href="impact-gold.html">Impact</a></h3>
+              <p>Buy Impact gold and check the current rate and available stock.</p>
+              <a class="server-card__learn" href="impact-gold.html">View Impact gold details</a>
+              <p class="server-price"><span>Rates from:</span> <strong>$1 per 1B</strong></p>
               <ul>
-                <li>Rates available on request</li>
-                <li>Transfer method confirmed on Discord</li>
+                <li>Final rate depends on order size</li>
+                <li>Stock and rate confirmed on Discord</li>
               </ul>
-              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" target="_blank" rel="noopener noreferrer">Ask for Rates</a>
+              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" data-action="discord-profile" target="_blank" rel="noopener noreferrer">Check Price &amp; Stock</a>
+            </article>
+            <article class="server-card">
+              <a class="server-logo" href="roat-pkz-gold.html">
+                <img src="assets/roat-pkz-logo.png" alt="RoatPKZ gold logo" width="497" height="300" loading="lazy" decoding="async" />
+              </a>
+              <h3><a href="roat-pkz-gold.html">RoatPKZ</a></h3>
+              <p>Buy RoatPKZ gold and confirm the current rate and available stock.</p>
+              <a class="server-card__learn" href="roat-pkz-gold.html">View RoatPKZ gold details</a>
+              <p class="server-price"><span>Rates from:</span> <strong>$3.50 per 1M</strong></p>
+              <ul>
+                <li>Final rate depends on order size</li>
+                <li>Stock and rate confirmed on Discord</li>
+              </ul>
+              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" data-action="discord-profile" target="_blank" rel="noopener noreferrer">Check Price &amp; Stock</a>
             </article>
             <article class="server-card">
               <a class="server-logo" href="spawnpk-gold.html">
-                <img src="assets/spawnpk-logo.png" alt="SpawnPK gold logo" />
+                <img src="assets/spawnpk-logo.png" alt="SpawnPK logo" width="240" height="135" loading="lazy" decoding="async" />
               </a>
               <h3><a href="spawnpk-gold.html">SpawnPK</a></h3>
-              <p>Ask to buy SpawnPK gold with current rates.</p>
+              <p>Buy SpawnPK gold and confirm the current rate and available stock.</p>
               <a class="server-card__learn" href="spawnpk-gold.html">View SpawnPK gold details</a>
-              <p class="server-price"><span>Starting price:</span> <strong>$9 per Trill</strong></p>
+              <p class="server-price"><span>Rates from:</span> <strong>$9 per 1T</strong></p>
               <ul>
-                <li>Rates available on request</li>
-                <li>Transfer method confirmed on Discord</li>
+                <li>Final rate depends on order size</li>
+                <li>Stock and rate confirmed on Discord</li>
               </ul>
-              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" target="_blank" rel="noopener noreferrer">Ask for Rates</a>
+              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" data-action="discord-profile" target="_blank" rel="noopener noreferrer">Check Price &amp; Stock</a>
             </article>
             <article class="server-card">
               <a class="server-logo" href="alora-gold.html">
-                <img src="assets/alora-logo.png" alt="Alora gold logo" />
+	              <img src="assets/alora-logo.png" alt="Alora gold logo" width="2163" height="562" loading="lazy" decoding="async" />
               </a>
               <h3><a href="alora-gold.html">Alora</a></h3>
-              <p>Ask to buy Alora gold and confirm stock.</p>
+	              <p>Buy Alora gold and confirm the current rate and available stock.</p>
               <a class="server-card__learn" href="alora-gold.html">View Alora gold details</a>
-              <p class="server-price"><span>Starting price:</span> <strong>$35 per Bill</strong></p>
+              <p class="server-price"><span>Rates from:</span> <strong>$35 per 1B</strong></p>
               <ul>
-                <li>Rates available on request</li>
-                <li>Transfer method confirmed on Discord</li>
+                <li>Final rate depends on order size</li>
+                <li>Stock and rate confirmed on Discord</li>
               </ul>
-              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" target="_blank" rel="noopener noreferrer">Ask for Rates</a>
+              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" data-action="discord-profile" target="_blank" rel="noopener noreferrer">Check Price &amp; Stock</a>
             </article>
             <article class="server-card">
               <a class="server-logo" href="runex-gold.html">
-                <img src="assets/runex-logo.png" alt="RuneX gold logo" />
+	              <img src="assets/runex-logo.png" alt="RuneX gold logo" width="576" height="278" loading="lazy" decoding="async" />
               </a>
               <h3><a href="runex-gold.html">RuneX</a></h3>
-              <p>Ask to buy RuneX gold for your order size.</p>
+	              <p>Buy RuneX gold and confirm the current rate and available stock.</p>
               <a class="server-card__learn" href="runex-gold.html">View RuneX gold details</a>
               <ul>
-                <li>Rates available on request</li>
-                <li>Transfer method confirmed on Discord</li>
+                <li>Rate depends on order size and current demand</li>
+                <li>Stock and rate confirmed on Discord</li>
               </ul>
-              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" target="_blank" rel="noopener noreferrer">Ask for Rates</a>
-            </article>
-            <article class="server-card">
-              <a class="server-logo" href="impact-gold.html">
-                <img src="assets/impact-logo.png" alt="Impact gold logo" />
-              </a>
-              <h3><a href="impact-gold.html">Impact</a></h3>
-              <p>Ask about rates and stock for this server.</p>
-              <a class="server-card__learn" href="impact-gold.html">View Impact gold details</a>
-              <p class="server-price"><span>Starting price:</span> <strong>$1 per Bill</strong></p>
-              <ul>
-                <li>Rates available on request</li>
-                <li>Transfer method confirmed on Discord</li>
-              </ul>
-              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" target="_blank" rel="noopener noreferrer">Ask for Rates</a>
+              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" data-action="discord-profile" target="_blank" rel="noopener noreferrer">Check Price &amp; Stock</a>
             </article>
             <article class="server-card">
               <a class="server-logo" href="orion-gold.html">
-                <img src="assets/orion-logo.png" alt="Orion gold logo" />
+	              <img src="assets/orion-logo.png" alt="Orion RSPS gold logo" width="1100" height="516" loading="lazy" decoding="async" />
               </a>
               <h3><a href="orion-gold.html">Orion</a></h3>
-              <p>Ask about rates and stock for this server.</p>
+	              <p>Buy Orion gold and confirm the current rate and available stock.</p>
               <a class="server-card__learn" href="orion-gold.html">View Orion gold details</a>
-              <p class="server-price"><span>Starting price:</span> <strong>$25 per Bill</strong></p>
+              <p class="server-price"><span>Rates from:</span> <strong>$25 per 1B</strong></p>
               <ul>
-                <li>Rates available on request</li>
-                <li>Transfer method confirmed on Discord</li>
+                <li>Final rate depends on order size</li>
+                <li>Stock and rate confirmed on Discord</li>
               </ul>
-              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" target="_blank" rel="noopener noreferrer">Ask for Rates</a>
+              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" data-action="discord-profile" target="_blank" rel="noopener noreferrer">Check Price &amp; Stock</a>
             </article>
             <article class="server-card">
               <a class="server-logo" href="ferox-gold.html">
-                <img src="assets/ferox-logo.png" alt="Ferox gold logo" />
+	              <img src="assets/ferox-logo.png" alt="Ferox PS gold logo" width="448" height="284" loading="lazy" decoding="async" />
               </a>
               <h3><a href="ferox-gold.html">Ferox</a></h3>
-              <p>Ask to buy Ferox gold and available delivery options.</p>
+	              <p>Buy Ferox gold and confirm the current rate and available stock.</p>
               <a class="server-card__learn" href="ferox-gold.html">View Ferox gold details</a>
-              <p class="server-price"><span>Starting price:</span> <strong>$20 per Bill</strong></p>
+              <p class="server-price"><span>Rates from:</span> <strong>$20 per 1B</strong></p>
               <ul>
-                <li>Rates available on request</li>
-                <li>Transfer method confirmed on Discord</li>
+                <li>Final rate depends on order size</li>
+                <li>Stock and rate confirmed on Discord</li>
               </ul>
-              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" target="_blank" rel="noopener noreferrer">Ask for Rates</a>
+              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" data-action="discord-profile" target="_blank" rel="noopener noreferrer">Check Price &amp; Stock</a>
             </article>
-            <article class="server-card">
-              <a class="server-logo" href="near-reality-gold.html">
-                <img src="assets/near-reality-logo.png" alt="Near-Reality gold logo" />
-              </a>
-              <h3><a href="near-reality-gold.html">Near-Reality</a></h3>
-              <p>Ask about rates and stock for this server.</p>
-              <a class="server-card__learn" href="near-reality-gold.html">View Near-Reality gold details</a>
-              <ul>
-                <li>Rates available on request</li>
-                <li>Transfer method confirmed on Discord</li>
-              </ul>
-              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" target="_blank" rel="noopener noreferrer">Ask for Rates</a>
-            </article>
-            <article class="server-card">
+	            <article class="server-card">
+	              <a class="server-logo" href="near-reality-gold.html">
+	                <img src="assets/near-reality-logo.png" alt="Near-Reality gold logo" width="695" height="259" loading="lazy" decoding="async" />
+	              </a>
+	              <h3><a href="near-reality-gold.html">Near-Reality</a></h3>
+	              <p>Buy Near-Reality gold and confirm the current rate and available stock.</p>
+	              <a class="server-card__learn" href="near-reality-gold.html">View Near-Reality gold details</a>
+	              <ul>
+	                <li>Rate depends on order size and current demand</li>
+	                <li>Stock and rate confirmed on Discord</li>
+	              </ul>
+	              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" data-action="discord-profile" target="_blank" rel="noopener noreferrer">Check Price &amp; Stock</a>
+	            </article>
+	            <article class="server-card">
               <a class="server-logo" href="other-rsps-gold.html">
-                <img src="assets/other-rsps-logo.png" alt="Other RSPS gold logo" />
+	              <img src="assets/other-rsps-logo.png" alt="Other RSPS gold logo" width="1701" height="370" loading="lazy" decoding="async" />
               </a>
               <h3><a href="other-rsps-gold.html">Other RSPS</a></h3>
-              <p>Ask about rates and stock for other private servers.</p>
+	              <p>Request gold for another RSPS and confirm the current rate and available stock.</p>
               <a class="server-card__learn" href="other-rsps-gold.html">View Other RSPS gold details</a>
               <ul>
-                <li>Rates available on request</li>
-                <li>Transfer method confirmed on Discord</li>
+                <li>Rate depends on order size and current demand</li>
+                <li>Stock and rate confirmed on Discord</li>
               </ul>
-              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" target="_blank" rel="noopener noreferrer">Ask for Rates</a>
+              <a class="server-card__cta" href="https://discord.com/users/640265737050652672" data-action="discord-profile" target="_blank" rel="noopener noreferrer">Check Price &amp; Stock</a>
             </article>
           </div>
         </div>
@@ -321,7 +334,7 @@
           <div class="message-box">
             <div class="message-box__header">
               <h3>Rate Request Example</h3>
-              <button class="btn btn--ghost copy-btn" data-copy="example">
+              <button class="btn btn--ghost copy-btn" data-copy="example" data-action="copy-example">
                 Copy Example Message
               </button>
             </div>
@@ -396,7 +409,7 @@ What is the current rate?</pre>
         <div class="shell">
           <div class="section-heading">
             <p class="kicker">Trading Notes</p>
-            <h2>Safe RSPS Gold Trading Notes</h2>
+            <h2>RSPS Gold Risk and Confirmation Checklist</h2>
             <p>
               RSPS gold prices, stock, and delivery methods can change by
               server. Always confirm the final details with a6d9 on Discord
@@ -413,12 +426,16 @@ What is the current rate?</pre>
               <p>Transfer methods vary by server and are confirmed before delivery starts.</p>
             </article>
             <article>
-              <h3>Prices Can Change</h3>
-              <p>Starting prices are listed as a guide. Final rates depend on stock, demand, and order size.</p>
+              <h3>Check the Server Rules</h3>
+              <p>Private-server rules differ and can change. Third-party currency trading may lead to sanctions, so review the current rules before requesting a quote.</p>
             </article>
             <article>
               <h3>No Password Needed</h3>
               <p>We never ask for your account password to complete a gold trade.</p>
+            </article>
+            <article>
+              <h3>No Guaranteed Safety</h3>
+              <p>No third-party trade is risk-free. Confirm every detail, keep records of the conversation, and do not proceed if the terms are unclear.</p>
             </article>
           </div>
         </div>
@@ -440,7 +457,7 @@ What is the current rate?</pre>
                 <p class="kicker muted">Discord username</p>
                 <a
                   class="discord-username-link"
-                  href="https://discord.com/users/640265737050652672"
+                  href="https://discord.com/users/640265737050652672" data-action="discord-profile"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -450,16 +467,16 @@ What is the current rate?</pre>
               <div class="discord-actions">
                 <a
                   class="btn btn--discord"
-                  href="https://discord.com/users/640265737050652672"
+                  href="https://discord.com/users/640265737050652672" data-action="discord-profile"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   Open Discord Profile
                 </a>
-                <button class="btn btn--discord copy-btn" data-copy="discord">
+                <button class="btn btn--discord copy-btn" data-copy="discord" data-action="copy-discord">
                   Copy Discord Username
                 </button>
-                <button class="btn btn--ghost copy-btn" data-copy="example">
+                <button class="btn btn--ghost copy-btn" data-copy="example" data-action="copy-example">
                   Copy Example Message
                 </button>
               </div>
@@ -470,7 +487,6 @@ What is the current rate?</pre>
                 <ul>
                   <li>Server name</li>
                   <li>Amount you want to buy</li>
-                  <li>Payment method preference</li>
                   <li>Any question about current gold rates</li>
                 </ul>
               </div>
@@ -512,15 +528,15 @@ What is the current rate?</pre>
             </details>
             <details>
               <summary>Which RSPS servers do you support?</summary>
-              <p>We handle requests for popular RSPS servers such as Roat PKZ, SpawnPK, Alora, RuneX, Impact, Orion, Ferox, Near-Reality, and others on request.</p>
+	              <p>Dedicated quote-request pages cover Roat Pkz, SpawnPK, Alora, RuneX, Impact, Orion, Ferox, and Near-Reality. Unlisted servers are reviewed case by case.</p>
             </details>
             <details>
               <summary>How is the gold delivered?</summary>
-              <p>After payment is completed, delivery is arranged using one of the available transfer methods on that specific RSPS server. The exact method is confirmed through Discord before delivery.</p>
+	              <p>The available transfer method for that server is agreed on Discord before payment. Delivery follows the confirmed server, currency, quantity, and plan.</p>
             </details>
             <details>
-              <summary>Do you offer 24/7 support?</summary>
-              <p>No. We respond during active hours and handle requests as quickly as possible.</p>
+              <summary>Is a response time guaranteed?</summary>
+              <p>No response-time promise is published. Discord availability can vary.</p>
             </details>
             <details>
               <summary>Is stock always available?</summary>
@@ -535,7 +551,7 @@ What is the current rate?</pre>
       <div class="shell footer__grid">
         <div>
           <a class="logo logo--footer-image" href="#buy-gold" aria-label="RSPS Gold Hub home">
-            <img src="assets/rsps-gold-hub-logo.png" alt="RSPS Gold Hub" />
+            <img src="assets/rsps-gold-hub-logo.png" alt="RSPS Gold Hub"  width="1552" height="610" />
           </a>
           <p>
             RSPS Gold Hub helps buyers connect through Discord to check RSPS
@@ -546,7 +562,7 @@ What is the current rate?</pre>
           <h3>Discord</h3>
           <a
             class="footer__discord footer__discord--link"
-            href="https://discord.com/users/640265737050652672"
+            href="https://discord.com/users/640265737050652672" data-action="discord-profile"
             target="_blank"
             rel="noopener noreferrer"
           >
