@@ -491,7 +491,7 @@ expectFailure(
 expectFailure(
   "Impact guide changes its approved rate",
   (target) =>
-    mutate(path.join(target, "impact-guide.html"), (source) =>
+    mutate(path.join(target, "impact-money-making-guide.html"), (source) =>
       replaceExactly(source, "$1 per 1B", "$2 per 1B"),
     ),
   /guide CTA must retain the approved \$1 per 1B rate/,
@@ -509,14 +509,12 @@ expectFailure(
 expectFailure(
   "guide pages duplicate the same main content",
   (target) => {
-    const impactSource = fs.readFileSync(path.join(target, "impact-guide.html"), "utf8");
+    const impactSource = fs.readFileSync(path.join(target, "impact-money-making-guide.html"), "utf8");
     const impactMain = impactSource.match(/<main\b[^>]*>[\s\S]*?<\/main>/i)?.[0];
-    assert.ok(impactMain, "Impact guide fixture is missing its main element");
-    for (const file of ["roat-pkz-guide.html", "spawnpk-guide.html"]) {
-      mutate(path.join(target, file), (source) =>
-        source.replace(/<main\b[^>]*>[\s\S]*?<\/main>/i, impactMain),
-      );
-    }
+    assert.ok(impactMain, "Impact money guide fixture is missing its main element");
+    mutate(path.join(target, "impact-theatre-of-blood-guide.html"), (source) =>
+      source.replace(/<main\b[^>]*>[\s\S]*?<\/main>/i, impactMain),
+    );
   },
   /guide main-content similarity 100\.0% exceeds 55%/,
 );
@@ -524,7 +522,7 @@ expectFailure(
 expectFailure(
   "guide omits its related sales-page links",
   (target) =>
-    mutate(path.join(target, "impact-guide.html"), (source) =>
+    mutate(path.join(target, "impact-slayer-guide.html"), (source) =>
       source.replaceAll('href="impact-gold.html"', 'href="guides.html"'),
     ),
   /expected exactly two main commercial links to impact-gold\.html, found 0/,
@@ -533,10 +531,84 @@ expectFailure(
 expectFailure(
   "educational guide adds Product schema",
   (target) =>
-    mutate(path.join(target, "impact-guide.html"), (source) =>
-      replaceExactly(source, '"@type": "Article"', '"@type": "Product"'),
+    mutate(path.join(target, "impact-slayer-guide.html"), (source) =>
+      replaceExactly(source, '"@type":"Article"', '"@type":"Product"'),
     ),
   /educational guide must not use Product schema/,
+);
+
+expectFailure(
+  "Impact guide adds guaranteed drops",
+  (target) =>
+    mutate(path.join(target, "impact-gemstone-crab-guide.html"), (source) =>
+      source.replace("</main>", "<p>Guaranteed drops are included.</p></main>"),
+    ),
+  /guide must not add a guaranteed drop claim/,
+);
+
+expectFailure(
+  "Impact guide adds Review schema",
+  (target) =>
+    mutate(path.join(target, "impact-hunter-guide.html"), (source) =>
+      replaceExactly(source, '"@type":"Article"', '"@type":"Review"'),
+    ),
+  /educational guide must not use Review schema/,
+);
+
+expectFailure(
+  "Impact guide adds AggregateRating schema",
+  (target) =>
+    mutate(path.join(target, "impact-thieving-guide.html"), (source) =>
+      replaceExactly(source, '"@type":"Article"', '"@type":"AggregateRating"'),
+    ),
+  /educational guide must not use AggregateRating schema/,
+);
+
+expectFailure(
+  "Impact article omits its hub link",
+  (target) =>
+    mutate(path.join(target, "impact-hunter-guide.html"), (source) =>
+      source.replaceAll('href="impact-guide.html"', 'href="guides.html"'),
+    ),
+  /Impact article is missing its link to the Impact Guides hub/,
+);
+
+expectFailure(
+  "Impact article publishes fixed money per hour",
+  (target) =>
+    mutate(path.join(target, "impact-thieving-guide.html"), (source) =>
+      source.replace("</main>", "<p>This earns 100M GP per hour.</p></main>"),
+    ),
+  /guide must not publish a fixed money-per-hour claim/,
+);
+
+expectFailure(
+  "Impact guide presents gambling as reliable income",
+  (target) =>
+    mutate(path.join(target, "impact-money-making-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        "Gambling can result in losses and should not be treated as reliable income.",
+        "Gambling provides reliable income.",
+      ),
+    ),
+  /guide is missing the approved gambling-risk statement/,
+);
+
+expectFailure(
+  "Impact guides duplicate a title and description",
+  (target) => {
+    const source = fs.readFileSync(path.join(target, "impact-theatre-of-blood-guide.html"), "utf8");
+    const title = source.match(/<title>([\s\S]*?)<\/title>/i)?.[1];
+    const description = source.match(/<meta\s+name="description"\s+content="([^"]+)"/i)?.[1];
+    assert.ok(title && description, "ToB fixture metadata is missing");
+    mutate(path.join(target, "impact-tombs-of-amascut-guide.html"), (toa) =>
+      toa
+        .replace(/<title>[\s\S]*?<\/title>/i, `<title>${title}</title>`)
+        .replace(/<meta\s+name="description"\s+content="[^"]+"\s*\/>/i, `<meta name="description" content="${description}" />`),
+    );
+  },
+  /duplicate (?:title|description)/,
 );
 
 console.log("All negative SEO tests passed.");

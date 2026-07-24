@@ -25,13 +25,29 @@ const serverFiles = [
   "spawnpk-gold.html",
   ...legacyServerFiles,
 ];
+const impactArticleFiles = [
+  "impact-donator-benefits-guide.html",
+  "impact-money-making-guide.html",
+  "impact-gemstone-crab-guide.html",
+  "impact-theatre-of-blood-guide.html",
+  "impact-tombs-of-amascut-guide.html",
+  "impact-chambers-of-xeric-guide.html",
+  "impact-slayer-guide.html",
+  "impact-thieving-guide.html",
+  "impact-hunter-guide.html",
+];
 const guideFiles = [
   "guides.html",
   "impact-guide.html",
+  ...impactArticleFiles,
   "roat-pkz-guide.html",
   "spawnpk-guide.html",
 ];
-const articleGuideFiles = guideFiles.filter((file) => file !== "guides.html");
+const articleGuideFiles = [
+  ...impactArticleFiles,
+  "roat-pkz-guide.html",
+  "spawnpk-guide.html",
+];
 const guideRequirements = {
   "guides.html": {
     title: "RSPS Gold Guides – Impact, Roat PKZ &amp; SpawnPK",
@@ -41,13 +57,92 @@ const guideRequirements = {
     schema: ["WebPage", "CollectionPage", "BreadcrumbList"],
   },
   "impact-guide.html": {
-    title: "Impact Gear &amp; Gold Guide | RSPS Gold Hub",
+    title: "Impact Guides – Raids, Money Making &amp; Skills",
     description:
-      "Plan Impact gear, PvM and PvP budgets with a practical guide to billions, upgrade priorities, supplies, reserves and account goals.",
-    h1: "Impact Gear, Gold and Progression Guide",
+      "Explore original Impact guides for Donator benefits, money making, raids, Gemstone Crab, Slayer, Thieving, Hunter and account progression.",
+    h1: "Impact Guides",
+    schema: ["WebPage", "CollectionPage", "BreadcrumbList"],
+  },
+  "impact-donator-benefits-guide.html": {
+    title: "Impact Donator Benefits Guide | Ranks &amp; Perks",
+    description:
+      "Understand Impact Donator ranks, convenience perks, access benefits and the questions to ask before working toward an upgrade.",
+    h1: "Impact Donator Benefits Guide",
     salesPage: "impact-gold.html",
-    salesAction: "guide-to-impact-gold",
-    copyLabel: "Copy Impact Request",
+    salesAction: "impact-guide-to-gold",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+  "impact-money-making-guide.html": {
+    title: "Impact Money Making Guide | Build Your Bank",
+    description:
+      "Compare Impact money-making paths for newcomers, PvM, Slayer, skilling, PvP and trading without relying on fixed hourly claims.",
+    h1: "Impact Money Making Guide",
+    salesPage: "impact-gold.html",
+    salesAction: "impact-guide-to-gold",
+    copyLabel: "Copy Order Message",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+  "impact-gemstone-crab-guide.html": {
+    title: "Impact Gemstone Crab Guide | Setup &amp; Mechanics",
+    description:
+      "Prepare for Impact Gemstone Crab with verified access details, setup factors, training flow, common mistakes and a practical checklist.",
+    h1: "Impact Gemstone Crab Guide",
+    salesPage: "impact-gold.html",
+    salesAction: "impact-guide-to-gold",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+  "impact-theatre-of-blood-guide.html": {
+    title: "Impact Theatre of Blood Guide | ToB Preparation",
+    description:
+      "Prepare for Impact Theatre of Blood with verified Verzik phases, team roles, gear switches, supplies, communication and learning priorities.",
+    h1: "Impact Theatre of Blood Guide",
+    salesPage: "impact-gold.html",
+    salesAction: "impact-guide-to-gold",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+  "impact-tombs-of-amascut-guide.html": {
+    title: "Impact Tombs of Amascut Guide | ToA Setup",
+    description:
+      "Prepare for Impact Tombs of Amascut with verified Wardens phases, invocation planning, combat switches, supplies and learning priorities.",
+    h1: "Impact Tombs of Amascut Guide",
+    salesPage: "impact-gold.html",
+    salesAction: "impact-guide-to-gold",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+  "impact-chambers-of-xeric-guide.html": {
+    title: "Impact Chambers of Xeric Guide | CoX Preparation",
+    description:
+      "Prepare for Impact Chambers of Xeric with verified Olm phases, team roles, combat styles, supplies, movement and learning priorities.",
+    h1: "Impact Chambers of Xeric Guide",
+    salesPage: "impact-gold.html",
+    salesAction: "impact-guide-to-gold",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+  "impact-slayer-guide.html": {
+    title: "Impact Slayer Guide | Tasks, Gear &amp; Progression",
+    description:
+      "Learn Impact Slayer task access, gear and supply planning, task decisions, progression priorities and common mistakes.",
+    h1: "Impact Slayer Guide",
+    salesPage: "impact-gold.html",
+    salesAction: "impact-guide-to-gold",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+  "impact-thieving-guide.html": {
+    title: "Impact Thieving Guide | Training &amp; Money Making",
+    description:
+      "Start Impact Thieving with a practical plan for the home training area, progression checks, banking, efficiency and early account goals.",
+    h1: "Impact Thieving Guide",
+    salesPage: "impact-gold.html",
+    salesAction: "impact-guide-to-gold",
+    schema: ["WebPage", "Article", "BreadcrumbList"],
+  },
+  "impact-hunter-guide.html": {
+    title: "Impact Hunter Guide | Training &amp; Progression",
+    description:
+      "Follow verified Impact Hunter stages with the right traps, locations, inventory planning, efficiency checks and progression decisions.",
+    h1: "Impact Hunter Guide",
+    salesPage: "impact-gold.html",
+    salesAction: "impact-guide-to-gold",
     schema: ["WebPage", "Article", "BreadcrumbList"],
   },
   "roat-pkz-guide.html": {
@@ -463,6 +558,10 @@ for (const file of htmlFiles) {
     file,
     title,
     description,
+    ogTitle,
+    ogDescription,
+    twitterTitle,
+    twitterDescription,
     robots,
     canonical,
     h1: h1s[0] || "",
@@ -537,7 +636,7 @@ for (const [salesFile, guideFile, label, action] of [
   [
     "impact-gold.html",
     "impact-guide.html",
-    "Read the Impact Gold & Progression Guide",
+    "Browse Impact Guides",
     "open-impact-guide",
   ],
   [
@@ -565,6 +664,80 @@ for (const [salesFile, guideFile, label, action] of [
     }
   }
 }
+
+const impactHubSource = fs.readFileSync(path.join(root, "impact-guide.html"), "utf8");
+const impactHubMain = firstMatch(impactHubSource, /<main\b[^>]*>([\s\S]*?)<\/main>/i);
+const impactHubCards =
+  impactHubMain.match(/<article\b[^>]*\bclass=["'][^"']*\bguide-card--topic\b/gi) || [];
+if (impactHubCards.length !== impactArticleFiles.length) {
+  fail("impact-guide.html", `expected nine Impact guide cards, found ${impactHubCards.length}`);
+}
+for (const file of impactArticleFiles) {
+  const action = `open-${file.replace(/\.html$/, "")}`;
+  const links = [
+    ...impactHubMain.matchAll(
+      new RegExp(`<a\\b[^>]*\\bhref=["']${file}["'][^>]*>`, "gi"),
+    ),
+  ];
+  if (links.length !== 1) fail("impact-guide.html", `expected one hub card link to ${file}`);
+  if (links.some((match) => getAttribute(match[0], "data-action") !== action)) {
+    fail("impact-guide.html", `${file} must use data-action ${action}`);
+  }
+}
+if (!/href=["']#impact-guide-library["'][^>]*data-action=["']impact-guides-hub["']/i.test(impactHubMain)) {
+  fail("impact-guide.html", "Browse Impact Guides must scroll to the library with data-action impact-guides-hub");
+}
+if (!/href=["']impact-gold\.html["'][^>]*data-action=["']impact-guide-to-gold["']/i.test(impactHubMain)) {
+  fail("impact-guide.html", "hub is missing the Impact gold CTA analytics action");
+}
+
+const relatedImpactGuides = {
+  "impact-donator-benefits-guide.html": [
+    "impact-money-making-guide.html",
+    "impact-slayer-guide.html",
+    "impact-guide.html",
+  ],
+  "impact-money-making-guide.html": [
+    "impact-thieving-guide.html",
+    "impact-slayer-guide.html",
+    "impact-gemstone-crab-guide.html",
+  ],
+  "impact-gemstone-crab-guide.html": [
+    "impact-money-making-guide.html",
+    "impact-slayer-guide.html",
+    "impact-chambers-of-xeric-guide.html",
+  ],
+  "impact-theatre-of-blood-guide.html": [
+    "impact-tombs-of-amascut-guide.html",
+    "impact-chambers-of-xeric-guide.html",
+    "impact-money-making-guide.html",
+  ],
+  "impact-tombs-of-amascut-guide.html": [
+    "impact-theatre-of-blood-guide.html",
+    "impact-chambers-of-xeric-guide.html",
+    "impact-money-making-guide.html",
+  ],
+  "impact-chambers-of-xeric-guide.html": [
+    "impact-theatre-of-blood-guide.html",
+    "impact-tombs-of-amascut-guide.html",
+    "impact-gemstone-crab-guide.html",
+  ],
+  "impact-slayer-guide.html": [
+    "impact-money-making-guide.html",
+    "impact-gemstone-crab-guide.html",
+    "impact-hunter-guide.html",
+  ],
+  "impact-thieving-guide.html": [
+    "impact-money-making-guide.html",
+    "impact-hunter-guide.html",
+    "impact-donator-benefits-guide.html",
+  ],
+  "impact-hunter-guide.html": [
+    "impact-slayer-guide.html",
+    "impact-thieving-guide.html",
+    "impact-money-making-guide.html",
+  ],
+};
 
 for (const file of articleGuideFiles) {
   const source = fs.readFileSync(path.join(root, file), "utf8");
@@ -609,36 +782,88 @@ for (const file of articleGuideFiles) {
       /<button\b[^>]*\bclass=["'][^"']*\bcopy-btn\b[^"']*["'][^>]*>([\s\S]*?)<\/button>/gi,
     ),
   ];
-  if (
-    copyButtons.length !== 1 ||
-    stripTags(copyButtons[0][1]) !== requirement.copyLabel ||
-    getAttribute(copyButtons[0][0], "data-action") !== "guide-copy-request" ||
-    !getAttribute(copyButtons[0][0], "data-copy-target")
-  ) {
-    fail(file, "guide copy request must use the approved label, target and analytics action");
+  if (requirement.copyLabel) {
+    const expectedCopyAction = impactArticleFiles.includes(file)
+      ? "impact-guide-copy-request"
+      : "guide-copy-request";
+    if (
+      copyButtons.length !== 1 ||
+      stripTags(copyButtons[0][1]) !== requirement.copyLabel ||
+      getAttribute(copyButtons[0][0], "data-action") !== expectedCopyAction ||
+      !getAttribute(copyButtons[0][0], "data-copy-target")
+    ) {
+      fail(file, "guide copy request must use the approved label, target and analytics action");
+    }
+  } else if (copyButtons.length) {
+    fail(file, "this guide must link to the Impact gold page without a copy-message component");
   }
 
-  for (const relatedFile of articleGuideFiles.filter((item) => item !== file)) {
+  const expectedRelated = relatedImpactGuides[file] || articleGuideFiles.filter(
+    (item) => !impactArticleFiles.includes(item) && item !== file,
+  );
+  for (const relatedFile of expectedRelated) {
     if (!new RegExp(`href=["']${relatedFile}["']`, "i").test(main)) {
       fail(file, `guide is missing related link to ${relatedFile}`);
     }
   }
   if (!/href=["']guides\.html["']/i.test(main)) fail(file, "guide is missing its back link to guides.html");
   if (!/href=["']index\.html["']/i.test(main)) fail(file, "guide is missing its homepage link");
+  if (impactArticleFiles.includes(file)) {
+    if (!/href=["']impact-guide\.html["']/i.test(main)) {
+      fail(file, "Impact article is missing its link to the Impact Guides hub");
+    }
+    if (!/<img\b[^>]*\bclass=["'][^"']*\bguide-article-hero__logo\b[^"']*["'][^>]*\bsrc=["']assets\/impact-logo\.png["']/i.test(main)) {
+      fail(file, "Impact article is missing the existing Impact logo");
+    }
+    const currentCrumb = stripTags(
+      firstMatch(main, /<span\b[^>]*\baria-current=["']page["'][^>]*>([\s\S]*?)<\/span>/i),
+    );
+    let breadcrumbName = "";
+    let articleHeadline = "";
+    for (const match of source.matchAll(
+      /<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi,
+    )) {
+      const json = JSON.parse(match[1]);
+      const nodes = json?.["@graph"] || [json];
+      const breadcrumb = nodes.find((node) => node?.["@type"] === "BreadcrumbList");
+      const article = nodes.find((node) => node?.["@type"] === "Article");
+      const breadcrumbItems = breadcrumb?.itemListElement || [];
+      breadcrumbName = breadcrumbItems.at(-1)?.name || breadcrumbName;
+      articleHeadline = article?.headline || articleHeadline;
+    }
+    if (!currentCrumb || breadcrumbName !== currentCrumb) {
+      fail(file, "visible breadcrumb does not match BreadcrumbList schema");
+    }
+    if (articleHeadline !== requirement.h1) {
+      fail(file, "Article schema headline does not match the H1");
+    }
+    const visible = stripTags(main);
+    const sourceNote =
+      "Impact mechanics, rewards and requirements may change. Check the current official information before relying on a specific value or setup.";
+    if (!visible.includes(sourceNote)) fail(file, "Impact article is missing the approved source note");
+    if (/\b(?:guaranteed drops?|drops? (?:are|is) guaranteed)\b/i.test(visible)) {
+      fail(file, "guide must not add a guaranteed drop claim");
+    }
+    if (/\b\d[\d,.]*\s*[KMBT]?\s*(?:GP|coins?)\s*(?:per|\/)\s*hour\b/i.test(visible)) {
+      fail(file, "guide must not publish a fixed money-per-hour claim");
+    }
+    const wordCount = visible.split(/\s+/).filter(Boolean).length;
+    const longGuide = /(?:money-making|theatre-of-blood|tombs-of-amascut|chambers-of-xeric)/.test(file);
+    const minimumWords = longGuide ? 1300 : 900;
+    if (wordCount < minimumWords) {
+      fail(file, `guide has ${wordCount} visible words; expected at least ${minimumWords}`);
+    }
+  }
 }
 
-const impactGuideSource = fs.existsSync(path.join(root, "impact-guide.html"))
-  ? fs.readFileSync(path.join(root, "impact-guide.html"), "utf8")
-  : "";
-const impactGuideVisible = stripTags(impactGuideSource);
-if (!/\b1B means one billion coins\b/i.test(impactGuideVisible)) {
-  fail("impact-guide.html", "guide must explain that 1B means one billion coins");
+const impactMoneyVisible = stripTags(
+  fs.readFileSync(path.join(root, "impact-money-making-guide.html"), "utf8"),
+);
+if (!impactMoneyVisible.includes("Impact gold rates start from $1 per 1B.")) {
+  fail("impact-money-making-guide.html", "guide CTA must retain the approved $1 per 1B rate");
 }
-if (!impactGuideVisible.includes("$1 per 1B")) {
-  fail("impact-guide.html", "guide CTA must retain the approved $1 per 1B rate");
-}
-if (!/lucky win at ::gamble/i.test(impactGuideVisible)) {
-  fail("impact-guide.html", "guide must mention ::gamble as an unreliable possible bank source");
+if (!impactMoneyVisible.includes("Gambling can result in losses and should not be treated as reliable income.")) {
+  fail("impact-money-making-guide.html", "guide is missing the approved gambling-risk statement");
 }
 
 const roatGuideSource = fs.existsSync(path.join(root, "roat-pkz-guide.html"))
@@ -703,6 +928,16 @@ if (!/new CustomEvent\(["']rspshub:interaction["']/i.test(interactionScript)) {
 }
 if (!/querySelectorAll\(["']\[data-action\]:not\(\.copy-btn\)["']\)/i.test(interactionScript)) {
   fail("script.js", "non-copy guide analytics hooks are not connected to the interaction event");
+}
+
+const stylesheet = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+for (const [pattern, message] of [
+  [/\.impact-guide-grid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/i, "missing desktop Impact guide grid"],
+  [/@media\s*\(max-width:\s*980px\)[\s\S]*?\.impact-guide-grid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/i, "missing tablet Impact guide grid"],
+  [/@media\s*\(max-width:\s*700px\)[\s\S]*?\.impact-guide-grid[\s\S]*?grid-template-columns:\s*1fr/i, "missing mobile Impact guide stack"],
+  [/\.guide-card--topic\s+\.btn\s*\{[\s\S]*?min-width:\s*0[\s\S]*?white-space:\s*normal/i, "topic-card buttons can overflow at narrow widths"],
+]) {
+  if (!pattern.test(stylesheet)) fail("styles.css", message);
 }
 
 const spawnPage = pages.find((page) => page.file === "spawnpk-gold.html");
@@ -1145,6 +1380,18 @@ for (const field of ["title", "description", "h1"]) {
   }
   for (const [value, files] of groups) {
     if (files.length > 1) fail(files.join(", "), `duplicate ${field}: ${value}`);
+  }
+}
+
+for (const field of ["ogTitle", "ogDescription", "twitterTitle", "twitterDescription"]) {
+  const groups = new Map();
+  for (const page of pages.filter((item) => impactArticleFiles.includes(item.file))) {
+    const value = normalize(page[field]);
+    if (!value) continue;
+    groups.set(value, [...(groups.get(value) || []), page.file]);
+  }
+  for (const [value, files] of groups) {
+    if (files.length > 1) fail(files.join(", "), `duplicate Impact guide ${field}: ${value}`);
   }
 }
 

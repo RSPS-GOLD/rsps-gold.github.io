@@ -2170,6 +2170,44 @@ h3 {
   gap: 20px;
 }
 
+.impact-library-hero .guide-article-hero__logo {
+  height: 108px;
+  margin-bottom: 18px;
+}
+
+.impact-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.impact-guide-grid--four {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.impact-guide-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 840px;
+  margin-inline: auto;
+}
+
+.guide-card--topic .guide-card__body {
+  padding: 28px;
+}
+
+.guide-card--topic h3 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.guide-card--topic .btn {
+  width: 100%;
+  min-width: 0;
+  text-align: center;
+  white-space: normal;
+}
+
 .guide-card {
   display: flex;
   min-width: 0;
@@ -2860,6 +2898,22 @@ h3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .impact-guide-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .impact-guide-grid .guide-card:last-child {
+    grid-column: auto;
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .impact-guide-grid:not(.impact-guide-grid--four):not(.impact-guide-grid--two) .guide-card:last-child {
+    grid-column: 1 / -1;
+    width: min(100%, 540px);
+    justify-self: center;
+  }
+
   .guide-card:last-child {
     grid-column: 1 / -1;
     width: min(100%, 540px);
@@ -3008,6 +3062,13 @@ h3 {
 
   .guide-card-grid {
     grid-template-columns: 1fr;
+  }
+
+  .impact-guide-grid,
+  .impact-guide-grid--four,
+  .impact-guide-grid--two {
+    grid-template-columns: 1fr;
+    max-width: none;
   }
 
   .guide-card:last-child {
