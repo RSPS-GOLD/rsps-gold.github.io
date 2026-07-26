@@ -29,7 +29,7 @@
     <meta name="twitter:description" content="Useful guides to currencies, gear choices, PvM, PvP and account planning across three popular RSPS servers." />
     <meta name="twitter:image" content="https://rsps-gold.github.io/assets/rsps-gold-hub-preview.png" />
     <meta name="twitter:image:alt" content="RSPS Gold Hub gold bag and Discord icon" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=20260726-spawnpk-card-icons-1" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -40,25 +40,124 @@
             "url": "https://rsps-gold.github.io/guides.html",
             "name": "RSPS Gold Guides – Impact, Roat PKZ & SpawnPK",
             "description": "Practical guides to currencies, gear planning, PvM, PvP and account budgets on Impact, Roat PKZ and SpawnPK.",
-            "isPartOf": {"@id": "https://rsps-gold.github.io/#website"},
-            "mainEntity": {"@id": "https://rsps-gold.github.io/guides.html#collection"}
+            "isPartOf": {
+              "@id": "https://rsps-gold.github.io/#website"
+            },
+            "mainEntity": {
+              "@id": "https://rsps-gold.github.io/guides.html#collection"
+            },
+            "hasPart": [
+              {
+                "@id": "https://rsps-gold.github.io/guides.html#faq"
+              }
+            ]
           },
           {
             "@type": "CollectionPage",
             "@id": "https://rsps-gold.github.io/guides.html#collection",
             "url": "https://rsps-gold.github.io/guides.html",
             "name": "RSPS Gold Guides",
+            "mainEntity": {
+              "@id": "https://rsps-gold.github.io/guides.html#guide-hubs"
+            },
             "hasPart": [
-              {"@id": "https://rsps-gold.github.io/impact-guide.html#collection"},
-              {"@id": "https://rsps-gold.github.io/roat-pkz-guide.html#article"},
-              {"@id": "https://rsps-gold.github.io/spawnpk-guide.html#article"}
+              {
+                "@id": "https://rsps-gold.github.io/impact-guide.html#collection"
+              },
+              {
+                "@id": "https://rsps-gold.github.io/roat-pkz-guide.html#collection"
+              },
+              {
+                "@id": "https://rsps-gold.github.io/spawnpk-guide.html#collection"
+              }
+            ]
+          },
+          {
+            "@type": "ItemList",
+            "@id": "https://rsps-gold.github.io/guides.html#guide-hubs",
+            "numberOfItems": 3,
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Impact Guides",
+                "url": "https://rsps-gold.github.io/impact-guide.html"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Roat PKZ Guides",
+                "url": "https://rsps-gold.github.io/roat-pkz-guide.html"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "SpawnPK Guides",
+                "url": "https://rsps-gold.github.io/spawnpk-guide.html"
+              }
             ]
           },
           {
             "@type": "BreadcrumbList",
             "itemListElement": [
-              {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://rsps-gold.github.io/"},
-              {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://rsps-gold.github.io/guides.html"}
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://rsps-gold.github.io/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides",
+                "item": "https://rsps-gold.github.io/guides.html"
+              }
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://rsps-gold.github.io/guides.html#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Which RSPS guide should I start with?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Choose the guide hub for the server you play: Impact, Roat Pkz or SpawnPK. From there, start with a beginner or progression guide before moving to activity-specific or Donator-rank content."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What do the RSPS guides cover?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The library covers account setup, currencies, money making, PvM, PvP, raids, skills and Donator systems where dependable source material is available."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Are these official server guides?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. These are independent planning guides that cite official server pages for factual details. They are not affiliated with or approved by the server owners or Jagex."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How current are the values in these guides?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Each guide identifies its source material and adds cautions where mechanics, prices or rewards can change. Verify volatile values in the current server interface before committing resources."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Do the guides guarantee profit, drops or progression speed?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No. Results depend on current mechanics, market demand, equipment, execution, risk and random outcomes. Use the guides as a planning framework rather than a guarantee."
+                }
+              }
             ]
           }
         ]
@@ -69,21 +168,20 @@
     <div class="announcement">
       <div class="shell announcement__inner">
         <p>Original planning guides for Impact, Roat PKZ and SpawnPK.</p>
-        <a class="btn btn--small btn--ghost" href="index.html#servers">View Gold Prices</a>
       </div>
     </div>
     <header class="site-header">
       <div class="shell header__inner">
-        <a class="logo logo--image" href="index.html#buy-gold" aria-label="RSPS Gold Hub home">
+        <a class="logo logo--image" href="index.html" aria-label="RSPS Gold Hub home">
           <img src="assets/rsps-gold-hub-logo.png" alt="RSPS Gold Hub" width="1552" height="610" />
         </a>
         <nav class="nav guide-header-nav" aria-label="Primary navigation">
-          <a href="#guide-directory">All Guides</a>
+          <a href="guides.html" aria-current="page">All Guides</a>
           <a href="impact-guide.html" data-action="open-impact-guide">Impact</a>
-          <a href="roat-pkz-guide.html" data-action="open-roat-pkz-guide">Roat PKZ</a>
+          <a href="roat-pkz-guide.html" data-action="open-roat-pkz-guide">Roat Pkz</a>
           <a href="spawnpk-guide.html" data-action="open-spawnpk-guide">SpawnPK</a>
         </nav>
-        <a class="btn btn--gold header__cta" href="index.html#servers">View Gold Prices</a>
+        <a class="btn btn--gold header__cta" href="index.html#servers" data-action="guide-header-gold-prices">View Gold Prices</a>
       </div>
     </header>
     <main>
@@ -97,7 +195,7 @@
         <div class="shell guide-hub-hero__content">
           <p class="eyebrow">RSPS PLAYER RESOURCES</p>
           <h1>RSPS Gold Guides</h1>
-          <p class="hero__lead">Learn how the economies, currencies and progression systems work on Impact, Roat PKZ and SpawnPK. These guides are written to help players make better decisions about gear, account goals and the amount of gold they may need.</p>
+          <p class="hero__lead">Find the route that matches your server and account. The library covers Impact raids and skills, plus complete starter, money-making and Donator guides for Roat PKZ and SpawnPK.</p>
           <div class="hero__actions">
             <a class="btn btn--gold" href="#guide-directory">Browse the Guides</a>
             <a class="btn btn--ghost" href="index.html#servers">View RSPS Gold Prices</a>
@@ -109,8 +207,8 @@
         <div class="shell">
           <div class="section-heading">
             <p class="kicker">CHOOSE A SERVER</p>
-            <h2>Plan Your Next Upgrade With Better Context</h2>
-            <p>Each guide explains the server’s main currency, sensible ways to structure a gear budget and common mistakes to avoid. Choose the server you play to get started.</p>
+            <h2>Choose Your Server</h2>
+            <p>Each hub lists every guide currently available for that server. Start with account setup or money making, then move to the activity you want to learn.</p>
           </div>
           <div class="guide-card-grid">
             <article class="guide-card">
@@ -120,11 +218,13 @@
               <div class="guide-card__body">
                 <p class="kicker">IMPACT</p>
                 <h2>Impact Guides</h2>
-                <p>Browse guides for Impact raids, bosses, money making, Donator benefits, Slayer, Thieving and Hunter.</p>
+                <p>Browse all nine Impact guides, including money making, Donator ranks, Slayer, Hunter, Thieving, Gemstone Crab and three raids.</p>
                 <ul>
                   <li>Raids and bosses</li>
                   <li>Money making and progression</li>
                   <li>Slayer, Thieving and Hunter</li>
+                  <li><a href="impact-money-making-guide.html" data-action="open-impact-money-making-guide">Impact RSPS Money Making Guide</a> — beginner routes, boss masses, advanced PvM and a profit calculator</li>
+                  <li><a href="impact-donator-benefits-guide.html" data-action="open-impact-donator-benefits-guide">Impact Donator Ranks Guide</a> — requirements, benefits, comparisons, and an Impax upgrade-cost calculator</li>
                 </ul>
                 <div class="guide-card__actions">
                   <a class="btn btn--gold" href="impact-guide.html" data-action="open-impact-guide">Browse Impact Guides</a>
@@ -140,14 +240,14 @@
               <div class="guide-card__body">
                 <p class="kicker">ROAT PKZ</p>
                 <h2>Roat PKZ Guides</h2>
-                <p>Understand PK Points, separate currencies and how to plan a flexible bank for PvP, PvM and account progression.</p>
+                <p>Three guides cover first-session setup, PKP money-making routes and the full six-rank Donator system.</p>
                 <ul>
-                  <li>PKP and currency basics</li>
-                  <li>PvP bank planning</li>
-                  <li>Gear and account goals</li>
+                  <li>Starter commands, kits and teleports</li>
+                  <li>PvP, PvM and daily PKP routes</li>
+                  <li>Six Donator ranks and their benefits</li>
                 </ul>
                 <div class="guide-card__actions">
-                  <a class="btn btn--gold" href="roat-pkz-guide.html" data-action="open-roat-pkz-guide">Read the Roat PKZ Guide</a>
+                  <a class="btn btn--gold" href="roat-pkz-guide.html" data-action="open-roat-pkz-guide">Browse Roat PKZ Guides</a>
                   <a class="guide-card__secondary" href="roat-pkz-gold.html" data-action="guide-to-roat-pkz-gold">View Roat PKZ Gold Rates</a>
                 </div>
               </div>
@@ -160,14 +260,14 @@
               <div class="guide-card__body">
                 <p class="kicker">SPAWNPK</p>
                 <h2>SpawnPK Guides</h2>
-                <p>Learn how trills and Cash Bags relate, then plan spending for custom gear, PvP setups, raids and replacement equipment.</p>
+                <p>Three guides cover account setup, repeatable money-making routes and all eight current Donator tiers.</p>
                 <ul>
-                  <li>Trills and Cash Bags</li>
-                  <li>PvP and raid budgets</li>
-                  <li>Large-bank planning</li>
+                  <li>Trained and PKer starter routes</li>
+                  <li>Dailies, PvP, PvM, raids and trading</li>
+                  <li>Eight Donator tiers and zone access</li>
                 </ul>
                 <div class="guide-card__actions">
-                  <a class="btn btn--gold" href="spawnpk-guide.html" data-action="open-spawnpk-guide">Read the SpawnPK Guide</a>
+                  <a class="btn btn--gold" href="spawnpk-guide.html" data-action="open-spawnpk-guide">Browse SpawnPK Guides</a>
                   <a class="guide-card__secondary" href="spawnpk-gold.html" data-action="guide-to-spawnpk-gold">View SpawnPK Gold Rates</a>
                 </div>
               </div>
@@ -182,7 +282,17 @@
           <a href="index.html" data-action="guides-hub">Return to RSPS Gold Hub</a>
         </div>
       </section>
-    </main>
+    <section id="faq" class="guide-faq guide-faq--hub shell" aria-labelledby="faq-title">
+      <div class="guide-faq__heading"><p class="kicker">FAQ</p><h2 id="faq-title">RSPS guide questions</h2></div>
+      <div class="guide-faq__list">
+        <details class="guide-faq__item"><summary><span class="guide-faq__question">Which RSPS guide should I start with?</span><span class="guide-faq__icon" aria-hidden="true"></span></summary><div class="guide-faq__answer"><p>Choose the guide hub for the server you play: Impact, Roat Pkz or SpawnPK. From there, start with a beginner or progression guide before moving to activity-specific or Donator-rank content.</p></div></details>
+        <details class="guide-faq__item"><summary><span class="guide-faq__question">What do the RSPS guides cover?</span><span class="guide-faq__icon" aria-hidden="true"></span></summary><div class="guide-faq__answer"><p>The library covers account setup, currencies, money making, PvM, PvP, raids, skills and Donator systems where dependable source material is available.</p></div></details>
+        <details class="guide-faq__item"><summary><span class="guide-faq__question">Are these official server guides?</span><span class="guide-faq__icon" aria-hidden="true"></span></summary><div class="guide-faq__answer"><p>No. These are independent planning guides that cite official server pages for factual details. They are not affiliated with or approved by the server owners or Jagex.</p></div></details>
+        <details class="guide-faq__item"><summary><span class="guide-faq__question">How current are the values in these guides?</span><span class="guide-faq__icon" aria-hidden="true"></span></summary><div class="guide-faq__answer"><p>Each guide identifies its source material and adds cautions where mechanics, prices or rewards can change. Verify volatile values in the current server interface before committing resources.</p></div></details>
+        <details class="guide-faq__item"><summary><span class="guide-faq__question">Do the guides guarantee profit, drops or progression speed?</span><span class="guide-faq__icon" aria-hidden="true"></span></summary><div class="guide-faq__answer"><p>No. Results depend on current mechanics, market demand, equipment, execution, risk and random outcomes. Use the guides as a planning framework rather than a guarantee.</p></div></details>
+      </div>
+    </section>
+  </main>
 
     <footer class="footer">
       <div class="shell footer__grid">
@@ -208,6 +318,6 @@
       <div class="shell disclaimer">These guides are independent third-party resources and are not affiliated with or endorsed by Jagex, RuneScape, or any RSPS owner. Server mechanics and rules may change.</div>
     </footer>
     <div class="toast" id="copy-toast" role="status" aria-live="polite">Copied</div>
-    <script src="script.js"></script>
+    <script src="script.js?v=20260726-guide-header-1"></script>
   </body>
 </html>

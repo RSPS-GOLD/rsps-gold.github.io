@@ -36,17 +36,29 @@ const impactArticleFiles = [
   "impact-thieving-guide.html",
   "impact-hunter-guide.html",
 ];
+const serverHubFiles = ["roat-pkz-guide.html", "spawnpk-guide.html"];
+const roatArticleFiles = [
+  "roat-pkz-starter-guide.html",
+  "roat-pkz-donator-ranks-guide.html",
+  "roat-pkz-money-making-guide.html",
+];
+const spawnpkArticleFiles = [
+  "spawnpk-starter-guide.html",
+  "spawnpk-donator-ranks-guide.html",
+  "spawnpk-money-making-guide.html",
+];
 const guideFiles = [
   "guides.html",
   "impact-guide.html",
   ...impactArticleFiles,
-  "roat-pkz-guide.html",
-  "spawnpk-guide.html",
+  ...serverHubFiles,
+  ...roatArticleFiles,
+  ...spawnpkArticleFiles,
 ];
 const articleGuideFiles = [
   ...impactArticleFiles,
-  "roat-pkz-guide.html",
-  "spawnpk-guide.html",
+  ...roatArticleFiles,
+  ...spawnpkArticleFiles,
 ];
 const guideRequirements = {
   "guides.html": {
@@ -64,106 +76,236 @@ const guideRequirements = {
     schema: ["WebPage", "CollectionPage", "BreadcrumbList"],
   },
   "impact-donator-benefits-guide.html": {
-    title: "Impact Donator Benefits Guide | Ranks &amp; Perks",
+    title: "Impact RSPS Donator Ranks: Requirements &amp; Benefits",
     description:
-      "Understand Impact Donator ranks, convenience perks, access benefits and the questions to ask before working toward an upgrade.",
-    h1: "Impact Donator Benefits Guide",
+      "Compare all 9 Impact RSPS Donator ranks, Spent Impax requirements, benefits and boss access, then calculate the GP needed for your next rank.",
+    h1: "Impact RSPS Donator Ranks: Benefits and Requirements",
     salesPage: "impact-gold.html",
     salesAction: "impact-guide-to-gold",
+    salesLinkCount: 1,
+    usesCompactSources: true,
+    sourceNote:
+      "Rank requirements and benefits may change. Verify current information using the official Impact rank page, keyboard shortcuts, and Impact game rules.",
     schema: ["WebPage", "Article", "BreadcrumbList"],
   },
   "impact-money-making-guide.html": {
-    title: "Impact Money Making Guide | Build Your Bank",
+    title: "Impact RSPS Money Making Guide: Best GP Methods",
     description:
-      "Compare Impact money-making paths for newcomers, PvM, Slayer, skilling, PvP and trading without relying on fixed hourly claims.",
-    h1: "Impact Money Making Guide",
+      "Compare the best Impact RSPS money-making methods for beginners, mass bossing, high-level PvM and PvP, with requirements, risk and upgrade advice.",
+    h1: "Impact RSPS Money Making Guide: Best GP Methods",
     salesPage: "impact-gold.html",
     salesAction: "impact-guide-to-gold",
-    copyLabel: "Copy Order Message",
-    schema: ["WebPage", "Article", "BreadcrumbList"],
+    salesLinkCount: 1,
+    usesCompactSources: true,
+    sourceNote:
+      "Drops, rewards, prices and requirements can change. Verify current information using the official Money Making page, Getting Started, Armoured Zombies, Phantom Muspah, PvM Guides, Commands and Impact game rules.",
+    schema: [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "Article",
+      "BreadcrumbList",
+      "FAQPage",
+    ],
   },
   "impact-gemstone-crab-guide.html": {
-    title: "Impact Gemstone Crab Guide | Setup &amp; Mechanics",
+    title: "Impact Gemstone Crab Guide: Location, Drops &amp; Profit",
     description:
-      "Prepare for Impact Gemstone Crab with verified access details, setup factors, training flow, common mistakes and a practical checklist.",
-    h1: "Impact Gemstone Crab Guide",
-    salesPage: "impact-gold.html",
-    salesAction: "impact-guide-to-gold",
-    schema: ["WebPage", "Article", "BreadcrumbList"],
+      "Find Gemstone Crab through the Spirit Tree at Home, meet the 12-hour voting requirement, survive its attacks and collect noted sapphire, dragonstone or onyx drops.",
+    h1: "Impact Gemstone Crab Guide: Location, Drops and Profit",
+    usesCompactSources: true,
+    sourceNote:
+      "Current access was checked against the supplied in-game Spirit Tree interface. The voting requirement, damage behaviour, healing guidance, three-location hole rotation and loot details were checked against the supplied screenshots and current player information. Content reviewed July 26, 2026.",
+    schema: [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "Article",
+      "BreadcrumbList",
+      "FAQPage",
+    ],
   },
   "impact-theatre-of-blood-guide.html": {
-    title: "Impact Theatre of Blood Guide | ToB Preparation",
+    title: "Impact Theatre of Blood Guide: Verzik, Gear &amp; Phases",
     description:
-      "Prepare for Impact Theatre of Blood with verified Verzik phases, team roles, gear switches, supplies, communication and learning priorities.",
-    h1: "Impact Theatre of Blood Guide",
+      "Reach Impact Theatre of Blood from the Spirit Tree at Home, compare best-in-slot to budget gear and learn Verzik’s three phases, safe tiles and Hard Mode.",
+    h1: "Impact Theatre of Blood Guide: Verzik, Gear and Phases",
     salesPage: "impact-gold.html",
     salesAction: "impact-guide-to-gold",
-    schema: ["WebPage", "Article", "BreadcrumbList"],
+    salesLinkCount: 1,
+    usesCompactSources: true,
+    sourceNote:
+      "Mechanics and gear tiers were checked against the Impact Wiki Theatre of Blood page. The access route was checked against the supplied Spirit Tree screenshot, and the setup images are player examples rather than mandatory loadouts. Content reviewed July 26, 2026.",
+    schema: [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "Article",
+      "BreadcrumbList",
+      "FAQPage",
+    ],
   },
   "impact-tombs-of-amascut-guide.html": {
-    title: "Impact Tombs of Amascut Guide | ToA Setup",
+    title: "Impact ToA Guide: Invocations, Gear &amp; Wardens",
     description:
-      "Prepare for Impact Tombs of Amascut with verified Wardens phases, invocation planning, combat switches, supplies and learning priorities.",
-    h1: "Impact Tombs of Amascut Guide",
+      "Reach Impact Tombs of Amascut from the Spirit Tree, compare high-level to budget setups, and learn invocations, Warden phases, tiles and enrage.",
+    h1: "Impact Tombs of Amascut Guide: Wardens, Gear and Invocations",
     salesPage: "impact-gold.html",
     salesAction: "impact-guide-to-gold",
-    schema: ["WebPage", "Article", "BreadcrumbList"],
+    salesLinkCount: 1,
+    usesCompactSources: true,
+    sourceNote:
+      "Setup tiers, invocation lists and Wardens mechanics were checked against the Impact Wiki Tombs of Amascut page. The current access route was checked against the supplied Spirit Tree menu, and the Phase 1 and Phase 2 positions were illustrated with supplied in-game screenshots. Content reviewed July 26, 2026.",
+    schema: [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "Article",
+      "BreadcrumbList",
+      "FAQPage",
+    ],
   },
   "impact-chambers-of-xeric-guide.html": {
-    title: "Impact Chambers of Xeric Guide | CoX Preparation",
+    title: "Impact CoX Guide: Great Olm Roles, Gear &amp; Phases",
     description:
-      "Prepare for Impact Chambers of Xeric with verified Olm phases, team roles, combat styles, supplies, movement and learning priorities.",
-    h1: "Impact Chambers of Xeric Guide",
+      "Reach Impact Chambers of Xeric from the Spirit Tree, mark Olm role tiles, compare trio and duo positions, choose gear and learn all four phases.",
+    h1: "Impact Chambers of Xeric Guide: Olm Roles and Phases",
     salesPage: "impact-gold.html",
     salesAction: "impact-guide-to-gold",
-    schema: ["WebPage", "Article", "BreadcrumbList"],
+    salesLinkCount: 1,
+    usesCompactSources: true,
+    sourceNote:
+      "Access, setup tiers, Olm phases, prayer responses and special attacks were checked against the Impact Wiki Chambers of Xeric page. The current access route was checked against the supplied Spirit Tree interface, and role positioning was illustrated with the supplied in-game images. Content reviewed July 26, 2026.",
+    schema: [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "Article",
+      "BreadcrumbList",
+      "FAQPage",
+    ],
   },
   "impact-slayer-guide.html": {
-    title: "Impact Slayer Guide | Tasks, Gear &amp; Progression",
+    title: "Impact RSPS Slayer Guide: Tasks, Levels &amp; Locations",
     description:
-      "Learn Impact Slayer task access, gear and supply planning, task decisions, progression priorities and common mistakes.",
-    h1: "Impact Slayer Guide",
+      "Train Slayer in Impact RSPS with normal, hard and elite task levels, Slayer point rewards, recommended blocks, monster locations and progression advice.",
+    h1: "Impact RSPS Slayer Guide: Tasks, Levels and Locations",
     salesPage: "impact-gold.html",
     salesAction: "impact-guide-to-gold",
-    schema: ["WebPage", "Article", "BreadcrumbList"],
+    salesLinkCount: 1,
+    usesCompactSources: true,
+    sourceNote:
+      "Task pools, locations, reward costs and requirements can change. Verify current information using the official Slayer page, Getting Started, Commands, Maps, Home Area, PvM Guides and Impact game rules.",
+    schema: [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "Article",
+      "BreadcrumbList",
+      "FAQPage",
+    ],
   },
   "impact-thieving-guide.html": {
-    title: "Impact Thieving Guide | Training &amp; Money Making",
+    title: "Impact RSPS Thieving Guide: 1–99 Levels &amp; Locations",
     description:
-      "Start Impact Thieving with a practical plan for the home training area, progression checks, banking, efficiency and early account goals.",
-    h1: "Impact Thieving Guide",
+      "Train Thieving from 1–99 in Impact RSPS with the Home starter route, Ardougne stall levels, Gem stalls, Arvel pickpocketing and clear directions.",
+    h1: "Impact RSPS Thieving Guide: 1–99 Levels and Locations",
     salesPage: "impact-gold.html",
     salesAction: "impact-guide-to-gold",
-    schema: ["WebPage", "Article", "BreadcrumbList"],
+    salesLinkCount: 1,
+    usesCompactSources: true,
+    sourceNote:
+      "Level requirements, rewards and mechanics can change. Verify current target names and interactions using the official Thieving page, Getting Started, Home Area, Commands, Maps, Skilling Pets and Impact rules.",
+    schema: [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "Article",
+      "BreadcrumbList",
+      "FAQPage",
+    ],
   },
   "impact-hunter-guide.html": {
-    title: "Impact Hunter Guide | Training &amp; Progression",
+    title: "Impact RSPS Hunter Guide: 1–99 Levels &amp; Locations",
     description:
-      "Follow verified Impact Hunter stages with the right traps, locations, inventory planning, efficiency checks and progression decisions.",
-    h1: "Impact Hunter Guide",
+      "Train Hunter from 1–99 in Impact RSPS with bird, chinchompa and black chinchompa routes, trap limits, Hunter Island directions and Wilderness advice.",
+    h1: "Impact RSPS Hunter Guide: 1–99 Levels and Locations",
     salesPage: "impact-gold.html",
     salesAction: "impact-guide-to-gold",
-    schema: ["WebPage", "Article", "BreadcrumbList"],
+    salesLinkCount: 1,
+    usesCompactSources: true,
+    sourceNote:
+      "Creature locations, prices and mechanics can change. Verify the current teleport menu and Wilderness conditions using the official Hunter page, Getting Started, Home Area, Commands and Shops.",
+    schema: [
+      "Organization",
+      "WebSite",
+      "WebPage",
+      "Article",
+      "BreadcrumbList",
+      "FAQPage",
+    ],
   },
   "roat-pkz-guide.html": {
-    title: "Roat PKZ PKP &amp; Gear Guide | RSPS Gold Hub",
+    title: "Roat Pkz Guides: Starter, Donator &amp; Money Making",
     description:
-      "Understand Roat PKZ PKP and plan practical PvP, PvM, gear and replacement budgets without confusing PK Points with other currencies.",
-    h1: "Roat PKZ PKP, Gear and Progression Guide",
-    salesPage: "roat-pkz-gold.html",
-    salesAction: "guide-to-roat-pkz-gold",
-    copyLabel: "Copy PKP Request",
-    schema: ["WebPage", "Article", "BreadcrumbList"],
+      "Browse independent Roat Pkz guides for beginner progression, Donator ranks and current PKP money-making methods.",
+    h1: "Roat Pkz Guides",
+    schema: ["Organization", "WebSite", "WebPage", "CollectionPage", "BreadcrumbList", "ItemList"],
   },
   "spawnpk-guide.html": {
-    title: "SpawnPK Trills &amp; Cash Bags Guide | RSPS Gold Hub",
+    title: "SpawnPK Guides: Starter, Donator &amp; Money Making",
     description:
-      "Learn how SpawnPK trills and Cash Bags relate, then plan PvP, raid, gear, pet and replacement budgets around clear account goals.",
-    h1: "SpawnPK Trills, Cash Bags and Gear Guide",
-    salesPage: "spawnpk-gold.html",
-    salesAction: "guide-to-spawnpk-gold",
-    copyLabel: "Copy SpawnPK Request",
-    schema: ["WebPage", "Article", "BreadcrumbList"],
+      "Browse independent SpawnPK guides for beginner progression, Donator benefits and current money-making methods.",
+    h1: "SpawnPK Guides",
+    schema: ["Organization", "WebSite", "WebPage", "CollectionPage", "BreadcrumbList", "ItemList"],
+  },
+  "roat-pkz-starter-guide.html": {
+    title: "Roat Pkz Starter Guide: Commands, Kits &amp; Progression",
+    description:
+      "Start Roat Pkz with account security, item spawning, Custom Kits, shops, voting, PK Points and a practical first-hour progression route.",
+    h1: "Roat Pkz Starter Guide: Commands, Kits and Progression",
+    usesCompactSources: true,
+    schema: ["Organization", "WebSite", "WebPage", "Article", "BreadcrumbList", "FAQPage"],
+  },
+  "roat-pkz-donator-ranks-guide.html": {
+    title: "Roat Pkz Donator Ranks: Benefits &amp; Comparison",
+    description:
+      "Compare all six Roat Pkz Donator ranks, including commands, zones, drop-rate bonuses, bank slots, Trading Post capacity and rank-specific benefits.",
+    h1: "Roat Pkz Donator Ranks: Benefits and Comparison",
+    usesCompactSources: true,
+    schema: ["Organization", "WebSite", "WebPage", "Article", "BreadcrumbList", "FAQPage"],
+  },
+  "roat-pkz-money-making-guide.html": {
+    title: "Roat Pkz Money Making Guide: Best PKP Methods",
+    description:
+      "Compare Roat Pkz money-making methods including Wilderness bosses, Tormented Demons, Nex, Royal Revenants, Daily Tasks and Impling hunting.",
+    h1: "Roat Pkz Money Making Guide: Best PKP Methods",
+    usesCompactSources: true,
+    schema: ["Organization", "WebSite", "WebPage", "Article", "BreadcrumbList", "FAQPage"],
+  },
+  "spawnpk-starter-guide.html": {
+    title: "SpawnPK Starter Guide: Best Beginner Route &amp; Upgrades",
+    description:
+      "Follow the best SpawnPK beginner route: compare Trained and PKer modes, check current events, complete dailies, vote, learn the economy and plan first upgrades.",
+    h1: "SpawnPK Starter Guide: Best Beginner Route and First Upgrades",
+    usesCompactSources: true,
+    schema: ["Organization", "WebSite", "WebPage", "Article", "BreadcrumbList", "FAQPage"],
+  },
+  "spawnpk-donator-ranks-guide.html": {
+    title: "SpawnPK Donator Ranks: Benefits &amp; Requirements",
+    description:
+      "Compare all eight SpawnPK Donator ranks, cumulative benefits, total-donated requirements, zones, spawner limits and Mythic vs Cosmic value.",
+    h1: "SpawnPK Donator Ranks: Benefits, Requirements and Comparison",
+    usesCompactSources: true,
+    schema: ["Organization", "WebSite", "WebPage", "Article", "BreadcrumbList", "FAQPage"],
+  },
+  "spawnpk-money-making-guide.html": {
+    title: "SpawnPK Money Making Guide: Best Methods &amp; Profit",
+    description:
+      "Compare SpawnPK voting, daily tasks, PvM, raids and merching for beginner and advanced accounts by risk, consistency and estimated net profit.",
+    h1: "SpawnPK Money Making Guide: Best Methods from Beginner to Advanced",
+    usesCompactSources: true,
+    schema: ["Organization", "WebSite", "WebPage", "Article", "BreadcrumbList", "FAQPage"],
   },
 };
 const modernMetadata = {
@@ -236,6 +378,32 @@ function stripTags(value) {
 
 function normalize(value) {
   return stripTags(value).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+}
+
+function extractSharedGuideFaq(source) {
+  const section = firstMatch(
+    source,
+    /<section\b[^>]*\bid=["']faq["'][^>]*>([\s\S]*?)<\/section>/i,
+  );
+  return [...section.matchAll(/<details\b[^>]*>([\s\S]*?)<\/details>/gi)]
+    .map((match) => {
+      const item = match[1];
+      return {
+        question: normalize(
+          firstMatch(
+            item,
+            /<span\b[^>]*\bclass=["'][^"']*\bguide-faq__question\b[^"']*["'][^>]*>([\s\S]*?)<\/span>/i,
+          ),
+        ),
+        answer: normalize(
+          firstMatch(
+            item,
+            /<div\b[^>]*\bclass=["'][^"']*\bguide-faq__answer\b[^"']*["'][^>]*>\s*<p\b[^>]*>([\s\S]*?)<\/p>/i,
+          ),
+        ),
+      };
+    })
+    .filter((item) => item.question && item.answer);
 }
 
 const approvedSharedOperationalBlocks = new Set(
@@ -356,8 +524,38 @@ for (const file of htmlFiles) {
   const twitterTitle = getMeta(source, "twitter:title");
   const twitterDescription = getMeta(source, "twitter:description");
   const main = firstMatch(source, /<main\b[^>]*>([\s\S]*?)<\/main>/i);
+  const bodyVisible = stripTags(firstMatch(source, /<body\b[^>]*>([\s\S]*?)<\/body>/i));
+  const reviewDateVisible = bodyVisible;
   const ldTypes = new Set();
   let jsonLdCount = 0;
+
+  for (const [pattern, label] of [
+    [/\blast (?:reviewed|verified|checked|updated)\b/i, "Last reviewed/verified/checked/updated"],
+    [/\b(?:reviewed|verified) on\b/i, "Reviewed/verified on"],
+    [/\b(?:page|guide) (?:reviewed|verified)\b/i, "Page/guide reviewed or verified"],
+    [/\b(?:review|verification|verified) date\b/i, "review or verification date"],
+    [/\bsince this review\b/i, "since this review"],
+    [
+      /\b(?:page|guide|information|details|facts|requirements|benefits) (?:was |were )?(?:reviewed|verified|checked) against\b/i,
+      "editorial content checked against a source",
+    ],
+    [
+      /\b(?:reviewed|verified|checked|updated):\s*(?:\d{4}-\d{2}-\d{2}|(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s+\d{4})\b/i,
+      "dated editorial label",
+    ],
+  ]) {
+    if (
+      ![
+        "impact-gemstone-crab-guide.html",
+        "impact-theatre-of-blood-guide.html",
+        "impact-tombs-of-amascut-guide.html",
+        "impact-chambers-of-xeric-guide.html",
+      ].includes(file) &&
+      pattern.test(reviewDateVisible)
+    ) {
+      fail(file, `visible review-date wording remains: ${label}`);
+    }
+  }
 
   if (!title) fail(file, "missing title");
   if (!description) fail(file, "missing meta description");
@@ -504,7 +702,11 @@ for (const file of htmlFiles) {
   }
 
   const pageFaqQuestions = new Set();
-  for (const match of source.matchAll(/<summary\b[^>]*>([\s\S]*?)<\/summary>/gi)) {
+  const faqScope = source.replace(
+    /<details\b[^>]*\bclass=["'][^"']*\bguide-sources-compact\b[^"']*["'][^>]*>[\s\S]*?<\/details>/gi,
+    "",
+  );
+  for (const match of faqScope.matchAll(/<summary\b[^>]*>([\s\S]*?)<\/summary>/gi)) {
     const question = normalize(match[1]);
     if (!question) continue;
     if (pageFaqQuestions.has(question)) {
@@ -630,6 +832,34 @@ if (guideHubSource) {
       fail("guides.html", `${salesFile} link must use data-action ${action}`);
     }
   }
+  const donatorGuideLink = guideHubSource.match(
+    /<a\b[^>]*\bhref=["']impact-donator-benefits-guide\.html["'][^>]*>/i,
+  );
+  if (!donatorGuideLink) {
+    fail("guides.html", "missing descriptive link to impact-donator-benefits-guide.html");
+  } else if (
+    getAttribute(donatorGuideLink[0], "data-action") !==
+    "open-impact-donator-benefits-guide"
+  ) {
+    fail(
+      "guides.html",
+      "Impact Donator rank guide link must use data-action open-impact-donator-benefits-guide",
+    );
+  }
+  const moneyGuideLink = guideHubSource.match(
+    /<a\b[^>]*\bhref=["']impact-money-making-guide\.html["'][^>]*>/i,
+  );
+  if (!moneyGuideLink) {
+    fail("guides.html", "missing descriptive link to impact-money-making-guide.html");
+  } else if (
+    getAttribute(moneyGuideLink[0], "data-action") !==
+    "open-impact-money-making-guide"
+  ) {
+    fail(
+      "guides.html",
+      "Impact money-making guide link must use data-action open-impact-money-making-guide",
+    );
+  }
 }
 
 for (const [salesFile, guideFile, label, action] of [
@@ -668,7 +898,7 @@ for (const [salesFile, guideFile, label, action] of [
 const impactHubSource = fs.readFileSync(path.join(root, "impact-guide.html"), "utf8");
 const impactHubMain = firstMatch(impactHubSource, /<main\b[^>]*>([\s\S]*?)<\/main>/i);
 const impactHubCards =
-  impactHubMain.match(/<article\b[^>]*\bclass=["'][^"']*\bguide-card--topic\b/gi) || [];
+  impactHubMain.match(/<a\b[^>]*\bclass=["'][^"']*\bserver-guide-card\b/gi) || [];
 if (impactHubCards.length !== impactArticleFiles.length) {
   fail("impact-guide.html", `expected nine Impact guide cards, found ${impactHubCards.length}`);
 }
@@ -703,9 +933,9 @@ const relatedImpactGuides = {
     "impact-gemstone-crab-guide.html",
   ],
   "impact-gemstone-crab-guide.html": [
+    "impact-guide.html",
     "impact-money-making-guide.html",
     "impact-slayer-guide.html",
-    "impact-chambers-of-xeric-guide.html",
   ],
   "impact-theatre-of-blood-guide.html": [
     "impact-tombs-of-amascut-guide.html",
@@ -718,9 +948,10 @@ const relatedImpactGuides = {
     "impact-money-making-guide.html",
   ],
   "impact-chambers-of-xeric-guide.html": [
+    "impact-guide.html",
+    "impact-money-making-guide.html",
     "impact-theatre-of-blood-guide.html",
     "impact-tombs-of-amascut-guide.html",
-    "impact-gemstone-crab-guide.html",
   ],
   "impact-slayer-guide.html": [
     "impact-money-making-guide.html",
@@ -730,12 +961,44 @@ const relatedImpactGuides = {
   "impact-thieving-guide.html": [
     "impact-money-making-guide.html",
     "impact-hunter-guide.html",
-    "impact-donator-benefits-guide.html",
+    "impact-slayer-guide.html",
   ],
   "impact-hunter-guide.html": [
     "impact-slayer-guide.html",
     "impact-thieving-guide.html",
     "impact-money-making-guide.html",
+  ],
+};
+const relatedServerGuides = {
+  "roat-pkz-starter-guide.html": [
+    "roat-pkz-money-making-guide.html",
+    "roat-pkz-donator-ranks-guide.html",
+    "roat-pkz-guide.html",
+  ],
+  "roat-pkz-donator-ranks-guide.html": [
+    "roat-pkz-starter-guide.html",
+    "roat-pkz-money-making-guide.html",
+    "roat-pkz-guide.html",
+  ],
+  "roat-pkz-money-making-guide.html": [
+    "roat-pkz-starter-guide.html",
+    "roat-pkz-donator-ranks-guide.html",
+    "roat-pkz-guide.html",
+  ],
+  "spawnpk-starter-guide.html": [
+    "spawnpk-money-making-guide.html",
+    "spawnpk-donator-ranks-guide.html",
+    "spawnpk-guide.html",
+  ],
+  "spawnpk-donator-ranks-guide.html": [
+    "spawnpk-starter-guide.html",
+    "spawnpk-money-making-guide.html",
+    "spawnpk-guide.html",
+  ],
+  "spawnpk-money-making-guide.html": [
+    "spawnpk-starter-guide.html",
+    "spawnpk-donator-ranks-guide.html",
+    "spawnpk-guide.html",
   ],
 };
 
@@ -749,11 +1012,22 @@ for (const file of articleGuideFiles) {
   if (!/<aside\b[^>]*\bclass=["'][^"']*\bguide-toc\b/i.test(main)) {
     fail(file, "guide is missing its table of contents");
   }
-  if (!/<time\b[^>]*\bdatetime=["']2026-07-24["'][^>]*>July 24, 2026<\/time>/i.test(main)) {
-    fail(file, "guide is missing the approved Last reviewed date");
+  if (requirement.usesCompactSources) {
+    if (
+      !/<details\b[^>]*\bclass=["'][^"']*\bguide-sources-compact\b[^"']*["'][^>]*\bid=["']sources["']/i.test(
+        main,
+      )
+    ) {
+      fail(file, "guide is missing its compact sources disclosure");
+    }
+  } else {
+    if (!/Sources and Further Reading/i.test(main)) {
+      fail(file, "guide is missing sources and further reading");
+    }
+    if (!/Server-rules note:/i.test(main)) {
+      fail(file, "guide is missing its visible server-rules note");
+    }
   }
-  if (!/Sources and Further Reading/i.test(main)) fail(file, "guide is missing sources and further reading");
-  if (!/Server-rules note:/i.test(main)) fail(file, "guide is missing its visible server-rules note");
   if (/<code\b[^>]*>\s*::gamble\s*<\/code>/i.test(main)) {
     fail(file, "::gamble must appear as ordinary sentence text");
   }
@@ -761,20 +1035,26 @@ for (const file of articleGuideFiles) {
     fail(file, "guide must not add a guaranteed profit claim");
   }
 
-  const salesLinks = [
-    ...main.matchAll(
-      new RegExp(`<a\\b[^>]*\\bhref=["']${requirement.salesPage}["'][^>]*>`, "gi"),
-    ),
-  ];
-  if (salesLinks.length !== 2) {
-    fail(file, `expected exactly two main commercial links to ${requirement.salesPage}, found ${salesLinks.length}`);
-  }
-  if (
-    salesLinks.some(
-      (match) => getAttribute(match[0], "data-action") !== requirement.salesAction,
-    )
-  ) {
-    fail(file, `sales-page links must use data-action ${requirement.salesAction}`);
+  if (requirement.salesPage) {
+    const salesLinks = [
+      ...main.matchAll(
+        new RegExp(`<a\\b[^>]*\\bhref=["']${requirement.salesPage}["'][^>]*>`, "gi"),
+      ),
+    ];
+    const expectedSalesLinkCount = requirement.salesLinkCount ?? 2;
+    if (salesLinks.length !== expectedSalesLinkCount) {
+      fail(
+        file,
+        `expected exactly ${expectedSalesLinkCount} main commercial links to ${requirement.salesPage}, found ${salesLinks.length}`,
+      );
+    }
+    if (
+      salesLinks.some(
+        (match) => getAttribute(match[0], "data-action") !== requirement.salesAction,
+      )
+    ) {
+      fail(file, `sales-page links must use data-action ${requirement.salesAction}`);
+    }
   }
 
   const copyButtons = [
@@ -798,9 +1078,7 @@ for (const file of articleGuideFiles) {
     fail(file, "this guide must link to the Impact gold page without a copy-message component");
   }
 
-  const expectedRelated = relatedImpactGuides[file] || articleGuideFiles.filter(
-    (item) => !impactArticleFiles.includes(item) && item !== file,
-  );
+  const expectedRelated = relatedImpactGuides[file] || relatedServerGuides[file] || [];
   for (const relatedFile of expectedRelated) {
     if (!new RegExp(`href=["']${relatedFile}["']`, "i").test(main)) {
       fail(file, `guide is missing related link to ${relatedFile}`);
@@ -839,16 +1117,25 @@ for (const file of articleGuideFiles) {
     }
     const visible = stripTags(main);
     const sourceNote =
+      requirement.sourceNote ||
       "Impact mechanics, rewards and requirements may change. Check the current official information before relying on a specific value or setup.";
-    if (!visible.includes(sourceNote)) fail(file, "Impact article is missing the approved source note");
+    if (!normalize(visible).includes(normalize(sourceNote))) {
+      fail(file, "Impact article is missing the approved source note");
+    }
     if (/\b(?:guaranteed drops?|drops? (?:are|is) guaranteed)\b/i.test(visible)) {
       fail(file, "guide must not add a guaranteed drop claim");
     }
-    if (/\b\d[\d,.]*\s*[KMBT]?\s*(?:GP|coins?)\s*(?:per|\/)\s*hour\b/i.test(visible)) {
+    const hasHourlyClaim =
+      /\b\d[\d,.]*\s*[KMBT]?\s*(?:GP|coins?)\s*(?:per|\/)\s*hour\b/i.test(visible);
+    const hasQualifiedCrabEstimate =
+      file === "impact-gemstone-crab-guide.html" &&
+      /\b(?:roughly|approximately|around)\s+100m\s+GP\s+per\s+hour\b/i.test(visible) &&
+      /\bnot a guarantee\b/i.test(visible);
+    if (hasHourlyClaim && !hasQualifiedCrabEstimate) {
       fail(file, "guide must not publish a fixed money-per-hour claim");
     }
     const wordCount = visible.split(/\s+/).filter(Boolean).length;
-    const longGuide = /(?:money-making|theatre-of-blood|tombs-of-amascut|chambers-of-xeric)/.test(file);
+    const longGuide = /(?:money-making|slayer|theatre-of-blood|tombs-of-amascut|chambers-of-xeric)/.test(file);
     const minimumWords = longGuide ? 1300 : 900;
     if (wordCount < minimumWords) {
       fail(file, `guide has ${wordCount} visible words; expected at least ${minimumWords}`);
@@ -856,55 +1143,635 @@ for (const file of articleGuideFiles) {
   }
 }
 
+const roatDonatorFile = "roat-pkz-donator-ranks-guide.html";
+const roatDonatorSource = fs.readFileSync(path.join(root, roatDonatorFile), "utf8");
+const roatDonatorSectionOrder = [
+  "quick-answer",
+  "rank-ladder",
+  "rank-finder",
+  "comparison",
+  "benefits-matrix",
+  "obtaining-a-rank",
+  "rank-details",
+  "player-benefits",
+  "rank-vs-vip",
+  "currencies",
+  "royal",
+  "divine",
+  "rank-recommendations",
+  "limitations",
+  "next-step",
+  "faq",
+  "sources",
+];
+const roatDonatorSectionPositions = roatDonatorSectionOrder.map((id) =>
+  roatDonatorSource.indexOf(`id="${id}"`),
+);
+if (
+  roatDonatorSectionPositions.some((position) => position < 0) ||
+  roatDonatorSectionPositions.some(
+    (position, index) =>
+      index > 0 && position <= roatDonatorSectionPositions[index - 1],
+  )
+) {
+  fail(roatDonatorFile, "required Donator-rank sections are missing or out of order");
+}
+if ((roatDonatorSource.match(/\bA6D9\b/g) || []).length !== 1) {
+  fail(roatDonatorFile, "A6D9 must appear exactly once");
+}
+if (
+  /"@type"\s*:\s*"(?:Product|Offer|Review|AggregateRating|HowTo)"/i.test(
+    roatDonatorSource,
+  )
+) {
+  fail(roatDonatorFile, "rank guide must not use commercial or review schema types");
+}
+
+const roatDonatorJsonLd = JSON.parse(
+  firstMatch(
+    roatDonatorSource,
+    /<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/i,
+  ),
+);
+const roatDonatorNodes = roatDonatorJsonLd?.["@graph"] || [];
+const roatDonatorFaq = roatDonatorNodes.find(
+  (node) => node?.["@type"] === "FAQPage",
+);
+const roatDonatorVisibleFaq = extractSharedGuideFaq(roatDonatorSource);
+const roatDonatorSchemaFaq = (roatDonatorFaq?.mainEntity || []).map((item) => ({
+  question: normalize(item?.name || ""),
+  answer: normalize(item?.acceptedAnswer?.text || ""),
+}));
+if (
+  roatDonatorVisibleFaq.length !== 17 ||
+  JSON.stringify(roatDonatorVisibleFaq) !== JSON.stringify(roatDonatorSchemaFaq)
+) {
+  fail(
+    roatDonatorFile,
+    "17 visible Donator-rank FAQs must match FAQPage questions and answers exactly",
+  );
+}
+
+const roatDonatorData = JSON.parse(
+  firstMatch(
+    roatDonatorSource,
+    /<script\s+type=["']application\/json["']\s+id=["']roat-donator-rank-data["']>([\s\S]*?)<\/script>/i,
+  ),
+);
+const expectedRoatRankOrder = [
+  "donator",
+  "super-donator",
+  "extreme-donator",
+  "legendary-donator",
+  "royal-donator",
+  "divine-donator",
+];
+if (
+  JSON.stringify(roatDonatorData.map((rank) => rank.id)) !==
+  JSON.stringify(expectedRoatRankOrder)
+) {
+  fail(roatDonatorFile, "central rank dataset must preserve the official six-rank order");
+}
+
 const impactMoneyVisible = stripTags(
   fs.readFileSync(path.join(root, "impact-money-making-guide.html"), "utf8"),
 );
-if (!impactMoneyVisible.includes("Impact gold rates start from $1 per 1B.")) {
-  fail("impact-money-making-guide.html", "guide CTA must retain the approved $1 per 1B rate");
+if (/\$\s*\d+(?:\.\d+)?\s+per\s+1B/i.test(impactMoneyVisible)) {
+  fail("impact-money-making-guide.html", "guide must not contain a fixed gold-sales rate");
 }
-if (!impactMoneyVisible.includes("Gambling can result in losses and should not be treated as reliable income.")) {
+if (/Copy Order Message|impact-money-request/i.test(impactMoneyVisible)) {
+  fail("impact-money-making-guide.html", "guide must not contain the copied order-message component");
+}
+if (!/Gambling[\s\S]{0,100}(?:not dependable|can lose)/i.test(impactMoneyVisible)) {
   fail("impact-money-making-guide.html", "guide is missing the approved gambling-risk statement");
 }
 
-const roatGuideSource = fs.existsSync(path.join(root, "roat-pkz-guide.html"))
-  ? fs.readFileSync(path.join(root, "roat-pkz-guide.html"), "utf8")
-  : "";
-const roatGuideVisible = stripTags(roatGuideSource);
-if (!/\bPKP means PK Points\b/i.test(roatGuideVisible)) {
-  fail("roat-pkz-guide.html", "guide must explain that PKP means PK Points");
+const impactSlayerSource = fs.readFileSync(
+  path.join(root, "impact-slayer-guide.html"),
+  "utf8",
+);
+const impactSlayerMain = firstMatch(
+  impactSlayerSource,
+  /<main\b[^>]*>([\s\S]*?)<\/main>/i,
+);
+for (const requiredId of [
+  "quick-answer",
+  "getting-started",
+  "slayer-levels",
+  "completing-tasks",
+  "monster-locations",
+  "barrage-tasks",
+  "block-list",
+  "slayer-rewards",
+  "gear",
+  "boss-slayer",
+  "mistakes",
+  "checklist",
+  "faq",
+  "sources",
+]) {
+  if (!new RegExp(`\\bid=["']${requiredId}["']`, "i").test(impactSlayerMain)) {
+    fail("impact-slayer-guide.html", `missing required Slayer section #${requiredId}`);
+  }
 }
-if (!/\b1M PKP means one million PK Points\b/i.test(roatGuideVisible)) {
-  fail("roat-pkz-guide.html", "guide must explain the 1M PKP unit");
+for (const asset of [
+  "assets/impact-slayer/duradel-location.webp",
+  "assets/impact-slayer/slayer-points-store.webp",
+]) {
+  if (!impactSlayerSource.includes(`src="${asset}"`)) {
+    fail("impact-slayer-guide.html", `missing required Slayer screenshot ${asset}`);
+  }
 }
-if (!/Donation Credits[\s\S]{0,120}\bseparate from PKP\b/i.test(roatGuideVisible)) {
-  fail("roat-pkz-guide.html", "guide must keep Donation Credits separate from standard PKP orders");
+for (const [range, points] of [
+  ["1–64", "400"],
+  ["65–84", "700"],
+  ["85–99", "1,250"],
+]) {
+  const escapedRange = range.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (
+    !new RegExp(
+      `${escapedRange}[\\s\\S]{0,180}${points}\\s+points`,
+      "i",
+    ).test(impactSlayerMain)
+  ) {
+    fail(
+      "impact-slayer-guide.html",
+      `missing Slayer tier range ${range} with ${points} points`,
+    );
+  }
 }
-if (!roatGuideVisible.includes("$3.50 per 1M PKP")) {
-  fail("roat-pkz-guide.html", "guide CTA must retain the approved $3.50 per 1M PKP rate");
+if (!/Bloodvelds[\s\S]{0,100}Hellhounds/i.test(impactSlayerMain)) {
+  fail("impact-slayer-guide.html", "hard-task guidance must include Bloodvelds and Hellhounds");
 }
-if (!/Gambling can result in losses and should not be treated as a reliable way to build PKP\./i.test(roatGuideVisible)) {
-  fail("roat-pkz-guide.html", "guide is missing the approved gambling-risk statement");
+if (!/Editorial recommendation\s+—\s+not an official Impact block list\./i.test(stripTags(impactSlayerMain))) {
+  fail("impact-slayer-guide.html", "editorial block strategy is missing its source label");
+}
+const slayerCommercialTags = [
+  ...impactSlayerMain.matchAll(
+    /<a\b[^>]*\bhref=["']impact-gold\.html["'][^>]*>/gi,
+  ),
+].map((match) => match[0]);
+if (
+  slayerCommercialTags.length !== 1 ||
+  getAttribute(slayerCommercialTags[0] || "", "target") !== "_blank" ||
+  getAttribute(slayerCommercialTags[0] || "", "rel") !== "noopener" ||
+  getAttribute(slayerCommercialTags[0] || "", "data-action") !==
+    "impact-guide-to-gold" ||
+  !/opens in a new tab/i.test(
+    firstMatch(
+      impactSlayerMain,
+      /<a\b[^>]*\bhref=["']impact-gold\.html["'][^>]*>([\s\S]*?)<\/a>/i,
+    ),
+  )
+) {
+  fail(
+    "impact-slayer-guide.html",
+    "Slayer commercial CTA must be the single accessible noopener new-tab link",
+  );
 }
 
-const spawnpkGuideSource = fs.existsSync(path.join(root, "spawnpk-guide.html"))
-  ? fs.readFileSync(path.join(root, "spawnpk-guide.html"), "utf8")
-  : "";
-const spawnpkGuideVisible = stripTags(spawnpkGuideSource);
-for (const [pattern, message] of [
-  [/\b1T means one trillion coins\b/i, "guide must explain that 1T means one trillion coins"],
-  [/\bEach Cash Bag represents 100M coins\b/i, "guide must explain the 100M Cash Bag value"],
-  [/\bCash Bag is not a separate currency\b/i, "guide must not treat Cash Bags as a separate currency"],
-  [/\btransfer can use coins, Cash Bags or a combination\b/i, "guide must explain mixed transfer formats"],
+const visibleSlayerFaq = extractSharedGuideFaq(impactSlayerMain);
+let schemaSlayerFaq = [];
+for (const match of impactSlayerSource.matchAll(
+  /<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi,
+)) {
+  try {
+    const json = JSON.parse(match[1]);
+    const nodes = Array.isArray(json?.["@graph"]) ? json["@graph"] : [json];
+    const faqNode = nodes.find((node) => node?.["@type"] === "FAQPage");
+    if (faqNode) {
+      schemaSlayerFaq = (faqNode.mainEntity || []).map((item) => ({
+        question: normalize(item?.name || ""),
+        answer: normalize(item?.acceptedAnswer?.text || ""),
+      }));
+    }
+  } catch {
+    // General JSON-LD parsing reports the syntax failure earlier.
+  }
+}
+if (
+  visibleSlayerFaq.length !== 12 ||
+  schemaSlayerFaq.length !== visibleSlayerFaq.length ||
+  visibleSlayerFaq.some(
+    (item, index) =>
+      item.question !== schemaSlayerFaq[index]?.question ||
+      item.answer !== schemaSlayerFaq[index]?.answer,
+  )
+) {
+  fail(
+    "impact-slayer-guide.html",
+    "visible Slayer FAQ must match FAQPage questions and answers exactly",
+  );
+}
+
+const impactHunterSource = fs.readFileSync(
+  path.join(root, "impact-hunter-guide.html"),
+  "utf8",
+);
+const impactHunterMain = firstMatch(
+  impactHunterSource,
+  /<main\b[^>]*>([\s\S]*?)<\/main>/i,
+);
+for (const requiredId of [
+  "quick-answer",
+  "supplies",
+  "hunter-island",
+  "progression",
+  "bird-route",
+  "chinchompa-route",
+  "black-chinchompas",
+  "level-planner",
+  "trap-limits",
+  "wilderness-safety",
+  "mistakes",
+  "checklist",
+  "faq",
+  "sources",
 ]) {
-  if (!pattern.test(spawnpkGuideVisible)) fail("spawnpk-guide.html", message);
+  if (!new RegExp(`\\bid=["']${requiredId}["']`, "i").test(impactHunterMain)) {
+    fail("impact-hunter-guide.html", `missing required Hunter section #${requiredId}`);
+  }
 }
-if (!spawnpkGuideVisible.includes("$9 per 1T")) {
-  fail("spawnpk-guide.html", "guide CTA must retain the approved $9 per 1T rate");
+for (const asset of [
+  "assets/impact-hunter/hunter-traps-shop.webp",
+  "assets/impact-hunter/hunter-island-teleport.webp",
+  "assets/impact-hunter/hunter-island-bird-locations.webp",
+  "assets/impact-hunter/hunter-island-chinchompa-locations.webp",
+  "assets/impact-hunter/black-chinchompa-wilderness.webp",
+]) {
+  if (!impactHunterSource.includes(`src="${asset}"`)) {
+    fail("impact-hunter-guide.html", `missing required Hunter screenshot ${asset}`);
+  }
 }
-const conversionSentence =
-  "Because one Cash Bag represents 100M coins, 1T is equal in value to 10,000 Cash Bags.";
-if (spawnpkGuideVisible.split(conversionSentence).length - 1 !== 1) {
-  fail("spawnpk-guide.html", "Cash Bag conversion example must appear exactly once");
+for (const [range, creature] of [
+  ["1–4", "Crimson swift"],
+  ["5–8", "Golden warbler"],
+  ["9–18", "Copper longtail"],
+  ["19", "Tropical wagtail"],
+  ["20–39", "Tropical wagtail"],
+  ["40–52", "Tropical wagtail"],
+  ["53–59", "Grey chinchompa"],
+  ["60–62", "Grey chinchompa"],
+  ["63–72", "Red chinchompa"],
+  ["73–79", "Choose your route"],
+  ["80–99", "Continue your route"],
+]) {
+  const escapedRange = range.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (!new RegExp(`${escapedRange}[\\s\\S]{0,180}${creature}`, "i").test(impactHunterMain)) {
+    fail(
+      "impact-hunter-guide.html",
+      `missing Hunter route range ${range} with ${creature}`,
+    );
+  }
+}
+for (const [range, count] of [
+  ["1–19", "1"],
+  ["20–39", "2"],
+  ["40–59", "3"],
+  ["60–79", "4"],
+  ["80–99", "5"],
+]) {
+  const escapedRange = range.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (!new RegExp(`${escapedRange}[\\s\\S]{0,100}>${count}<`, "i").test(impactHunterMain)) {
+    fail(
+      "impact-hunter-guide.html",
+      `missing Hunter trap limit ${range} with ${count} traps`,
+    );
+  }
+}
+if (
+  !/Recommended progression based on the official creature unlocks\./i.test(
+    stripTags(impactHunterMain),
+  )
+) {
+  fail(
+    "impact-hunter-guide.html",
+    "recommended Hunter route is missing its editorial source label",
+  );
+}
+if (
+  !/\bid=["']hunter-level-planner["']/i.test(impactHunterMain) ||
+  !/\bid=["']hunter-current-level["']/i.test(impactHunterMain) ||
+  !/\bid=["']hunter-planner-result["'][^>]*\baria-live=["']polite["']/i.test(
+    impactHunterMain,
+  )
+) {
+  fail("impact-hunter-guide.html", "Hunter level planner markup is incomplete");
+}
+const hunterScriptSource = fs.readFileSync(path.join(root, "script.js"), "utf8");
+if (
+  !/var\s+impactHunterData\s*=\s*\{/i.test(hunterScriptSource) ||
+  !/function\s+initImpactHunterPlanner\s*\(/i.test(hunterScriptSource)
+) {
+  fail(
+    "impact-hunter-guide.html",
+    "Hunter planner must use one central data object and guarded initializer",
+  );
+}
+const hunterCommercialTags = [
+  ...impactHunterMain.matchAll(
+    /<a\b[^>]*\bhref=["']impact-gold\.html["'][^>]*>/gi,
+  ),
+].map((match) => match[0]);
+if (
+  hunterCommercialTags.length !== 1 ||
+  getAttribute(hunterCommercialTags[0] || "", "target") !== "_blank" ||
+  getAttribute(hunterCommercialTags[0] || "", "rel") !== "noopener" ||
+  getAttribute(hunterCommercialTags[0] || "", "data-action") !==
+    "impact-guide-to-gold" ||
+  !/opens in a new tab/i.test(
+    firstMatch(
+      impactHunterMain,
+      /<a\b[^>]*\bhref=["']impact-gold\.html["'][^>]*>([\s\S]*?)<\/a>/i,
+    ),
+  )
+) {
+  fail(
+    "impact-hunter-guide.html",
+    "Hunter commercial CTA must be the single accessible noopener new-tab link",
+  );
+}
+
+const hunterFaqSection = firstMatch(
+  impactHunterMain,
+  /<section\b[^>]*\bid=["']faq["'][^>]*>([\s\S]*?)<\/section>/i,
+);
+const visibleHunterFaq = extractSharedGuideFaq(impactHunterMain);
+let schemaHunterFaq = [];
+for (const match of impactHunterSource.matchAll(
+  /<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi,
+)) {
+  try {
+    const json = JSON.parse(match[1]);
+    const nodes = Array.isArray(json?.["@graph"]) ? json["@graph"] : [json];
+    const faqNode = nodes.find((node) => node?.["@type"] === "FAQPage");
+    if (faqNode) {
+      schemaHunterFaq = (faqNode.mainEntity || []).map((item) => ({
+        question: normalize(item?.name || ""),
+        answer: normalize(item?.acceptedAnswer?.text || ""),
+      }));
+    }
+  } catch {
+    // General JSON-LD parsing reports the syntax failure earlier.
+  }
+}
+if (
+  visibleHunterFaq.length !== 12 ||
+  schemaHunterFaq.length !== visibleHunterFaq.length ||
+  visibleHunterFaq.some(
+    (item, index) =>
+      item.question !== schemaHunterFaq[index]?.question ||
+      item.answer !== schemaHunterFaq[index]?.answer,
+  )
+) {
+  fail(
+    "impact-hunter-guide.html",
+    "visible Hunter FAQ must match FAQPage questions and answers exactly",
+  );
+}
+
+const impactThievingSource = fs.readFileSync(
+  path.join(root, "impact-thieving-guide.html"),
+  "utf8",
+);
+const impactThievingMain = firstMatch(
+  impactThievingSource,
+  /<main\b[^>]*>([\s\S]*?)<\/main>/i,
+);
+for (const requiredId of [
+  "quick-answer",
+  "progression",
+  "home-route",
+  "ardougne",
+  "fur-stall",
+  "silver-stall",
+  "spice-stall",
+  "gem-stall",
+  "arvel",
+  "level-planner",
+  "comparison",
+  "efficiency",
+  "mistakes",
+  "checklist",
+  "faq",
+  "sources",
+]) {
+  if (!new RegExp(`\\bid=["']${requiredId}["']`, "i").test(impactThievingMain)) {
+    fail(
+      "impact-thieving-guide.html",
+      `missing required Thieving section #${requiredId}`,
+    );
+  }
+}
+for (const asset of [
+  "assets/impact-thieving/home-thieving-route.webp",
+  "assets/impact-thieving/ardougne-teleport.webp",
+  "assets/impact-thieving/ardougne-fur-stall.webp",
+  "assets/impact-thieving/ardougne-silver-stall.webp",
+  "assets/impact-thieving/home-spice-stall.webp",
+  "assets/impact-thieving/home-gem-stall.webp",
+  "assets/impact-thieving/home-arvel-pickpocket.webp",
+]) {
+  const escapedAsset = asset.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (
+    !new RegExp(
+      `<img\\b[^>]*\\ssrc=["']${escapedAsset}["']`,
+      "i",
+    ).test(impactThievingSource)
+  ) {
+    fail(
+      "impact-thieving-guide.html",
+      `missing required Thieving screenshot ${asset}`,
+    );
+  }
+}
+for (const [range, target] of [
+  ["1–4", "Man"],
+  ["5–19", "Bakery stall"],
+  ["20–34", "Silk stall"],
+  ["35–49", "Fur Stall"],
+  ["50–64", "Silver Stall"],
+  ["65–74", "Highlighted Home stall"],
+  ["75–99", "End stall at Home"],
+  ["85–99", "Arvel alternative"],
+]) {
+  const escapedRange = range.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (!new RegExp(`${escapedRange}[\\s\\S]{0,350}${target}`, "i").test(impactThievingMain)) {
+    fail(
+      "impact-thieving-guide.html",
+      `missing Thieving route range ${range} with ${target}`,
+    );
+  }
+}
+if (
+  !/\bid=["']thieving-level-planner["']/i.test(impactThievingMain) ||
+  !/\bid=["']thieving-current-level["'][^>]*\bmin=["']1["'][^>]*\bmax=["']99["']/i.test(
+    impactThievingMain,
+  ) ||
+  !/\bid=["']thieving-planner-result["'][^>]*\baria-live=["']polite["']/i.test(
+    impactThievingMain,
+  )
+) {
+  fail(
+    "impact-thieving-guide.html",
+    "Thieving level planner markup is incomplete",
+  );
+}
+const thievingScriptSource = fs.readFileSync(path.join(root, "script.js"), "utf8");
+if (
+  !/var\s+impactThievingData\s*=\s*\{/i.test(thievingScriptSource) ||
+  !/function\s+initImpactThievingPlanner\s*\(/i.test(thievingScriptSource)
+) {
+  fail(
+    "impact-thieving-guide.html",
+    "Thieving planner must use one central data object and guarded initializer",
+  );
+}
+for (const [marker, target, range] of [
+  ["1", "Man", "1–4"],
+  ["2", "Bakery stall", "5–19"],
+  ["3", "Silk stall", "20–34"],
+]) {
+  if (
+    !new RegExp(
+      `thieving-home-card[\\s\\S]{0,300}thieving-home-card__number[^>]*>${marker}<\\/span>[\\s\\S]{0,300}<h3>${target}<\\/h3>[\\s\\S]{0,200}Levels ${range}`,
+      "i",
+    ).test(impactThievingMain)
+  ) {
+    fail(
+      "impact-thieving-guide.html",
+      `Home route card ${marker} must map to ${target}, levels ${range}`,
+    );
+  }
+}
+if (
+  !/<img\b[^>]*\bclass=["'][^"']*\bthieving-hero__skill-icon\b[^"']*["'][^>]*\bsrc=["']assets\/guide-icons\/impact-thieving\.webp["'][^>]*\balt=["']["'][^>]*>/i.test(
+    impactThievingMain,
+  ) ||
+  /\bthieving-hero__path\b/i.test(impactThievingMain) ||
+  !/<span\b[^>]*\bclass=["'][^"']*\bhunter-hero__level\b[^"']*["'][^>]*>1–99<\/span>/i.test(
+    impactThievingMain,
+  )
+) {
+  fail(
+    "impact-thieving-guide.html",
+    "Thieving hero must use the local skill icon and Hunter-style 1–99 badge without milestone markup",
+  );
+}
+if (
+  /first stall on the left|stall marked 3|first starter stall|second starter stall/i.test(
+    `${impactThievingMain}\n${thievingScriptSource}`,
+  )
+) {
+  fail(
+    "impact-thieving-guide.html",
+    "Thieving route contains an outdated starter-stall placeholder",
+  );
+}
+const thievingCommercialTags = [
+  ...impactThievingMain.matchAll(
+    /<a\b[^>]*\bhref=["']impact-gold\.html["'][^>]*>/gi,
+  ),
+].map((match) => match[0]);
+if (
+  thievingCommercialTags.length !== 1 ||
+  getAttribute(thievingCommercialTags[0] || "", "target") !== "_blank" ||
+  getAttribute(thievingCommercialTags[0] || "", "rel") !== "noopener" ||
+  getAttribute(thievingCommercialTags[0] || "", "data-action") !==
+    "impact-guide-to-gold" ||
+  !/opens in a new tab/i.test(
+    firstMatch(
+      impactThievingMain,
+      /<a\b[^>]*\bhref=["']impact-gold\.html["'][^>]*>([\s\S]*?)<\/a>/i,
+    ),
+  )
+) {
+  fail(
+    "impact-thieving-guide.html",
+    "Thieving commercial CTA must be the single accessible noopener new-tab link",
+  );
+}
+const thievingFaqSection = firstMatch(
+  impactThievingMain,
+  /<section\b[^>]*\bid=["']faq["'][^>]*>([\s\S]*?)<\/section>/i,
+);
+const visibleThievingFaq = extractSharedGuideFaq(impactThievingMain);
+let schemaThievingFaq = [];
+for (const match of impactThievingSource.matchAll(
+  /<script\s+type=["']application\/ld\+json["']>([\s\S]*?)<\/script>/gi,
+)) {
+  try {
+    const json = JSON.parse(match[1]);
+    const nodes = Array.isArray(json?.["@graph"]) ? json["@graph"] : [json];
+    const faqNode = nodes.find((node) => node?.["@type"] === "FAQPage");
+    if (faqNode) {
+      schemaThievingFaq = (faqNode.mainEntity || []).map((item) => ({
+        question: normalize(item?.name || ""),
+        answer: normalize(item?.acceptedAnswer?.text || ""),
+      }));
+    }
+  } catch {
+    // General JSON-LD parsing reports the syntax failure earlier.
+  }
+}
+if (
+  visibleThievingFaq.length !== 11 ||
+  schemaThievingFaq.length !== visibleThievingFaq.length ||
+  visibleThievingFaq.some(
+    (item, index) =>
+      item.question !== schemaThievingFaq[index]?.question ||
+      item.answer !== schemaThievingFaq[index]?.answer,
+  )
+) {
+  fail(
+    "impact-thieving-guide.html",
+    "visible Thieving FAQ must match FAQPage questions and answers exactly",
+  );
+}
+if (
+  !/<a\b[^>]*\bhref=["']impact-thieving-guide\.html["'][^>]*\bdata-action=["']open-impact-thieving-guide["']/i.test(
+    fs.readFileSync(path.join(root, "impact-guide.html"), "utf8"),
+  )
+) {
+  fail(
+    "impact-guide.html",
+    "Impact Thieving card must preserve its URL and data-action",
+  );
+}
+
+for (const [hubFile, expectedCards] of [
+  [
+    "roat-pkz-guide.html",
+    [
+      ["roat-pkz-starter-guide.html", "open-roat-pkz-starter-guide"],
+      ["roat-pkz-donator-ranks-guide.html", "open-roat-pkz-donator-ranks-guide"],
+      ["roat-pkz-money-making-guide.html", "open-roat-pkz-money-making-guide"],
+    ],
+  ],
+  [
+    "spawnpk-guide.html",
+    [
+      ["spawnpk-starter-guide.html", "open-spawnpk-starter-guide"],
+      ["spawnpk-donator-ranks-guide.html", "open-spawnpk-donator-ranks-guide"],
+      ["spawnpk-money-making-guide.html", "open-spawnpk-money-making-guide"],
+    ],
+  ],
+]) {
+  const source = fs.readFileSync(path.join(root, hubFile), "utf8");
+  const main = firstMatch(source, /<main\b[^>]*>([\s\S]*?)<\/main>/i);
+  const cards = [
+    ...main.matchAll(
+      /<a\b[^>]*\bclass=["'][^"']*\bserver-guide-card\b[^"']*["'][^>]*>/gi,
+    ),
+  ];
+  if (cards.length !== 3) fail(hubFile, `expected exactly three guide cards, found ${cards.length}`);
+  expectedCards.forEach(([href, action], index) => {
+    const card = cards[index]?.[0] || "";
+    if (getAttribute(card, "href") !== href || getAttribute(card, "data-action") !== action) {
+      fail(hubFile, `guide card ${index + 1} must link to ${href} with data-action ${action}`);
+    }
+  });
+  if (/-gold\.html/i.test(main)) fail(hubFile, "informational hub must not include a commercial gold link");
 }
 
 for (let leftIndex = 0; leftIndex < articleGuideFiles.length; leftIndex += 1) {
@@ -932,10 +1799,13 @@ if (!/querySelectorAll\(["']\[data-action\]:not\(\.copy-btn\)["']\)/i.test(inter
 
 const stylesheet = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 for (const [pattern, message] of [
-  [/\.impact-guide-grid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/i, "missing desktop Impact guide grid"],
-  [/@media\s*\(max-width:\s*980px\)[\s\S]*?\.impact-guide-grid\s*\{[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/i, "missing tablet Impact guide grid"],
-  [/@media\s*\(max-width:\s*700px\)[\s\S]*?\.impact-guide-grid[\s\S]*?grid-template-columns:\s*1fr/i, "missing mobile Impact guide stack"],
-  [/\.guide-card--topic\s+\.btn\s*\{[\s\S]*?min-width:\s*0[\s\S]*?white-space:\s*normal/i, "topic-card buttons can overflow at narrow widths"],
+  [/\.server-guide-grid--four\s*\{[\s\S]*?grid-template-columns:\s*repeat\(4,\s*minmax\(0,\s*1fr\)\)/i, "missing four-column server guide grid"],
+  [/@media\s*\(max-width:\s*1100px\)[\s\S]*?\.server-guide-grid--four[\s\S]*?grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/i, "missing narrower-desktop server guide grid"],
+  [/@media\s*\(max-width:\s*820px\)[\s\S]*?\.server-guide-grid--four[\s\S]*?grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/i, "missing tablet server guide grid"],
+  [/@media\s*\(max-width:\s*560px\)[\s\S]*?\.server-guide-grid--four[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)/i, "missing mobile server guide stack"],
+  [/\.server-guide-card\s*\{[\s\S]*?min-width:\s*0/i, "server guide cards can overflow at narrow widths"],
+  [/\.server-guide-card:focus-visible\s*\{[\s\S]*?outline:/i, "server guide cards are missing a visible focus style"],
+  [/@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*?\.server-guide-card/i, "server guide cards do not respect reduced motion"],
 ]) {
   if (!pattern.test(stylesheet)) fail("styles.css", message);
 }

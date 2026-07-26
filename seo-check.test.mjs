@@ -463,44 +463,18 @@ expectFailure(
 );
 
 expectFailure(
-  "SpawnPK guide treats Cash Bags as a separate currency",
-  (target) =>
-    mutate(path.join(target, "spawnpk-guide.html"), (source) =>
-      replaceExactly(
-        source,
-        "A Cash Bag is not a separate currency",
-        "Cash Bags are a separate currency",
-      ),
-    ),
-  /guide must not treat Cash Bags as a separate currency/,
-);
-
-expectFailure(
-  "Roat PKZ guide calls Donation Credits standard gold",
-  (target) =>
-    mutate(path.join(target, "roat-pkz-guide.html"), (source) =>
-      replaceExactly(
-        source,
-        "Donation Credits, Donator points and other server currencies are separate from PKP.",
-        "Donation Credits are standard Roat PKZ gold orders.",
-      ),
-    ),
-  /guide must keep Donation Credits separate from standard PKP orders/,
-);
-
-expectFailure(
-  "Impact guide changes its approved rate",
+  "Impact money guide adds a fixed gold-sales rate",
   (target) =>
     mutate(path.join(target, "impact-money-making-guide.html"), (source) =>
-      replaceExactly(source, "$1 per 1B", "$2 per 1B"),
+      source.replace("</main>", "<p>Rates start from $2 per 1B.</p></main>"),
     ),
-  /guide CTA must retain the approved \$1 per 1B rate/,
+  /guide must not contain a fixed gold-sales rate/,
 );
 
 expectFailure(
   "guide adds guaranteed profit",
   (target) =>
-    mutate(path.join(target, "spawnpk-guide.html"), (source) =>
+    mutate(path.join(target, "spawnpk-money-making-guide.html"), (source) =>
       source.replace("</main>", "<p>Profit is guaranteed with this setup.</p></main>"),
     ),
   /guide must not add a guaranteed profit claim/,
@@ -525,16 +499,55 @@ expectFailure(
     mutate(path.join(target, "impact-slayer-guide.html"), (source) =>
       source.replaceAll('href="impact-gold.html"', 'href="guides.html"'),
     ),
-  /expected exactly two main commercial links to impact-gold\.html, found 0/,
+  /expected exactly 1 main commercial links to impact-gold\.html, found 0/,
 );
 
 expectFailure(
   "educational guide adds Product schema",
   (target) =>
     mutate(path.join(target, "impact-slayer-guide.html"), (source) =>
-      replaceExactly(source, '"@type":"Article"', '"@type":"Product"'),
+      replaceExactly(source, '"@type": "Article"', '"@type": "Product"'),
     ),
   /educational guide must not use Product schema/,
+);
+
+expectFailure(
+  "Slayer FAQ visible answer diverges from schema",
+  (target) =>
+    mutate(path.join(target, "impact-slayer-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        "<p>Hard tasks unlock at level 65. Their effective non-overlapping progression range is levels 65–84, before elite tasks unlock.</p>",
+        "<p>Hard tasks unlock at level 66.</p>",
+      ),
+    ),
+  /visible Slayer FAQ must match FAQPage questions and answers exactly/,
+);
+
+expectFailure(
+  "Slayer guide changes a verified tier boundary",
+  (target) =>
+    mutate(path.join(target, "impact-slayer-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        '<span class="slayer-tier__level">65–84</span>',
+        '<span class="slayer-tier__level">66–84</span>',
+      ),
+    ),
+  /missing Slayer tier range 65–84 with 700 points/,
+);
+
+expectFailure(
+  "Slayer commercial CTA stops opening in a new tab",
+  (target) =>
+    mutate(path.join(target, "impact-slayer-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        'target="_blank" rel="noopener">',
+        'rel="noopener">',
+      ),
+    ),
+  /Slayer commercial CTA must be the single accessible noopener new-tab link/,
 );
 
 expectFailure(
@@ -550,18 +563,110 @@ expectFailure(
   "Impact guide adds Review schema",
   (target) =>
     mutate(path.join(target, "impact-hunter-guide.html"), (source) =>
-      replaceExactly(source, '"@type":"Article"', '"@type":"Review"'),
+      replaceExactly(source, '"@type": "Article"', '"@type": "Review"'),
     ),
   /educational guide must not use Review schema/,
+);
+
+expectFailure(
+  "Hunter visible FAQ diverges from FAQPage schema",
+  (target) =>
+    mutate(path.join(target, "impact-hunter-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        "<p>Grey chinchompas unlock at level 53 Hunter. Use box traps and run south from the Hunter Island teleport.</p>",
+        "<p>Grey chinchompas unlock at level 53 Hunter. Use box traps and run west from the Hunter Island teleport.</p>",
+      ),
+    ),
+  /visible Hunter FAQ must match FAQPage questions and answers exactly/,
+);
+
+expectFailure(
+  "Hunter route boundary drifts",
+  (target) =>
+    mutate(path.join(target, "impact-hunter-guide.html"), (source) =>
+      replaceExactly(source, "<span>53–59</span>", "<span>53–60</span>"),
+    ),
+  /missing Hunter route range 53–59 with Grey chinchompa/,
+);
+
+expectFailure(
+  "Hunter commercial CTA stops opening in a new tab",
+  (target) =>
+    mutate(path.join(target, "impact-hunter-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        'target="_blank" rel="noopener" data-action="impact-guide-to-gold"',
+        'rel="noopener" data-action="impact-guide-to-gold"',
+      ),
+    ),
+  /Hunter commercial CTA must be the single accessible noopener new-tab link/,
 );
 
 expectFailure(
   "Impact guide adds AggregateRating schema",
   (target) =>
     mutate(path.join(target, "impact-thieving-guide.html"), (source) =>
-      replaceExactly(source, '"@type":"Article"', '"@type":"AggregateRating"'),
+      replaceExactly(source, '"@type": "Article"', '"@type": "AggregateRating"'),
     ),
   /educational guide must not use AggregateRating schema/,
+);
+
+expectFailure(
+  "Thieving visible FAQ diverges from FAQPage schema",
+  (target) =>
+    mutate(path.join(target, "impact-thieving-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        "<p>Arvel unlocks at level 85 and can be used as an optional pickpocketing route through level 99.</p>",
+        "<p>Arvel unlocks at level 80 and can be used as an optional pickpocketing route through level 99.</p>",
+      ),
+    ),
+  /visible Thieving FAQ must match FAQPage questions and answers exactly/,
+);
+
+expectFailure(
+  "Thieving route boundary drifts",
+  (target) =>
+    mutate(path.join(target, "impact-thieving-guide.html"), (source) =>
+      source.replaceAll("35–49", "35–50"),
+    ),
+  /missing Thieving route range 35–49 with Fur Stall/,
+);
+
+expectFailure(
+  "Thieving commercial CTA stops opening in a new tab",
+  (target) =>
+    mutate(path.join(target, "impact-thieving-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        'target="_blank" rel="noopener" data-action="impact-guide-to-gold"',
+        'rel="noopener" data-action="impact-guide-to-gold"',
+      ),
+    ),
+  /Thieving commercial CTA must be the single accessible noopener new-tab link/,
+);
+
+expectFailure(
+  "Thieving screenshot mapping is removed",
+  (target) =>
+    mutate(path.join(target, "impact-thieving-guide.html"), (source) =>
+      replaceExactly(
+        source,
+        'src="assets/impact-thieving/home-gem-stall.webp"',
+        'data-src="assets/impact-thieving/home-gem-stall.webp"',
+      ),
+    ),
+  /missing required Thieving screenshot assets\/impact-thieving\/home-gem-stall\.webp/,
+);
+
+expectFailure(
+  "Thieving planner loses its central data object",
+  (target) =>
+    mutate(path.join(target, "script.js"), (source) =>
+      replaceExactly(source, "var impactThievingData = {", "var thievingRouteCopy = {"),
+    ),
+  /Thieving planner must use one central data object and guarded initializer/,
 );
 
 expectFailure(
@@ -587,8 +692,12 @@ expectFailure(
   (target) =>
     mutate(path.join(target, "impact-money-making-guide.html"), (source) =>
       replaceExactly(
-        source,
-        "Gambling can result in losses and should not be treated as reliable income.",
+        replaceExactly(
+          source,
+          "Gambling and Flower Poker are not dependable money-making methods and can lose the stake completely.",
+          "Gambling and Flower Poker provide dependable money-making methods.",
+        ),
+        "Gambling can lose the entire stake.",
         "Gambling provides reliable income.",
       ),
     ),
@@ -609,6 +718,30 @@ expectFailure(
     );
   },
   /duplicate (?:title|description)/,
+);
+
+expectFailure(
+  "public page adds a visible Last reviewed label",
+  (target) =>
+    mutate(path.join(target, "impact-hunter-guide.html"), (source) =>
+      source.replace(
+        "</main>",
+        '<p class="guide-reviewed">Last reviewed: <time datetime="2026-07-25">July 25, 2026</time></p></main>',
+      ),
+    ),
+  /visible review-date wording remains: Last reviewed\/verified\/checked\/updated/,
+);
+
+expectFailure(
+  "public page references a dated verification process",
+  (target) =>
+    mutate(path.join(target, "impact-donator-benefits-guide.html"), (source) =>
+      source.replace(
+        "</main>",
+        "<p>Rules may change after this guide's verification date.</p></main>",
+      ),
+    ),
+  /visible review-date wording remains: review or verification date/,
 );
 
 console.log("All negative SEO tests passed.");

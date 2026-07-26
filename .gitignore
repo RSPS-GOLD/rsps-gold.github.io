@@ -1,0 +1,17 @@
+# Dependencies and generated test output
+node_modules/
+coverage/
+test-results/
+playwright-report/
+
+# Local archives, logs and editor backups
+*.zip
+*.log
+*.tmp
+*.bak
+*~
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
