@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
+const siteOrigin = "https://rsps-gold.com";
 const htmlFiles = fs
   .readdirSync(root)
   .filter((file) => file.endsWith(".html"))
@@ -193,8 +194,8 @@ for (const file of htmlFiles) {
     )?.[1];
     const expected =
       file === "index.html"
-        ? "https://rsps-gold.github.io/"
-        : `https://rsps-gold.github.io/${file}`;
+        ? `${siteOrigin}/`
+        : `${siteOrigin}/${file}`;
     if (canonical !== expected) {
       failures.push(`${file}: canonical should be ${expected}`);
     }

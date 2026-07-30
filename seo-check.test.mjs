@@ -7,6 +7,8 @@ import { fileURLToPath } from "node:url";
 
 const sourceRoot = path.dirname(fileURLToPath(import.meta.url));
 const checker = path.join(sourceRoot, "seo-check.mjs");
+const siteOrigin = "https://rsps-gold.com";
+const escapedSiteOrigin = siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const files = fs
   .readdirSync(sourceRoot)
   .filter((file) => /\.(?:html|css|js|json|xml|txt|webmanifest)$/i.test(file));
@@ -58,7 +60,7 @@ expectFailure(
   "wrong canonical",
   (target) =>
     mutate(path.join(target, "index.html"), (source) =>
-      source.replace('rel="canonical" href="https://rsps-gold.github.io/"', 'rel="canonical" href="https://example.com/"'),
+      source.replace(`rel="canonical" href="${siteOrigin}/"`, 'rel="canonical" href="https://example.com/"'),
     ),
   /canonical is https:\/\/example\.com\//,
 );
@@ -76,7 +78,12 @@ expectFailure(
   "missing expected server URL",
   (target) =>
     mutate(path.join(target, "sitemap.xml"), (source) =>
-      source.replace(/\s*<url>\s*<loc>https:\/\/rsps-gold\.github\.io\/near-reality-gold\.html<\/loc>[\s\S]*?<\/url>/, ""),
+      source.replace(
+        new RegExp(
+          `\\s*<url>\\s*<loc>${escapedSiteOrigin}/near-reality-gold\\.html</loc>[\\s\\S]*?</url>`,
+        ),
+        "",
+      ),
     ),
   /missing expected server URL .*near-reality-gold\.html/,
 );

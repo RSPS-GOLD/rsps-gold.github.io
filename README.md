@@ -3,7 +3,7 @@
 Static GitHub Pages website for Discord-based RSPS gold quote requests.
 
 Live site:
-https://rsps-gold.github.io/
+https://rsps-gold.com/
 
 Tech:
 - Static HTML

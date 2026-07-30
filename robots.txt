@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://rsps-gold.github.io/sitemap.xml
+Sitemap: https://rsps-gold.com/sitemap.xml

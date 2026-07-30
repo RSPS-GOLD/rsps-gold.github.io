@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.argv[2] ? path.resolve(process.argv[2]) : process.cwd();
-const siteOrigin = "https://rsps-gold.github.io";
+const siteOrigin = "https://rsps-gold.com";
 const discordId = "640265737050652672";
 const priorityServerCards = [
   "impact-gold.html",

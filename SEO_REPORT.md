@@ -1,7 +1,7 @@
 # SEO-rapport: RSPS Gold Hub
 
 Rapportdato: 2026-07-24
-Nettsted: <https://rsps-gold.github.io/>
+Nettsted: <https://rsps-gold.com/>
 Status: Implementert lokalt, ikke publisert
 
 ## Sammendrag
