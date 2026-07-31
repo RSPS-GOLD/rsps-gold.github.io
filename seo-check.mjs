@@ -2029,7 +2029,24 @@ if (roatPage) {
   if (/\bStarting price\b/i.test(roatVisible)) {
     fail("roat-pkz-gold.html", 'must not use "Starting price"');
   }
-  const roatBrandVisible = roatVisible;
+  const roatBuyerCtaPattern =
+    /<a\b(?=[^>]*\bclass=["'][^"']*\bbtn--obsidian-gold\b[^"']*["'])[^>]*>([\s\S]*?)<\/a>/gi;
+  const roatBuyerCtas = [...roatPage.main.matchAll(roatBuyerCtaPattern)];
+  if (
+    roatBuyerCtas.length !== 3 ||
+    roatBuyerCtas.some(
+      (match) =>
+        normalize(match[1]) !== normalize("Check RoatPKZ Price & Stock"),
+    )
+  ) {
+    fail(
+      "roat-pkz-gold.html",
+      "expected three Obsidian + Gold buyer CTAs labeled Check RoatPKZ Price & Stock",
+    );
+  }
+  const roatBrandVisible = stripTags(
+    roatPage.main.replace(roatBuyerCtaPattern, ""),
+  );
   if (/\b(?:Roat Pkz|RoatPKZ|Roatz)\b/.test(roatBrandVisible)) {
     fail("roat-pkz-gold.html", "visible content must consistently use Roat PKZ");
   }

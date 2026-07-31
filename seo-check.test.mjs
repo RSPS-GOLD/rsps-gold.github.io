@@ -274,7 +274,7 @@ expectFailure(
     mutate(path.join(target, "spawnpk-gold.html"), (source) =>
       source.replace(
         "</main>",
-        "<p>Better gear can make bossing smoother and help players take on harder PvM content. Some buyers use SpawnPK gold for weapons, armour and supplies instead of spending as much time rebuilding their cash stack.</p></main>",
+        "<p>Better gear can make bossing smoother and help players take on harder PvM content. Some buyers use SpawnPK gold for weapons, armour and supplies rather than spending hours grinding repetitive money-making methods to afford the gear they want or need.</p></main>",
       ),
     ),
   /text block is too similar to Impact after neutralizing server, currency, and rate terms/,
@@ -423,7 +423,7 @@ expectFailure(
     mutate(path.join(target, "roat-pkz-gold.html"), (source) =>
       source.replace(
         "</main>",
-        "<p>Better gear can make bossing smoother and help players take on harder PvM content. Some buyers use Roat PKZ gold for weapons, armour and supplies instead of spending as much time rebuilding their cash stack.</p></main>",
+        "<p>Better gear can make bossing smoother and help players take on harder PvM content. Some buyers use Roat PKZ gold for weapons, armour and supplies rather than spending hours grinding repetitive money-making methods to afford the gear they want or need.</p></main>",
       ),
     ),
   /text block is too similar to Impact after neutralizing server, currency, and rate terms/,
