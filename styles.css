@@ -965,6 +965,295 @@ pre {
   margin: 0;
 }
 
+.announcement__actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.language-switcher {
+  position: relative;
+  z-index: 70;
+  flex: 0 0 auto;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.language-trigger {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px 5px 7px;
+  border: 1px solid rgba(180, 188, 203, 0.28);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(27, 35, 51, 0.98), rgba(13, 19, 31, 0.98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 7px 18px rgba(0, 0, 0, 0.18);
+  color: var(--text);
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.language-trigger:hover,
+.language-switcher.is-open .language-trigger {
+  border-color: rgba(245, 185, 66, 0.64);
+  background: linear-gradient(180deg, rgba(38, 43, 54, 0.98), rgba(18, 23, 34, 0.98));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+.language-trigger__flag,
+.language-option__flag {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.language-trigger__chevron {
+  width: 7px;
+  height: 7px;
+  margin: -3px 1px 0 3px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  color: var(--muted);
+  transform: rotate(45deg);
+  transition: transform 160ms ease, margin 160ms ease, color 160ms ease;
+}
+
+.language-switcher.is-open .language-trigger__chevron {
+  margin-top: 3px;
+  color: var(--gold);
+  transform: rotate(225deg);
+}
+
+.language-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 188px;
+  display: grid;
+  gap: 3px;
+  padding: 6px;
+  border: 1px solid rgba(180, 188, 203, 0.24);
+  border-radius: 12px;
+  background: rgba(13, 19, 31, 0.99);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px) scale(0.98);
+  transform-origin: top right;
+  pointer-events: none;
+  transition: opacity 160ms ease, visibility 160ms ease, transform 160ms ease;
+}
+
+.language-switcher.is-open .language-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.language-menu[hidden] {
+  display: none;
+}
+
+.language-option {
+  width: 100%;
+  min-height: 40px;
+  display: grid;
+  grid-template-columns: 24px 1fr 18px;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 140ms ease, background 140ms ease, border-color 140ms ease;
+}
+
+.language-option:hover {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+}
+
+.language-option[aria-current="page"] {
+  border-color: rgba(245, 185, 66, 0.34);
+  background: rgba(245, 185, 66, 0.12);
+  color: var(--gold);
+}
+
+.language-option__check {
+  color: transparent;
+  font-size: 15px;
+  text-align: center;
+}
+
+.language-option[aria-current="page"] .language-option__check {
+  color: var(--gold);
+}
+
+.language-trigger:focus-visible,
+.language-option:focus-visible,
+.language-suggestion button:focus-visible,
+.language-suggestion a:focus-visible {
+  outline: 3px solid rgba(245, 185, 66, 0.92);
+  outline-offset: 2px;
+}
+
+.language-noscript {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid rgba(245, 185, 66, 0.32);
+  border-radius: 8px;
+  background: rgba(13, 20, 34, 0.96);
+}
+
+.language-noscript a {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 5px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.language-noscript a[aria-current="page"] {
+  background: var(--gold);
+  color: #201304;
+}
+
+.language-noscript a:focus-visible {
+  outline: 3px solid rgba(245, 185, 66, 0.92);
+  outline-offset: 2px;
+}
+
+.language-suggestion {
+  position: fixed;
+  top: 62px;
+  right: max(16px, calc((100vw - 1120px) / 2));
+  z-index: 120;
+  width: min(360px, calc(100vw - 32px));
+  padding: 16px 44px 15px 16px;
+  border: 1px solid rgba(245, 185, 66, 0.34);
+  border-left: 3px solid var(--gold);
+  border-radius: 12px;
+  background: rgba(13, 19, 31, 0.98);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.48);
+  color: var(--text);
+  animation: language-suggestion-in 200ms ease-out both;
+}
+
+.language-suggestion p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.language-suggestion__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.language-suggestion__accept,
+.language-suggestion__keep,
+.language-suggestion__close {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.language-suggestion__accept {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border-radius: 7px;
+  background: var(--gold);
+  color: #201304;
+  font-size: 12px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.language-suggestion__accept:hover {
+  background: #ffd37a;
+}
+
+.language-suggestion__keep {
+  padding: 5px 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.language-suggestion__keep:hover {
+  color: var(--text);
+}
+
+.language-suggestion__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.language-suggestion__close:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+}
+
+@keyframes language-suggestion-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes language-suggestion-in-mobile {
+  from {
+    opacity: 0;
+    transform: translate(50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(50%, 0);
+  }
+}
+
 .badge,
 .eyebrow {
   display: inline-flex;
@@ -5581,6 +5870,36 @@ h3 {
   border: 0;
 }
 
+html[lang="es"] .discord-image-cta--header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(138, 148, 255, 0.72);
+  padding: 0 16px;
+  background: linear-gradient(135deg, #6674f4, #5865f2 58%, #4651cc);
+  box-shadow: 0 8px 24px rgba(88, 101, 242, 0.24);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+}
+
+html[lang="es"] .discord-image-cta--header::after,
+html[lang="es"] .discord-image-cta--header img {
+  display: none;
+}
+
+html[lang="es"] .discord-image-cta--header .discord-image-cta__label {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
 @keyframes discord-cta-sheen {
   0%,
   68% {
@@ -7757,6 +8076,33 @@ h3 {
     position: relative;
   }
 
+  .announcement__inner {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .announcement__actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .announcement.has-open-language-menu {
+    padding-bottom: 105px;
+  }
+
+  .language-menu {
+    right: 0;
+    width: min(188px, calc(100vw - 32px));
+  }
+
+  .language-suggestion {
+    top: auto;
+    right: 50%;
+    bottom: 16px;
+    transform: translateX(50%);
+    animation-name: language-suggestion-in-mobile;
+  }
+
   .site-header {
     top: 0;
   }
@@ -7773,6 +8119,14 @@ h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .language-trigger,
+  .language-trigger__chevron,
+  .language-menu,
+  .language-option,
+  .language-suggestion {
+    transition: none;
+    animation: none;
+  }
   .site-menu-toggle,
   .site-header.has-mobile-menu .nav {
     scroll-behavior: auto;
@@ -12146,6 +12500,467 @@ h3 {
   .related-guide-card,
   .related-guide-card::before,
   .related-guide-card__cta::after {
+    transition: none;
+  }
+}
+/* Compact homepage payment options */
+.payment-options {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(4.25rem, 7vw, 6rem) 0;
+  border-top: 1px solid rgba(151, 164, 184, 0.12);
+  border-bottom: 1px solid rgba(151, 164, 184, 0.12);
+  background: linear-gradient(180deg, rgba(8, 13, 24, 0.97), rgba(5, 9, 18, 0.99));
+}
+
+.payment-options__heading {
+  max-width: 49rem;
+  margin: 0 auto clamp(1.8rem, 3.5vw, 2.4rem);
+  text-align: center;
+}
+
+.payment-options__eyebrow {
+  margin: 0 0 0.65rem;
+  color: var(--gold, #f5b942);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.payment-options__heading h2 {
+  margin: 0;
+  color: var(--text, #f5f7fb);
+  font-size: clamp(1.9rem, 3.5vw, 2.7rem);
+  line-height: 1.12;
+}
+
+.payment-options__intro {
+  max-width: 46rem;
+  margin: 0.9rem auto 0;
+  color: var(--muted, #aebbd0);
+  font-size: clamp(0.98rem, 1.45vw, 1.05rem);
+  line-height: 1.68;
+}
+
+.payment-options__panel {
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  border: 1px solid rgba(151, 164, 184, 0.19);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(17, 27, 43, 0.98), rgba(8, 14, 25, 0.99));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 20px 44px rgba(0, 0, 0, 0.2);
+}
+
+.payment-option {
+  min-width: 0;
+  padding: clamp(1.5rem, 3vw, 2rem);
+}
+
+.payment-option--eldorado {
+  border-right: 1px solid rgba(151, 164, 184, 0.16);
+}
+
+.payment-option--direct {
+  background: rgba(3, 9, 18, 0.14);
+}
+
+.payment-option__brand {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.payment-option__logo {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(151, 164, 184, 0.2);
+  border-radius: 12px;
+  background: rgba(5, 10, 19, 0.46);
+}
+
+.payment-option__logo--eldorado img {
+  display: block;
+  width: 42px;
+  height: 42px;
+  border-radius: 9px;
+  object-fit: contain;
+}
+
+.payment-option__category {
+  margin: 0 0 0.25rem;
+  color: #94a4b8;
+  font-size: 0.67rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.payment-option h3 {
+  margin: 0;
+  color: #f5f7fb;
+  font-size: clamp(1.2rem, 1.8vw, 1.35rem);
+  line-height: 1.3;
+}
+
+.payment-option__header--text {
+  padding-top: 0;
+}
+
+.payment-option__heading-copy {
+  max-width: 680px;
+}
+
+.payment-option__header--text h3 {
+  max-width: 620px;
+  font-size: clamp(1.35rem, 2vw, 1.65rem);
+  line-height: 1.2;
+}
+
+.payment-option__header--text .payment-option__summary {
+  max-width: 680px;
+  margin-top: 0.75rem;
+  color: #c6d0de;
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.payment-option__summary,
+.payment-option__supporting,
+.payment-option__availability,
+.direct-trade-section__text,
+.direct-trade-section__clarification {
+  margin: 0;
+}
+
+.payment-option__summary {
+  margin-top: 1rem;
+  color: #d4dce7;
+  font-size: 0.92rem;
+  line-height: 1.62;
+}
+
+.payment-option__supporting {
+  margin-top: 0.85rem;
+  color: #aebacd;
+  font-size: 0.86rem;
+  line-height: 1.58;
+}
+
+.payment-option__methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.85rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.payment-option__method {
+  border-radius: 6px;
+  padding: 0.36rem 0.55rem;
+  background: rgba(255, 255, 255, 0.045);
+  color: #ccd5e2;
+  font-size: 0.75rem;
+  font-weight: 720;
+  line-height: 1.3;
+}
+
+.payment-option__availability {
+  border-left: 2px solid rgba(245, 185, 66, 0.52);
+  padding-left: 0.65rem;
+  color: #9facbe;
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.payment-option__link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-top: 0.55rem;
+  border-radius: 4px;
+  color: #d5ddea;
+  font-size: 0.82rem;
+  font-weight: 750;
+  line-height: 1.4;
+  text-decoration-color: rgba(213, 221, 234, 0.5);
+  text-underline-offset: 3px;
+  transition: color 150ms ease;
+}
+
+.payment-option__link:hover {
+  color: #f7cb6b;
+  text-decoration-color: currentColor;
+}
+
+.payment-option__link:focus-visible {
+  outline: 3px solid #ffd36d;
+  outline-offset: 3px;
+}
+
+.direct-trade-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: 1.75rem;
+  margin-top: 1.75rem;
+}
+
+.direct-trade-section--gold {
+  border-left: 1px solid rgba(255, 255, 255, 0.09);
+  padding-left: 1.75rem;
+}
+
+.direct-trade-section__heading {
+  margin: 0 0 0.75rem;
+  color: #e4eaf3;
+  font-size: 0.98rem;
+  line-height: 1.4;
+}
+
+.direct-trade-methods {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+  margin: 0;
+}
+
+.direct-trade-method {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.2rem 0;
+}
+
+.crypto-logo {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+}
+
+.crypto-logo img {
+  display: block;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.crypto-logo--ethereum img {
+  width: 20px;
+  height: 30px;
+}
+
+.direct-trade-method dt {
+  color: #e6ecf4;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.direct-trade-method dd {
+  margin: 0.125rem 0 0;
+  color: #8f9eb2;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  line-height: 1.3;
+}
+
+.direct-trade-section__security {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 1.125rem 0 0;
+  color: #bdc7d5;
+  font-size: 0.79rem;
+  line-height: 1.48;
+}
+
+.direct-trade-section__security svg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 auto;
+  margin-top: 0.05rem;
+  fill: none;
+  stroke: #dfb653;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.gold-trade-methods {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.gold-trade-method {
+  display: grid;
+  min-width: 0;
+  grid-template-rows: 44px auto;
+  align-content: start;
+  gap: 0.4rem;
+}
+
+.gold-logo {
+  display: grid;
+  width: 100%;
+  max-width: 104px;
+  height: 44px;
+  place-items: center start;
+}
+
+.gold-logo img {
+  display: block;
+  max-width: 100%;
+  max-height: 40px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.gold-trade-method strong {
+  color: #e1e7f0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.direct-trade-section__text {
+  color: #aebacd;
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+
+.direct-trade-section__clarification {
+  margin-top: 0.55rem;
+  color: #8999ad;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.payment-options__notice {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: start;
+  gap: 0.8rem;
+  border-top: 1px solid rgba(151, 164, 184, 0.16);
+  padding: 1rem clamp(1.5rem, 3vw, 2rem);
+  background: rgba(4, 9, 18, 0.3);
+  color: #acb8c9;
+}
+
+.payment-options__notice-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 9px;
+  background: rgba(245, 185, 66, 0.075);
+  color: #dfb653;
+}
+
+.payment-options__notice-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.payment-options__notice h3 {
+  margin: 0 0 0.2rem;
+  color: #e4eaf3;
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.payment-options__notice p {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 920px) {
+  .direct-trade-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .direct-trade-section--gold {
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
+    border-left: 0;
+    padding-top: 1.5rem;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .payment-options {
+    padding: 3.75rem 0;
+  }
+
+  .payment-options__heading {
+    margin-bottom: 1.65rem;
+    text-align: left;
+  }
+
+  .payment-options__intro {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .payment-options__panel {
+    grid-template-columns: minmax(0, 1fr);
+    border-radius: 16px;
+  }
+
+  .payment-option {
+    padding: 1.4rem 1.2rem;
+  }
+
+  .payment-option--eldorado {
+    border-right: 0;
+    border-bottom: 1px solid rgba(151, 164, 184, 0.16);
+  }
+
+  .payment-options__notice {
+    grid-template-columns: 32px minmax(0, 1fr);
+    padding: 1rem 1.2rem;
+  }
+
+  .payment-options__notice-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 420px) {
+  .direct-trade-methods,
+  .gold-trade-methods {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .payment-option__link {
     transition: none;
   }
 }

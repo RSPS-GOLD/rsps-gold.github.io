@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://rsps-gold.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rsps-gold.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://rsps-gold.com/es/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rsps-gold.com/" />
     <lastmod>2026-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://rsps-gold.com/es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rsps-gold.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://rsps-gold.com/es/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rsps-gold.com/" />
   </url>
   <url>
     <loc>https://rsps-gold.com/roat-pkz-gold.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rsps-gold.com/roat-pkz-gold.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://rsps-gold.com/es/roat-pkz-gold.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rsps-gold.com/roat-pkz-gold.html" />
     <lastmod>2026-07-24</lastmod>
   </url>
   <url>
+    <loc>https://rsps-gold.com/es/roat-pkz-gold.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rsps-gold.com/roat-pkz-gold.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://rsps-gold.com/es/roat-pkz-gold.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rsps-gold.com/roat-pkz-gold.html" />
+  </url>
+  <url>
     <loc>https://rsps-gold.com/spawnpk-gold.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rsps-gold.com/spawnpk-gold.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://rsps-gold.com/es/spawnpk-gold.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rsps-gold.com/spawnpk-gold.html" />
     <lastmod>2026-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://rsps-gold.com/es/spawnpk-gold.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rsps-gold.com/spawnpk-gold.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://rsps-gold.com/es/spawnpk-gold.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rsps-gold.com/spawnpk-gold.html" />
   </url>
   <url>
     <loc>https://rsps-gold.com/alora-gold.html</loc>
@@ -18,7 +45,16 @@
   </url>
   <url>
     <loc>https://rsps-gold.com/impact-gold.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rsps-gold.com/impact-gold.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://rsps-gold.com/es/impact-gold.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rsps-gold.com/impact-gold.html" />
     <lastmod>2026-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://rsps-gold.com/es/impact-gold.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://rsps-gold.com/impact-gold.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://rsps-gold.com/es/impact-gold.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://rsps-gold.com/impact-gold.html" />
   </url>
   <url>
     <loc>https://rsps-gold.com/orion-gold.html</loc>

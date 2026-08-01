@@ -19,6 +19,7 @@ node seo-check.test.mjs
 node site-quality-check.mjs
 node related-guides-check.mjs
 node guide-header-check.mjs
+node spanish-mvp-check.mjs
 ```
 
 The checks cover titles, descriptions, H1s, canonicals, sitemap membership,

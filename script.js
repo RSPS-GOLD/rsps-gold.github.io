@@ -1,9 +1,246 @@
 (function () {
   var discordUsername = "a6d9";
-  var exampleMessage =
-    "Hi, I want to buy RSPS gold.\nServer: Roat PKZ\nAmount: 100M\nWhat is the current rate?";
+  var isSpanish = document.documentElement.lang.toLowerCase().indexOf("es") === 0;
+  var exampleMessage = isSpanish
+    ? "Hola, quiero comprar oro de RSPS.\nServidor: Roat PKZ\nCantidad: 100M\n¿Cuál es la tarifa actual?"
+    : "Hi, I want to buy RSPS gold.\nServer: Roat PKZ\nAmount: 100M\nWhat is the current rate?";
+  var copyMessages = isSpanish
+    ? { copied: "Copiado", failed: "No se pudo copiar; copia el texto manualmente" }
+    : { copied: "Copied", failed: "Copy failed - copy the text manually" };
   var toast = document.getElementById("copy-toast");
   var toastTimer;
+  var languageMenuCloseTimer;
+
+  function getBrowserStorage(name) {
+    try {
+      return window[name] || null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function readStorage(storage, key) {
+    try {
+      if (!storage) return null;
+      return storage.getItem(key);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function writeStorage(storage, key, value) {
+    try {
+      if (!storage) return;
+      storage.setItem(key, value);
+    } catch (error) {
+      // Language selection still works when browser storage is unavailable.
+    }
+  }
+
+  function removeStorage(storage, key) {
+    try {
+      if (!storage) return;
+      storage.removeItem(key);
+    } catch (error) {
+      // An invalid stored value can safely be ignored when storage is blocked.
+    }
+  }
+
+  function getLanguageOption(code) {
+    return document.querySelector(
+      '.language-option[data-language-code="' + code + '"]',
+    );
+  }
+
+  function closeLanguageMenu(restoreFocus) {
+    var switcher = document.getElementById("languageDropdown");
+    var trigger = document.querySelector(".language-trigger");
+    var menu = document.getElementById("languageMenu");
+    if (!switcher || !trigger || !menu) return;
+
+    window.clearTimeout(languageMenuCloseTimer);
+    switcher.classList.remove("is-open");
+    var announcement = switcher.closest(".announcement");
+    if (announcement) announcement.classList.remove("has-open-language-menu");
+    trigger.setAttribute("aria-expanded", "false");
+    menu.setAttribute("aria-hidden", "true");
+    languageMenuCloseTimer = window.setTimeout(function () {
+      if (!switcher.classList.contains("is-open")) menu.hidden = true;
+    }, window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 170);
+
+    if (restoreFocus) trigger.focus();
+  }
+
+  function openLanguageMenu(focusSelected) {
+    var switcher = document.getElementById("languageDropdown");
+    var trigger = document.querySelector(".language-trigger");
+    var menu = document.getElementById("languageMenu");
+    if (!switcher || !trigger || !menu) return;
+
+    window.clearTimeout(languageMenuCloseTimer);
+    var announcement = switcher.closest(".announcement");
+    if (announcement) announcement.classList.add("has-open-language-menu");
+    menu.hidden = false;
+    menu.setAttribute("aria-hidden", "false");
+    window.requestAnimationFrame(function () {
+      switcher.classList.add("is-open");
+      trigger.setAttribute("aria-expanded", "true");
+      if (focusSelected) {
+        var selected = menu.querySelector('[aria-current="page"]');
+        if (selected) selected.focus();
+      }
+    });
+  }
+
+  function storeExplicitLanguage(code) {
+    if (code === "en" || code === "es") {
+      writeStorage(getBrowserStorage("localStorage"), "selectedLanguage", code);
+    }
+  }
+
+  function browserPrefersSpanish() {
+    var languages = window.navigator.languages
+      ? Array.from(window.navigator.languages)
+      : [];
+    if (!languages.length && window.navigator.language) {
+      languages = [window.navigator.language];
+    }
+    return languages.some(function (language) {
+      return String(language).toLowerCase().indexOf("es") === 0;
+    });
+  }
+
+  function showSpanishSuggestion() {
+    if (document.getElementById("languageSuggestion")) return;
+    var spanishOption = getLanguageOption("es");
+    var spanishUrl = spanishOption && spanishOption.getAttribute("href");
+    if (!spanishUrl) return;
+
+    var suggestion = document.createElement("section");
+    suggestion.className = "language-suggestion";
+    suggestion.id = "languageSuggestion";
+    suggestion.lang = "es";
+    suggestion.setAttribute("role", "region");
+    suggestion.setAttribute("aria-label", "Sugerencia de idioma español");
+    suggestion.innerHTML =
+      '<button class="language-suggestion__close" type="button" aria-label="Cerrar sugerencia de idioma">&times;</button>' +
+      '<p>Esta página también está disponible en español.</p>' +
+      '<div class="language-suggestion__actions">' +
+      '<a class="language-suggestion__accept" href="' + spanishUrl + '" hreflang="es" lang="es">Ver en español</a>' +
+      '<button class="language-suggestion__keep" type="button">Continuar en <span lang="en">English</span></button>' +
+      "</div>";
+
+    function handleSuggestionEscape(event) {
+      if (event.key === "Escape") dismissSuggestion();
+    }
+
+    function dismissSuggestion() {
+      writeStorage(getBrowserStorage("sessionStorage"), "spanishLanguageSuggestionDismissed", "true");
+      document.removeEventListener("keydown", handleSuggestionEscape);
+      suggestion.remove();
+    }
+
+    suggestion
+      .querySelector(".language-suggestion__accept")
+      .addEventListener("click", function () {
+        storeExplicitLanguage("es");
+        dismissSuggestion();
+      });
+    suggestion
+      .querySelector(".language-suggestion__keep")
+      .addEventListener("click", function () {
+        storeExplicitLanguage("en");
+        dismissSuggestion();
+      });
+    suggestion
+      .querySelector(".language-suggestion__close")
+      .addEventListener("click", dismissSuggestion);
+
+    document.body.appendChild(suggestion);
+    document.addEventListener("keydown", handleSuggestionEscape);
+  }
+
+  function initLanguageSwitcher() {
+    var switcher = document.getElementById("languageDropdown");
+    if (!switcher) return;
+
+    var trigger = switcher.querySelector(".language-trigger");
+    var menu = switcher.querySelector(".language-menu");
+    var options = Array.from(switcher.querySelectorAll(".language-option"));
+    if (!trigger || !menu || !options.length) return;
+
+    var pageLanguage = document.documentElement.lang.toLowerCase().indexOf("es") === 0
+      ? "es"
+      : "en";
+    var storedLanguage = readStorage(getBrowserStorage("localStorage"), "selectedLanguage");
+    if (storedLanguage && storedLanguage !== "en" && storedLanguage !== "es") {
+      removeStorage(getBrowserStorage("localStorage"), "selectedLanguage");
+      storedLanguage = null;
+    }
+
+    trigger.addEventListener("click", function () {
+      if (switcher.classList.contains("is-open")) {
+        closeLanguageMenu(false);
+      } else {
+        openLanguageMenu(false);
+      }
+    });
+
+    trigger.addEventListener("keydown", function (event) {
+      if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openLanguageMenu(true);
+      } else if (event.key === "Escape") {
+        closeLanguageMenu(false);
+      }
+    });
+
+    options.forEach(function (option) {
+      option.addEventListener("click", function () {
+        storeExplicitLanguage(option.getAttribute("data-language-code"));
+        closeLanguageMenu(false);
+      });
+
+      option.addEventListener("keydown", function (event) {
+        if (event.key === " " || event.key === "Enter") {
+          event.preventDefault();
+          option.click();
+          return;
+        }
+        var currentIndex = options.indexOf(option);
+        var nextIndex = currentIndex;
+        if (event.key === "ArrowDown") nextIndex = (currentIndex + 1) % options.length;
+        if (event.key === "ArrowUp") nextIndex = (currentIndex - 1 + options.length) % options.length;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = options.length - 1;
+        if (nextIndex !== currentIndex) {
+          event.preventDefault();
+          options[nextIndex].focus();
+        }
+      });
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && switcher.classList.contains("is-open")) {
+        closeLanguageMenu(true);
+      }
+    });
+
+    document.addEventListener("pointerdown", function (event) {
+      if (switcher.classList.contains("is-open") && !switcher.contains(event.target)) {
+        closeLanguageMenu(false);
+      }
+    });
+
+    if (
+      pageLanguage === "en" &&
+      !storedLanguage &&
+      !readStorage(getBrowserStorage("sessionStorage"), "spanishLanguageSuggestionDismissed") &&
+      browserPrefersSpanish()
+    ) {
+      showSpanishSuggestion();
+    }
+  }
   var impactSlayerTaskTiers = [
     {
       key: "normal",
@@ -237,7 +474,7 @@
 
   function showCopied(message) {
     if (!toast) return;
-    toast.textContent = message || "Copied";
+    toast.textContent = message || copyMessages.copied;
     toast.classList.add("is-visible");
     window.clearTimeout(toastTimer);
     toastTimer = window.setTimeout(function () {
@@ -318,17 +555,17 @@
   document.querySelectorAll(".copy-btn").forEach(function (button) {
     button.addEventListener("click", function () {
       var text = getCopyText(button);
-      var successMessage = button.getAttribute("data-copy-success") || "Copied";
+      var successMessage = button.getAttribute("data-copy-success") || copyMessages.copied;
       reportInteraction(button.getAttribute("data-action"), button);
 
       var originalText = button.textContent;
       if (!text) {
-        showCopied("Copy failed - copy the text manually");
+        showCopied(copyMessages.failed);
         return;
       }
 
       copyText(text).then(function (copied) {
-        showCopied(copied ? successMessage : "Copy failed - copy the text manually");
+        showCopied(copied ? successMessage : copyMessages.failed);
         if (!copied) return;
 
         button.textContent = successMessage;
@@ -1449,9 +1686,9 @@
       menuToggle.type = "button";
       menuToggle.setAttribute("aria-expanded", "false");
       menuToggle.setAttribute("aria-controls", navigation.id);
-      menuToggle.setAttribute("aria-label", "Open navigation");
+      menuToggle.setAttribute("aria-label", isSpanish ? "Abrir navegación" : "Open navigation");
       menuToggle.innerHTML =
-        '<span class="site-menu-toggle__label">Menu</span>' +
+        '<span class="site-menu-toggle__label">' + (isSpanish ? "Menú" : "Menu") + "</span>" +
         '<span class="site-menu-toggle__icon" aria-hidden="true"><span></span><span></span><span></span></span>';
       inner.appendChild(menuToggle);
       header.classList.add("has-mobile-menu");
@@ -1460,7 +1697,9 @@
         menuToggle.setAttribute("aria-expanded", String(isOpen));
         menuToggle.setAttribute(
           "aria-label",
-          isOpen ? "Close navigation" : "Open navigation",
+          isOpen
+            ? (isSpanish ? "Cerrar navegación" : "Close navigation")
+            : (isSpanish ? "Abrir navegación" : "Open navigation"),
         );
         navigation.classList.toggle("is-open", isOpen);
         header.classList.toggle("is-menu-open", isOpen);
@@ -2220,6 +2459,7 @@
   }
 
   function initPageEnhancements() {
+    initLanguageSwitcher();
     initImpactRankCalculator();
     initImpactProfitCalculator();
     initImpactSlayerTierHelper();

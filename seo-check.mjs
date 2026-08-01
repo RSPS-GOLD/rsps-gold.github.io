@@ -55,6 +55,12 @@ const guideFiles = [
   ...roatArticleFiles,
   ...spawnpkArticleFiles,
 ];
+const spanishFiles = [
+  "es/index.html",
+  "es/impact-gold.html",
+  "es/roat-pkz-gold.html",
+  "es/spawnpk-gold.html",
+];
 const articleGuideFiles = [
   ...impactArticleFiles,
   ...roatArticleFiles,
@@ -346,7 +352,7 @@ const modernMetadata = {
     removedTitle: "Buy SpawnPK Gold – Trill &amp; Cash Bag Rates | RSPS Gold Hub",
   },
 };
-const expectedIndexable = ["index.html", ...serverFiles, ...guideFiles];
+const expectedIndexable = ["index.html", ...serverFiles, ...guideFiles, ...spanishFiles];
 const failures = [];
 const warnings = [];
 const pages = [];
@@ -420,7 +426,9 @@ const approvedSharedOperationalBlocks = new Set(
 );
 
 function expectedCanonical(file) {
-  return file === "index.html" ? `${siteOrigin}/` : `${siteOrigin}/${file}`;
+  if (file === "index.html") return `${siteOrigin}/`;
+  if (file === "es/index.html") return `${siteOrigin}/es/`;
+  return `${siteOrigin}/${file}`;
 }
 
 function getAttribute(tag, name) {
@@ -441,7 +449,9 @@ function localTarget(fromFile, href) {
   if (!href || /^(?:https?:|mailto:|tel:|javascript:)/i.test(href)) return null;
   const [rawPath, hash = ""] = href.split("#", 2);
   const targetFile = rawPath
-    ? path.resolve(root, path.dirname(fromFile), rawPath)
+    ? rawPath.startsWith("/")
+      ? path.resolve(root, rawPath.replace(/^\/+/, ""))
+      : path.resolve(root, path.dirname(fromFile), rawPath)
     : path.resolve(root, fromFile);
   return { targetFile, hash };
 }
@@ -497,6 +507,7 @@ if (!fs.existsSync(root)) {
 const htmlFiles = fs
   .readdirSync(root)
   .filter((file) => file.endsWith(".html"))
+  .concat(spanishFiles.filter((file) => fs.existsSync(path.join(root, file))))
   .sort();
 
 for (const file of htmlFiles) {
@@ -687,9 +698,9 @@ for (const file of htmlFiles) {
     if (
       target.targetFile.startsWith(root) &&
       target.targetFile.endsWith(".html") &&
-      path.basename(target.targetFile) !== file
+      path.relative(root, target.targetFile).split(path.sep).join("/") !== file
     ) {
-      const targetName = path.basename(target.targetFile);
+      const targetName = path.relative(root, target.targetFile).split(path.sep).join("/");
       inboundLinks.set(targetName, (inboundLinks.get(targetName) || 0) + 1);
     }
     if (target.hash) {
