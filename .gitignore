@@ -1,8 +1,11 @@
 # Dependencies and generated test output
 node_modules/
+dist/
 coverage/
 test-results/
 playwright-report/
+.pnpm-store/
+pnpm-lock.yaml
 
 # Local archives, logs and editor backups
 *.zip

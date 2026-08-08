@@ -1,9 +1,5 @@
 {
-  "name": "RSPS Gold Hub",
-  "short_name": "RSPS Gold Hub",
   "description": "Static RSPS Gold Hub website for Discord-based RSPS gold quote requests.",
-  "start_url": "/",
-  "scope": "/",
   "display": "standalone",
   "background_color": "#070a12",
   "theme_color": "#070a12",

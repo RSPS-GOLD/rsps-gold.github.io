@@ -1,50 +1,40 @@
 # RSPS Gold Hub
 
-Static GitHub Pages website for Discord-based RSPS gold quote requests.
+Static source and deterministic build pipeline for [rsps-gold.com](https://rsps-gold.com/).
 
-Live site:
-https://rsps-gold.com/
+## Requirements
 
-Tech:
-- Static HTML
-- CSS
-- Vanilla JavaScript
-- GitHub Pages
+- Node.js 24
+- npm (included with the standard Node.js distribution)
 
-Local SEO validation:
+## Commands
 
 ```text
-node seo-check.mjs
-node seo-check.test.mjs
-node site-quality-check.mjs
-node related-guides-check.mjs
-node guide-header-check.mjs
-node spanish-mvp-check.mjs
+npm ci
+npm run validate
+npm run build
 ```
 
-The checks cover titles, descriptions, H1s, canonicals, sitemap membership,
-JSON-LD, image metadata, assets, links, claims, FAQ duplication, and content
-similarity. They also enforce the homepage business-priority order
-Impact → Roat PKZ → SpawnPK and the SpawnPK Cash Bag/trill terminology. The
-Impact checks enforce the qualified “from $1 per 1B” rate, buyer-facing
-sections, three-step process, and server-specific copy message. The negative
-test suite verifies that deliberate regressions fail.
+`npm run validate` is the single release gate. It validates the authoring source, creates two independent builds, compares every output hash for determinism, and checks the generated pages, links, assets, structured data, translations, rates, payment policy, feature bundles, and performance budgets.
 
-`site-quality-check.mjs` validates every public HTML file, including local
-links and fragments, assets, form labels, social-image metadata, JSON-LD and
-parity between published guide files, visible hub cards and ItemList schema.
+`npm run build` recreates `dist/` from the checked-in source. Never edit `dist/`; it is generated and intentionally ignored by Git.
 
-`related-guides-check.mjs` inventories every bottom-of-article guide card and
-enforces the shared component, explicit destination titles and CTAs, valid
-local destinations, preserved analytics actions and same-tab behavior.
+## Architecture
 
-`guide-header-check.mjs` inventories every public header and validates the
-shared server context, active guide navigation, secondary pricing links and
-mobile-menu coverage.
+- Root HTML, CSS, and JavaScript files are the authoring source; public metadata files are generated.
+- `src/data/site.mjs` is the source of truth for site identity and canonical origin, Discord identity, supported servers, published rates and payment-policy wording.
+- `src/data/pages.mjs` is the source of truth for public paths, sitemap membership, English/Spanish relationships, FAQ schema scope, and per-page CSS/JavaScript features.
+- `src/templates/site.webmanifest.json` contains only the non-identity web-app manifest fields.
+- `tools/build.mjs` renders shared facts, synchronizes visible FAQ content with existing `FAQPage` JSON-LD, folds page-local styles and runtimes into content-addressed bundles, rewrites optimized image references, generates CNAME/robots/sitemap/webmanifest, and writes `dist/`.
+- `tools/validate.mjs` is the consolidated repository-wide validator.
+- `.github/workflows/pages.yml` validates, builds, and uploads the generated `dist/` artifact before deployment is allowed.
 
-Supporting documentation:
+All established public page paths are preserved. Compatibility copies of historical CSS/JavaScript asset URLs remain in the artifact, while generated pages load smaller content-addressed bundles that are reused whenever their bytes match.
 
-- `CONTENT_BRIEFS.md` — page intent and content plan.
-- `CONTENT_SOURCES.md` — server fact and source log.
-- `SEO_REPORT.md` — full analysis, implementation record, and measurement plan.
-- `PRE_PUBLISH_QA.md` — final local release checklist and verified test results.
+See `ARCHITECTURE.md` for the dependency map, recorded baseline, and measured before/after results.
+
+## Publishing
+
+GitHub Pages must use **GitHub Actions** as its publishing source. Pull requests run the quality gate without deploying. A push to `main` can deploy only after validation and the production build both pass.
+
+Do not push or deploy without the site owner's explicit authorization.
