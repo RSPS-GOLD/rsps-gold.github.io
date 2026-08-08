@@ -1858,9 +1858,24 @@ async function validateSitemap(report, buildDir) {
   }
 }
 
-async function validateGeneratedSiteMetadata(report, buildDir) {
+async function validateGeneratedSiteMetadata(report, rootDir, buildDir) {
   const expectedHostname = new URL(site.origin).hostname;
   const expectedSitemap = `${site.origin}/sitemap.xml`;
+
+  let sourceCname = "";
+  try {
+    sourceCname = (await fs.readFile(path.join(rootDir, "CNAME"), "utf8")).trim();
+  } catch (error) {
+    addIssue(report, "routes", "SOURCE_CNAME_INVALID", "CNAME", error.message);
+  }
+  check(
+    report,
+    "routes",
+    sourceCname === expectedHostname,
+    "SOURCE_CNAME_CONFIG_DRIFT",
+    "CNAME",
+    `The GitHub Pages domain marker must match the configured hostname ${expectedHostname}.`,
+  );
 
   let cname = "";
   try {
@@ -2523,7 +2538,7 @@ async function validateGeneratedSite(report, rootDir, buildResult) {
     generated,
     buildResult.manifest,
   );
-  await validateGeneratedSiteMetadata(report, buildDir);
+  await validateGeneratedSiteMetadata(report, rootDir, buildDir);
   await validateSitemap(report, buildDir);
   await validateJavaScriptSyntax(report, rootDir, buildDir);
   await validateManifestAndBudgets(

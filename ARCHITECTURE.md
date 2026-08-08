@@ -43,7 +43,8 @@ GitHub Actions -----> validate -> build -> artifact -> deploy
 | FAQPage inclusion scope | `src/data/pages.mjs` |
 | Page CSS/JavaScript features | `src/data/pages.mjs` |
 | Visible FAQ-to-schema synchronization | `tools/build.mjs` |
-| CNAME, robots sitemap URL, sitemap, webmanifest identity | generated from `src/data/site.mjs` |
+| Canonical hostname | `src/data/site.mjs`; root `CNAME` is a validated GitHub Pages marker and the deployment CNAME is generated |
+| Robots sitemap URL, sitemap, webmanifest identity | generated from `src/data/site.mjs` |
 
 ## Representative static-load baseline and build result
 
