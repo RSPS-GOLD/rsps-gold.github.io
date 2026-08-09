@@ -168,12 +168,14 @@ export function renderCanonicalAndLanguages(html, page, context) {
     (tag) => setTagAttribute(tag, "content", canonical),
   );
 
-  const translations = new Map(
-    context.translationsFor(page).map((record) => [record.language, record]),
-  );
+  const translations = page.translationKey
+    ? new Map(context.translationsFor(page).map((record) => [record.language, record]))
+    : new Map();
   rendered = rendered.replace(/<a\b[^>]*>/gi, (tag) => {
     const attrs = parseAttributes(tag);
-    const language = attrs["data-language-code"] || attrs.hreflang;
+    // Only authored language controls opt into route rewriting. `hreflang` is
+    // valid on ordinary links and must not make them translation controls.
+    const language = attrs["data-language-code"];
     if (!language || !translations.has(language)) return tag;
     return setTagAttribute(tag, "href", context.publicPath(translations.get(language)));
   });

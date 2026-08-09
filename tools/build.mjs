@@ -108,6 +108,13 @@ export function renderCompatibilityScript(source, discord) {
   );
 }
 
+export function assertAuthoredJavaScriptIsEnabled(page, pageScripts, inlineScripts) {
+  if (page.features.js.length || (!pageScripts.js.trim() && !inlineScripts.js.trim())) return;
+  throw new Error(
+    `${page.source}: manifest disables JavaScript but the source contains page-local or inline JavaScript`,
+  );
+}
+
 function canonicalUrl(page) {
   return `${site.origin}${page.pathname}`;
 }
@@ -361,6 +368,8 @@ export async function buildSite({
     html = pageScripts.html;
     const inlineScripts = extractInlineRuntimeScripts(html);
     html = inlineScripts.html;
+
+    assertAuthoredJavaScriptIsEnabled(page, pageScripts, inlineScripts);
 
     html = renderDiscordIdentity(html, DISCORD);
     html = renderPublishedRates(

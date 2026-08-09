@@ -1,4 +1,4 @@
-const CSS_BLOCKS = [
+export const CSS_BLOCKS = Object.freeze([
   {
     key: "roat-pkz-money-making",
     start: "/* Roat Pkz money-making guide */",
@@ -44,7 +44,13 @@ const CSS_BLOCKS = [
     start: "/* Compact homepage payment options */",
     end: null,
   },
-];
+].map((block) => Object.freeze(block)));
+
+export const COMMERCIAL_CSS_RANGE = Object.freeze({
+  key: "commercial-range",
+  start: ".server-hero-card,\n.rate-card {",
+  end: "/* Guide hub and long-form article layout */",
+});
 
 const JS_FEATURES = {
   "impact-rank-calculator": ["initImpactRankCalculator"],
@@ -155,8 +161,8 @@ export function createPageCss(globalCss, page, inlineCss = "") {
   if (!isCommercialFamily(page.family)) {
     bundled = removeDelimitedBlock(
       bundled,
-      ".server-hero-card,\n.rate-card {",
-      "/* Guide hub and long-form article layout */",
+      COMMERCIAL_CSS_RANGE.start,
+      COMMERCIAL_CSS_RANGE.end,
     );
   }
 

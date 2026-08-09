@@ -1647,7 +1647,6 @@
                 class="hero-reputation__badge"
                 href="#why-trust-us"
                 data-reputation-link="eldorado"
-                target="_blank"
                 rel="noopener noreferrer"
               >
                 <span class="hero-reputation__icon hero-reputation__icon--eldorado" aria-hidden="true">
@@ -1662,7 +1661,6 @@
                 class="hero-reputation__badge hero-reputation__badge--sythe"
                 href="#why-trust-us"
                 data-reputation-link="sythe"
-                target="_blank"
                 rel="noopener noreferrer"
               >
                 <span class="hero-reputation__icon hero-reputation__icon--sythe" aria-hidden="true">
@@ -1748,7 +1746,6 @@
                 class="reputation-card__button"
                 href="#why-trust-us"
                 data-reputation-link="eldorado"
-                target="_blank"
                 rel="noopener noreferrer"
               >
                 Ver reseñas de Eldorado <span class="external-mark" aria-hidden="true">↗</span>
@@ -1785,7 +1782,6 @@
                 class="reputation-card__button"
                 href="#why-trust-us"
                 data-reputation-link="sythe"
-                target="_blank"
                 rel="noopener noreferrer"
               >
                 Ver referencias de Sythe <span class="external-mark" aria-hidden="true">↗</span>
@@ -1890,14 +1886,12 @@
               href="#why-trust-us"
               data-reputation-link="eldorado"
               data-reputation-text="eldorado-all-reviews-link"
-              target="_blank"
               rel="noopener noreferrer"
             >Leer todas las reseñas en Eldorado.gg →</a>
             <a
               href="#why-trust-us"
               data-reputation-link="sythe"
               data-reputation-text="sythe-all-vouches-link"
-              target="_blank"
               rel="noopener noreferrer"
             >Ver referencias comerciales en Sythe.org →</a>
           </div>
@@ -2299,7 +2293,7 @@ Cantidad: 100M
             </p>
           </div>
 
-          <article class="discord-profile-card" data-discord-profile-card aria-labelledby="discord-card-heading">
+          <article class="discord-profile-card" data-discord-profile-card data-discord-username="a6d9" data-discord-user-id="640265737050652672" aria-labelledby="discord-card-heading">
             <div class="discord-profile-card__body">
               <header class="discord-profile-card__intro">
                 <h3 id="discord-card-heading">Contactar con A6D9 en Discord</h3>
@@ -2590,7 +2584,10 @@ Cantidad: 100M
 
         document.querySelectorAll("[data-reputation-link]").forEach((link) => {
           const platform = reputation[link.dataset.reputationLink];
-          if (platform) link.href = platform.profileUrl;
+          if (!platform) return;
+          link.href = platform.profileUrl;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
         });
       })();
     </script>
@@ -2601,8 +2598,8 @@ Cantidad: 100M
         if (!card) return;
 
         const copyValues = {
-          username: "a6d9",
-          uid: "640265737050652672",
+          username: card.dataset.discordUsername,
+          uid: card.dataset.discordUserId,
           message: [
             "Hola, quiero comprar oro de RSPS.",
             "",

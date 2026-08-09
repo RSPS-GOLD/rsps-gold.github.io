@@ -4,7 +4,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Script as VmScript } from "node:vm";
 
-import { buildSite, renderCompatibilityScript } from "./build.mjs";
+import {
+  assertAuthoredJavaScriptIsEnabled,
+  buildSite,
+  renderCompatibilityScript,
+} from "./build.mjs";
 import {
   PAGE_FAMILIES,
   pageByOutput,
@@ -24,6 +28,11 @@ import {
   site,
 } from "../src/data/site.mjs";
 import {
+  CSS_BLOCKS,
+  COMMERCIAL_CSS_RANGE,
+  createPageCss,
+} from "./lib/bundles.mjs";
+import {
   comparePaths,
   contentHash,
   createFileHashMap,
@@ -32,6 +41,7 @@ import {
   toPosixPath,
 } from "./lib/files.mjs";
 import {
+  extractInlineRuntimeScripts,
   renderCanonicalAndLanguages,
   renderDiscordIdentity,
   renderPaymentPolicy,
@@ -665,6 +675,21 @@ function mutationCheck(report, group, code, file, message, probe) {
   check(report, group, passed, code, file, diagnostic);
 }
 
+function cssRangeStatus(source, range) {
+  const css = String(source).replace(/\r\n?/g, "\n");
+  const occurrences = (marker) => css.split(marker).length - 1;
+  const startCount = occurrences(range.start);
+  const endCount = range.end === null ? 1 : occurrences(range.end);
+  return {
+    startCount,
+    endCount,
+    ordered:
+      startCount === 1 &&
+      endCount === 1 &&
+      (range.end === null || css.indexOf(range.end) > css.indexOf(range.start)),
+  };
+}
+
 function validateFocusedMutations(report) {
   mutationCheck(
     report,
@@ -895,6 +920,112 @@ function validateFocusedMutations(report) {
       );
     },
   );
+
+  mutationCheck(
+    report,
+    "build",
+    "DISABLED_JS_LOSS_UNGUARDED",
+    "tools/build.mjs",
+    "A page manifest that disables JavaScript must reject extracted executable page JavaScript instead of silently dropping it.",
+    () => {
+      const disabledPage = { source: "probe.html", features: { js: [] } };
+      const jsonLd = extractInlineRuntimeScripts(
+        '<script type="application/ld+json">{"@type":"WebPage"}</script>',
+      );
+      if (jsonLd.js || !jsonLd.html.includes("application/ld+json")) return false;
+      assertAuthoredJavaScriptIsEnabled(disabledPage, { js: "" }, jsonLd);
+
+      let inlineRejected = false;
+      try {
+        assertAuthoredJavaScriptIsEnabled(disabledPage, { js: "" }, { js: "alert('probe')" });
+      } catch (error) {
+        inlineRejected =
+          error.message.includes("probe.html") &&
+          error.message.includes("manifest disables JavaScript");
+      }
+      let pageLocalRejected = false;
+      try {
+        assertAuthoredJavaScriptIsEnabled(
+          disabledPage,
+          { js: "console.log('page-local')" },
+          { js: "" },
+        );
+      } catch {
+        pageLocalRejected = true;
+      }
+      return inlineRejected && pageLocalRejected;
+    },
+  );
+
+  mutationCheck(
+    report,
+    "routes",
+    "LANGUAGE_LINK_REWRITE_UNSAFE",
+    "tools/lib/html-render.mjs",
+    "Only dedicated language controls may be rewritten; an ordinary anchor with hreflang must retain its authored destination.",
+    () => {
+      const english = {
+        source: "probe.html",
+        pathname: "/probe.html",
+        language: "en",
+        indexable: true,
+        translationKey: "probe",
+      };
+      const spanish = { ...english, pathname: "/es/probe.html", language: "es" };
+      const fixture =
+        '<link rel="canonical" href="https://old.invalid/probe.html" />' +
+        '<a id="ordinary" hreflang="es" href="/independent.html">Independent</a>' +
+        '<a id="control" data-language-code="es" hreflang="es" href="/old-es.html">Spanish</a>';
+      const rendered = renderCanonicalAndLanguages(fixture, english, {
+        canonicalUrl: (page) => `${site.origin}${page.pathname}`,
+        translationsFor: () => [english, spanish],
+        defaultTranslationFor: () => english,
+        publicPath: (page) => page.pathname,
+      }).html;
+      return (
+        /id="ordinary"[^>]*href="\/independent\.html"/.test(rendered) &&
+        /id="control"[^>]*href="\/es\/probe\.html"/.test(rendered)
+      );
+    },
+  );
+
+  mutationCheck(
+    report,
+    "routes",
+    "ERROR_PAGE_REFERENCE_CLASSIFICATION_UNSAFE",
+    "tools/validate.mjs",
+    "Custom error-page reference validation must allow stable absolute/root URLs and fragments while rejecting document-relative and query-only URLs.",
+    () =>
+      [
+        "/assets/site.css",
+        "//cdn.example.test/site.css",
+        "https://example.test/page",
+        "mailto:help@example.test",
+        "tel:+4700000000",
+        "#contact",
+      ].every(isStableErrorPageReference) &&
+      ["assets/site.css", "../index.html", "?retry=1", "index.html#servers"].every(
+        (value) => !isStableErrorPageReference(value),
+      ),
+  );
+
+  mutationCheck(
+    report,
+    "assets",
+    "CSS_BLOCK_MARKER_VALIDATION_UNSAFE",
+    "tools/validate.mjs",
+    "CSS slicing markers must be unique and ordered so duplicate or inverted boundaries cannot redirect a build-time cut.",
+    () => {
+      const range = { start: "/* start */", end: "/* end */" };
+      const valid = cssRangeStatus("/* start */\n.rule {}\n/* end */", range);
+      const duplicate = cssRangeStatus(
+        "/* start */\n.rule {}\n/* start */\n/* end */",
+        range,
+      );
+      const inverted = cssRangeStatus("/* end */\n.rule {}\n/* start */", range);
+      return valid.ordered && !duplicate.ordered && !inverted.ordered;
+    },
+  );
 }
 
 async function runBuilds(report, rootDir, temporaryDirectories) {
@@ -937,7 +1068,10 @@ async function runBuilds(report, rootDir, temporaryDirectories) {
 }
 
 function validateHeadingAndHookPreservation(report, page, sourceHtml, generatedHtml) {
-  const sourceHeadings = normalizedHeadingSequence(sourceHtml, page.source);
+  const sourceHeadings = normalizedHeadingSequence(
+    renderDiscordIdentity(sourceHtml, DISCORD),
+    page.source,
+  );
   const generatedHeadings = normalizedHeadingSequence(generatedHtml, page.output);
   check(
     report,
@@ -1083,7 +1217,41 @@ function validatePageAccessibility(report, page, html, ids) {
         page.output,
         `${tagName} target=_blank must include rel=noopener.`,
       );
+      if (tagName === "a") {
+        check(
+          report,
+          "html",
+          !String(entry.attributes.href || "").trim().startsWith("#"),
+          "BLANK_TARGET_FRAGMENT",
+          page.output,
+          "Anchor target=_blank must not point at a same-document fragment; remove the target or use an external URL.",
+        );
+      }
     }
+  }
+}
+
+function isStableErrorPageReference(value) {
+  const reference = String(value || "").trim();
+  if (!reference || reference.startsWith("#") || reference.startsWith("/")) return true;
+  try {
+    return Boolean(new URL(reference).protocol);
+  } catch {
+    return false;
+  }
+}
+
+function validateErrorPageReferences(report, page, html) {
+  if (page.family !== PAGE_FAMILIES.error) return;
+  for (const reference of htmlReferences(html)) {
+    check(
+      report,
+      "routes",
+      isStableErrorPageReference(reference.value),
+      "ERROR_PAGE_RELATIVE_URL",
+      page.output,
+      `${reference.tagName}[${reference.attribute}]="${reference.value}" must be root-relative or absolute because the custom error page can be served at a nested missing URL.`,
+    );
   }
 }
 
@@ -1159,6 +1327,29 @@ function validatePageRoutes(report, page, html) {
     "UNRESOLVED_HREFLANG",
     page.output,
     "Generated hreflang links contain an unresolved value.",
+  );
+
+  const languageControls = getTagEntries(html, "a").filter(
+    ({ attributes }) => attributes["data-language-code"],
+  );
+  for (const control of languageControls) {
+    const language = control.attributes["data-language-code"];
+    check(
+      report,
+      "routes",
+      Boolean(cluster?.[language]) && control.attributes.href === cluster[language].pathname,
+      "LANGUAGE_CONTROL_TARGET_MISMATCH",
+      page.output,
+      `Language control "${language}" must target its manifest translation route.`,
+    );
+  }
+  check(
+    report,
+    "routes",
+    Boolean(cluster) || languageControls.length === 0,
+    "LANGUAGE_CONTROL_WITHOUT_CLUSTER",
+    page.output,
+    "Pages outside a translation cluster must not declare manifest-managed language controls.",
   );
 }
 
@@ -2024,6 +2215,103 @@ async function validateJavaScriptSyntax(report, rootDir, buildDir) {
   }
 }
 
+async function validateCssBlockMarkers(report, rootDir) {
+  const css = await fs.readFile(path.join(rootDir, "styles.css"), "utf8");
+  const ranges = [...CSS_BLOCKS, COMMERCIAL_CSS_RANGE];
+  for (const range of ranges) {
+    const status = cssRangeStatus(css, range);
+    check(
+      report,
+      "assets",
+      status.startCount === 1,
+      "CSS_BLOCK_MARKER_AMBIGUOUS",
+      "styles.css",
+      `CSS range "${range.key}" start marker must occur exactly once; found ${status.startCount}.`,
+    );
+    if (range.end !== null) {
+      check(
+        report,
+        "assets",
+        status.endCount === 1,
+        "CSS_BLOCK_MARKER_AMBIGUOUS",
+        "styles.css",
+        `CSS range "${range.key}" end marker must occur exactly once; found ${status.endCount}.`,
+      );
+    }
+    check(
+      report,
+      "assets",
+      status.ordered,
+      "CSS_BLOCK_RANGE_INVALID",
+      "styles.css",
+      `CSS range "${range.key}" must have one unambiguous start and end in source order.`,
+    );
+  }
+}
+
+async function validateCssFeatureSlicing(report, rootDir) {
+  const css = (await fs.readFile(path.join(rootDir, "styles.css"), "utf8")).replace(
+    /\r\n?/g,
+    "\n",
+  );
+  const target = CSS_BLOCKS[0];
+  const sentinel = ".probe-card .probe-price";
+  const fixture =
+    `.probe-card { color: red; }\n.probe-price { color: blue; }\n` +
+    css.replace(target.start, `${target.start}\n${sentinel} { color: teal; }`);
+  const allFeatures = CSS_BLOCKS.map(({ key }) => key);
+  const enabled = createPageCss(fixture, {
+    family: PAGE_FAMILIES.home,
+    features: { css: allFeatures },
+  });
+  const disabled = createPageCss(fixture, {
+    family: PAGE_FAMILIES.home,
+    features: { css: allFeatures.filter((key) => key !== target.key) },
+  });
+  check(
+    report,
+    "assets",
+    enabled.includes(sentinel) &&
+      !disabled.includes(sentinel) &&
+      disabled.includes(".probe-card {") &&
+      disabled.includes(".probe-price {"),
+    "CSS_BLOCK_TREE_SHAKING_UNSAFE",
+    "tools/lib/bundles.mjs",
+    `Disabling CSS feature "${target.key}" must remove its compound selector while preserving identical class tokens outside the feature range.`,
+  );
+}
+
+async function validateEmittedDiscordIdentity(report, buildDir) {
+  const staleUsernames = (DISCORD.templateUsernames || []).filter(
+    (value) => value && value !== DISCORD.username,
+  );
+  const staleUserIds = [
+    ...(DISCORD.templateUserIds || []),
+    ...(DISCORD.previousUserIds || []),
+  ].filter((value) => value && value !== DISCORD.userId);
+
+  const files = (await discoverFiles(buildDir))
+    .filter((file) => file.endsWith(".js"))
+    .sort(comparePaths);
+  for (const file of files) {
+    const source = await fs.readFile(path.join(buildDir, file), "utf8");
+    const staleUsername = staleUsernames.find((value) =>
+      new RegExp(`(["'\`])${escapeRegExp(value)}\\1`, "i").test(source),
+    );
+    const staleUserId = staleUserIds.find((value) => source.includes(value));
+    check(
+      report,
+      "content",
+      !staleUsername && !staleUserId,
+      "EMITTED_DISCORD_IDENTITY_STALE",
+      file,
+      `Generated JavaScript contains a superseded Discord ${
+        staleUsername ? `username "${staleUsername}"` : `user ID "${staleUserId}"`
+      }.`,
+    );
+  }
+}
+
 async function validateManifestAndBudgets(
   report,
   rootDir,
@@ -2489,6 +2777,7 @@ async function validateGeneratedSite(report, rootDir, buildResult) {
     validateHeadingAndHookPreservation(report, page, source, html);
     validatePageAccessibility(report, page, html, idsByFile.get(page.output));
     validatePageRoutes(report, page, html);
+    validateErrorPageReferences(report, page, html);
     const schema = validateJsonLdAndFaq(report, page, html);
     schemaByPage.set(page.output, schema.nodes);
     validateDiscord(report, page, html);
@@ -2540,7 +2829,10 @@ async function validateGeneratedSite(report, rootDir, buildResult) {
   );
   await validateGeneratedSiteMetadata(report, rootDir, buildDir);
   await validateSitemap(report, buildDir);
+  await validateCssBlockMarkers(report, rootDir);
+  await validateCssFeatureSlicing(report, rootDir);
   await validateJavaScriptSyntax(report, rootDir, buildDir);
+  await validateEmittedDiscordIdentity(report, buildDir);
   await validateManifestAndBudgets(
     report,
     rootDir,
